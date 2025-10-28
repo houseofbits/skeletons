@@ -1,0 +1,40 @@
+@use './generic-button' as *;
+
+body {
+    background: gray;
+    font-family: Arimo;
+    user-select: none;
+    margin:0;
+}
+
+.content-1080p {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    border: dashed 1px black;
+}
+
+strong {
+    font-weight: 700;
+}
+
+.screen {
+    width: 1920px;
+    height: 1080px;
+    background: white;
+    border:  dashed 1px gray;
+    overflow: hidden;
+}
+
+small {
+    font-style: normal;
+}
+
+.relative {
+  position: relative;
+}
+
+

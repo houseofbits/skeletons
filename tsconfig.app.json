@@ -5,11 +5,11 @@
     "types": ["vite/client"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@assets/*": ["src/assets/*"],
-      "@router/*": ["src/router/*"],
-      "@views/*": ["src/views/*"]
+      "@/*": ["./app/*"],
+      "@src/*": ["./app/src/*"],
+      "@assets/*": ["./app/assets/*"],
+      "@fonts/*": ["./app/fonts/*"],
+      "@styles/*": ["./app/styles/*"],
     },
 
     /* Linting */
@@ -20,5 +20,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["./app/**/*.ts", "./app/**/*.tsx", "./app/**/*.vue"]
 }
