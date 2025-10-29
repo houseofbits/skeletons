@@ -1,4 +1,4 @@
-import axios, {AxiosInstance, AxiosResponse} from "axios";
+import axios, {type AxiosInstance, type AxiosResponse} from "axios";
 
 export default class HttpService {
 
@@ -20,28 +20,29 @@ export default class HttpService {
     async get(url: string): Promise<any> {
         let result = null;
         try {
-            result = await this.axiosInstance.get('/content/' + url);
+            result = await this.axiosInstance.get(url);
+
+            return this.handleResponse(result);
         }catch (e: any) {
-            throw new Error("Failed to load 'content/" + url + "'. " + e.message);
+            throw new Error("Failed to load '" + url + "'. " + e.message);
         }
 
-        if (typeof result.data === 'string'){
+    }
+
+    private handleResponse(response: AxiosResponse): any {
+
+        if (typeof response.data === 'string'){
             try {
-                return JSON.parse(result.data);
+                return JSON.parse(response.data);
             } catch (e: any) {
-                throw new Error("Failed to parse JSON data for 'content/" + url + "'. " + e.message)
+                throw new Error("Failed to parse JSON data " + e.message)
             }
         }
 
-        if (typeof result.data === 'object') {
-            return result.data;
+        if (typeof response.data === 'object') {
+            return response.data;
         }
 
-        throw new Error("Unknown data type for fetched result of 'content/" + url + "'");
+        throw new Error("Unknown data type for fetched result");
     }
-
-    getContent(language: string, filename: string): Promise<any> {
-        return this.get(language + '/' + filename);
-    }
-
 }

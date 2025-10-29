@@ -3,12 +3,11 @@ import "@styles/font.css";
 import '@styles/main.scss'
 import App from './App.vue'
 import router from './router/routes'
+import pkg from '../../package.json' assert { type: 'json' }
 
 const app = createApp(App)
 
 app.use(router)
 app.mount('#app')
 
-/*
-    * Language helpers
-*/
+console.log('App', pkg.name, pkg.version);

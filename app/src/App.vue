@@ -12,16 +12,27 @@
 <script setup lang="ts">
 
 import TimeoutService from "@src/services/TimeoutService";
-import {onMounted} from "vue";
-import {useRouter} from "vue-router";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useLanguage } from "./composables/Language";
 
 const router = useRouter();
+const language = useLanguage();
+
 
 onMounted(() => {
-    TimeoutService.registerCallback(() => {
-        // selectLanguage('lv');
-        router.push('/');
-    });
+  TimeoutService.registerCallback(() => {
+    // selectLanguage('lv');
+    router.push('/');
+  });
+
+  language.loadTranslations([
+    'translations/common.json',
+  ]).then(() => {
+    console.log('Translations loaded');
+  }).catch((e: Error) => {
+    console.error('Failed to load translations:', e.message);
+  });
 });
 </script>
 

@@ -1,14 +1,15 @@
 {
   "name": "skeletons",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "build": "vue-tsc -b && npm version patch && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.13.1",
     "vue": "^3.5.22",
     "vue-router": "^4.6.3"
   },

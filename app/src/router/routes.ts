@@ -5,6 +5,11 @@ import Screen3 from '../views/Screen3.vue'
 
 const routes = [
   {
+    path: '/',
+    name: 'default',
+    component: Screen1,
+  },  
+  {
     path: '/screen1',
     name: 'screen-1',
     component: Screen1,
