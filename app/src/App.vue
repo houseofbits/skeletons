@@ -5,7 +5,10 @@
   <div class="relative">
     <router-link to="/screen1" class="btn btn-primary mr">Screen 1</router-link>
     <router-link to="/screen2" class="btn btn-primary mr">Screen 2</router-link>
-    <router-link to="/screen3" class="btn btn-primary">Screen 3</router-link>
+    <router-link to="/screen3" class="btn btn-primary mr">Screen 3</router-link>
+
+    <div class="btn btn-primary mr" @click="language.selectLanguage(Language.LV)">LV</div>
+    <div class="btn btn-primary mr" @click="language.selectLanguage(Language.EN)">EN</div>
   </div>
 </template>
 
@@ -14,7 +17,8 @@
 import TimeoutService from "@src/services/TimeoutService";
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useLanguage } from "./composables/Language";
+import { useLanguage } from "@src/composables/Language";
+import { Language } from "@src/services/TranslationsService";
 
 const router = useRouter();
 const language = useLanguage();

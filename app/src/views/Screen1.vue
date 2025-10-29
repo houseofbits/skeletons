@@ -1,16 +1,17 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <h1>Screen 1</h1>
 
   <div class="test">
-    <div class="test2">Test</div>
+    <div class="test2">{{ translate('hello') }}</div>
   </div>
 
 </template>
 
-<style scoped lang="scss">
+<script setup lang="ts">
+import { useLanguage } from "@src/composables/Language";
 
-</style>
+const { translate } = useLanguage();
+
+</script>
+
+<style scoped lang="scss"></style>
