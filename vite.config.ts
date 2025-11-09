@@ -14,4 +14,10 @@ export default defineConfig({
     }
   },
   plugins: [vue()],
+  server: {
+    fs: {
+      allow: ['..'],
+    },
+  },
+  publicDir: 'public'
 })

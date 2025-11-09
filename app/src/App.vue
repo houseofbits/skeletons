@@ -1,6 +1,7 @@
 <template>
   <div class="relative content-1080p">
     <RouterView />
+    <NavBar />
   </div>
   <div class="relative">
     <router-link to="/screen1" class="btn btn-primary mr">Screen 1</router-link>
@@ -19,10 +20,10 @@ import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useLanguage } from "@src/composables/Language";
 import { Language } from "@src/services/TranslationsService";
+import NavBar from "@src/components/NavBar.vue";
 
 const router = useRouter();
 const language = useLanguage();
-
 
 onMounted(() => {
   TimeoutService.registerCallback(() => {

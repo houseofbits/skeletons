@@ -37,4 +37,9 @@ small {
   position: relative;
 }
 
-
+.navbar-text-link {
+    color: rgba($color: #fff, $alpha: 0.6);
+    font-size: 20px;
+    font-weight: 500;
+    font-style: italic;
+}
