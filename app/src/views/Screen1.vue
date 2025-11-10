@@ -7,13 +7,13 @@
 
   <NavTile :is-active="isNavTileSelected(1)" title="Zivis" width="1" height="1" left="1" top="1"
     @click="setSelectedNavTile(1)">
-    <Viewer3D />
+    <!-- <Viewer3D /> -->
 
   </NavTile>
 
   <NavTile :is-active="isNavTileSelected(2)" title="Abinieki" width="1" height="1" left="2" top="1"
     @click="setSelectedNavTile(2)">
-    <Viewer3D />
+    
   </NavTile>
 
   <NavTile :is-active="isNavTileSelected(3)" title="Rāpuļi" width="1" height="1" left="3" top="1"
@@ -23,13 +23,17 @@
     @click="setSelectedNavTile(4)" />
 
   <NavTile :is-active="isNavTileSelected(5)" title="Zīdītāji" width="2" height="1" left="2" top="2"
-    @click="setSelectedNavTile(5)" />
+    @click="setSelectedNavTile(5)" >
+    <Viewer src="/models/cat-test.fbx" :is-active="isNavTileSelected(5)" />
+  </NavTile>
+
 
 </template>
 
 <script setup lang="ts">
 import { useLanguage } from "@src/composables/Language";
 import Viewer3D from "@src/components/Viewer3D.vue";
+import Viewer from "@src/components/Viewer.vue";
 import NavTile from "../components/NavTile.vue";
 import { useNavigationState } from "../composables/NavigationState";
 
