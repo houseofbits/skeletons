@@ -24,7 +24,7 @@
 
   <NavTile :is-active="isNavTileSelected(5)" title="Zīdītāji" width="2" height="1" left="2" top="2"
     @click="setSelectedNavTile(5)" >
-    <Viewer src="/models/cat-test.fbx" :is-active="isNavTileSelected(5)" />
+    <Viewer src="/models/cat-scene.FBX" :is-active="isNavTileSelected(5)" />
   </NavTile>
 
 
