@@ -17,7 +17,9 @@
   </NavTile>
 
   <NavTile :is-active="isNavTileSelected(3)" title="Rāpuļi" width="1" height="1" left="3" top="1"
-    @click="setSelectedNavTile(3)" />
+    @click="setSelectedNavTile(3)" >
+    <Viewer src="/models/tortoise.FBX" :is-active="isNavTileSelected(3)" />
+  </NavTile>
 
   <NavTile :is-active="isNavTileSelected(4)" title="Putni" width="1" height="1" left="1" top="2"
     @click="setSelectedNavTile(4)" />
