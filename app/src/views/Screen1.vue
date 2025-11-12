@@ -7,8 +7,7 @@
 
   <NavTile :is-active="isNavTileSelected(1)" title="Zivis" width="1" height="1" left="1" top="1"
     @click="setSelectedNavTile(1)">
-    <!-- <Viewer3D /> -->
-
+    <Viewer src="/models/fish.FBX" :is-active="isNavTileSelected(1)" />
   </NavTile>
 
   <NavTile :is-active="isNavTileSelected(2)" title="Abinieki" width="1" height="1" left="2" top="1"
