@@ -7,6 +7,7 @@ import { onMounted, onBeforeUnmount, ref, watch } from "vue";
 import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 const props = defineProps({
   src: { type: String, required: true }, // path to your .fbx file
@@ -34,13 +35,18 @@ onMounted(() => {
   renderer.setSize(1500, 1000);
   container.value.appendChild(renderer.domElement);
 
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+
   // Fallback camera
   camera = new THREE.PerspectiveCamera(
     60,
     container.value.clientWidth / container.value.clientHeight,
     0.1,
-    1000
+    100000
   );
+  // camera.name = 'Camera001';
+
   camera.position.set(
     10.028120439794845,
     9.152506263224138,
@@ -53,54 +59,61 @@ onMounted(() => {
   );
   scene.add(camera);
 
-  // console.log(camera);
 
-  // Ground plane (to visualize shadows)
-  // const plane = new THREE.Mesh(
-  //     new THREE.PlaneGeometry(2000, 2000),
-  //     new THREE.MeshStandardMaterial({ color: 0x333333, roughness: 0.8 })
-  // )
-  // plane.rotation.x = -Math.PI / 2
-  // plane.receiveShadow = true
-  // scene.add(plane)
-
-  // Loader
-  const loader = new FBXLoader();
   clock = new THREE.Clock();
 
-//   const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2)); // soft white light
-//   light.intensity = 2;
-//   scene.add(light);
+  //Ambient
+  // const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2)); // soft white light
+  // light.intensity = 3;
+  // scene.add(light);
 
+const loader = new FBXLoader();
   loader.load(
     props.src,
     (object) => {
       //   console.log(object);
 
-      //   object.scale.set(0.01, 0.01, 0.01);
+        // object.scale.set(0.01, 0.01, 0.01);
+      
+        // object.scale.set(100, 100, 100);
       scene.add(object);
 
-      for (const child of object.children) {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
+      object.traverse((child) => {
+          if (child.isMesh) {
+              child.castShadow = true;
+              child.receiveShadow = true; // optional
+          }
 
-        if (child.isLight) {
-          child.intensity = child.intensity * 800;
-        }
-      }
+          if (child.isLight) {
+            child.intensity = child.intensity * 800;
+          }         
+      });
+
+      // for (const child of object.children) {
+      //   if (child.isMesh) {
+      //     child.castShadow = true;
+      //     child.receiveShadow = true;
+      //   }
+
+      //   if (child.isLight) {
+      //     child.intensity = child.intensity * 800;
+      //   }
+      // }
       const cam = scene.getObjectByName("Camera001");
+      if (cam) {
+        // const light = new THREE.PointLight(0xffffff, 2);
+        // light.position.set(0, 5, 0);
+        // light.decay = 0.6;
+        // light.castShadow = true;
+        // light.shadow.mapSize.set(2048, 2048);
+        // light.shadow.bias = 0.001;
+        // cam.add(light);
 
-      const light = new THREE.PointLight(0xffffff, 3);
-      light.position.set(0, 5, 0);
-      light.decay = 0.6;
-      light.castShadow = true;
-      cam.add(light);
+        controls = new OrbitControls(cam, renderer.domElement);
+        controls.target.set(0, 15, 0);
+        controls.update();
+      }
 
-      controls = new OrbitControls(cam, renderer.domElement);
-      controls.target.set(0, 15, 0);
-      controls.update();
 
       // // FBX lights
       // const lights = []
@@ -116,11 +129,30 @@ onMounted(() => {
       // }
       // })
 
+
       // Animation (if available)
-      //   if (object.animations?.length > 0) {
-      //     mixer = new THREE.AnimationMixer(object)
-      //     mixer.clipAction(object.animations[0]).play()
-      //   }
+        if (object.animations?.length > 0) {
+          const clips = object.animations;
+          mixer = new THREE.AnimationMixer(object)
+          mixer.timeScale = 0.2;
+
+          clips.forEach(clip => {
+              const action = mixer.clipAction(clip);
+              action.play();
+          });
+        }
+
+      const spotLight = scene.getObjectByName("Spot001");
+      if (spotLight) {
+        spotLight.shadow.mapSize.set(512, 512);
+        // spotLight.shadow.bias = 0.001 
+      }
+      
+      const spotLight2 = scene.getObjectByName("Spot002");
+      if (spotLight2) {
+        spotLight2.shadow.mapSize.set(2048, 2048);     
+        // spotLight2.shadow.bias = -0.001 
+      }
     },
     (xhr) =>
       console.log(`Loading: ${((xhr.loaded / xhr.total) * 100).toFixed(1)}%`),
