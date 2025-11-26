@@ -1,5 +1,9 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera"></div>
+
+  <!-- <div class="camera-buttons" v-if="isActive">
+    <div class="btn btn-primary camera-button" v-for="camera in cameras" @click="setCamera(camera)" :key="camera.uuid">{{ camera.type }} {{ camera.name }}</div>
+  </div> -->
 </template>
 
 <script setup>
@@ -13,13 +17,29 @@ const props = defineProps({
   src: { type: String, required: true }, // path to your .fbx file
   background: { type: [String, Number], default: 0x000000 },
   isActive: { type: Boolean, default: false },
+  cameraConfig: {
+    type: Object,
+    required: true,
+  }
 });
+
+
+const cameras = ref([]);
 
 const container = ref(null);
 let renderer, scene, camera, controls, mixer, clock;
+let activeCamera = null;
 
 function logCamera() {
-  // console.log(camera);
+  console.log("Camera position: ", activeCamera.position);
+  console.log("Camera target: ", controls.target);
+}
+
+function setCamera(cam) {
+  activeCamera = cam;
+  controls = new OrbitControls(activeCamera, renderer.domElement);
+  controls.target.set(0, 15, 0);
+  controls.update();
 }
 
 onMounted(() => {
@@ -45,7 +65,7 @@ onMounted(() => {
     0.1,
     100000
   );
-  // camera.name = 'Camera001';
+  // camera.name = 'CameraCtrl';
 
   camera.position.set(
     10.028120439794845,
@@ -67,6 +87,9 @@ onMounted(() => {
   // light.intensity = 3;
   // scene.add(light);
 
+cameras.value.push(camera);
+activeCamera = camera
+
 const loader = new FBXLoader();
   loader.load(
     props.src,
@@ -79,6 +102,9 @@ const loader = new FBXLoader();
       scene.add(object);
 
       object.traverse((child) => {
+          if (child instanceof THREE.Camera) {
+            cameras.value.push(child);
+          }        
           if (child.isMesh) {
               child.castShadow = true;
               child.receiveShadow = true; // optional
@@ -108,7 +134,7 @@ const loader = new FBXLoader();
         // light.shadow.mapSize.set(2048, 2048);
         // light.shadow.bias = 0.001;
         // cam.add(light);
-
+        activeCamera = cam;
         controls = new OrbitControls(cam, renderer.domElement);
         controls.target.set(0, 15, 0);
         controls.update();
@@ -173,10 +199,18 @@ const loader = new FBXLoader();
     const w = container.value.clientWidth;
     const h = container.value.clientHeight;
     renderer.setSize(w, h);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
+    activeCamera.aspect = w / h;
+    activeCamera.updateProjectionMatrix();
   };
   window.addEventListener("resize", onResize);
+
+//   scene.traverse((obj) => {
+  // if (obj instanceof THREE.Camera) {
+  //   cameras.value.push(obj);
+  //   console.log(obj);
+  // }
+
+// });
 
   // Animation loop
   const animate = () => {
@@ -184,15 +218,15 @@ const loader = new FBXLoader();
     const delta = clock.getDelta();
     if (mixer) mixer.update(delta);
 
-    const cam = scene.getObjectByName("Camera001");
-    if (cam) {
-      renderer.render(scene, cam);
+    // const cam = scene.getObjectByName("Camera001");
+    if (activeCamera) {
+      renderer.render(scene, activeCamera);
 
       const w = container.value.clientWidth;
       const h = container.value.clientHeight;
       // renderer.setSize(w, h)
-      cam.aspect = w / h;
-      cam.updateProjectionMatrix();
+      activeCamera.aspect = w / h;
+      activeCamera.updateProjectionMatrix();
     }
 
     // requestAnimationFrame(animate)
@@ -236,5 +270,17 @@ const loader = new FBXLoader();
   width: 100% !important;
   height: 100% !important;
   display: block;
+}
+.camera-buttons {
+  position: absolute;
+  z-index: 1000;
+  top:0px;
+  left:0px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.camera-button {
+  z-index: 1000;
 }
 </style>
