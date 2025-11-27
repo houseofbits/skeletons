@@ -12,7 +12,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import ScenePreloadService from "../services/ScenePreloadService";
 
 const props = defineProps({
-  src: { type: String, required: true }, // path to your .fbx file
+  asset: { type: String, required: true }, // path to your .fbx file
   background: { type: [String, Number], default: 0x000000 },
   isActive: { type: Boolean, default: false },
   cameraConfig: {
@@ -120,53 +120,20 @@ onMounted(() => {
 
   clock = new THREE.Clock();
 
-  const fishScene = ScenePreloadService.getAsset("fish");
-  
-  const loader = new FBXLoader();
-  loader.load(
-    props.src,
-    (object) => {
-      scene.add(object);
+  const fishScene = ScenePreloadService.getAsset(props.asset);
 
-      object.traverse((child) => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true; // optional
-        }
+  scene.add(fishScene.clone());
 
-        if (child.isLight) {
-          child.intensity = child.intensity * 800;
-        }
-      });
+  scene.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true; // optional
+    }
 
-      // Animation (if available)
-      if (object.animations?.length > 0) {
-        const clips = object.animations;
-        mixer = new THREE.AnimationMixer(object)
-        mixer.timeScale = 0.2;
-
-        clips.forEach(clip => {
-          const action = mixer.clipAction(clip);
-          action.play();
-        });
-      }
-
-      // const spotLight = scene.getObjectByName("Spot001");
-      // if (spotLight) {
-      //   spotLight.shadow.mapSize.set(512, 512);
-      //   // spotLight.shadow.bias = 0.001 
-      // }
-
-      // const spotLight2 = scene.getObjectByName("Spot002");
-      // if (spotLight2) {
-      //   spotLight2.shadow.mapSize.set(2048, 2048);     
-      //   // spotLight2.shadow.bias = -0.001 
-      // }
-    },
-    (xhr) =>
-      console.log(`Loading: ${((xhr.loaded / xhr.total) * 100).toFixed(1)}%`),
-    (err) => console.error("FBX load error:", err)
-  );
+    if (child.isLight) {
+      child.intensity = child.intensity * 800;
+    }
+  });
 
   // Handle resize
   const onResize = () => {

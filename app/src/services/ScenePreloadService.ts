@@ -22,7 +22,6 @@ class ScenePreloadService {
         this.ready = ref(false);
 
         this.manager.onLoad = () => {
-            console.log(this.logs.value);
             this.ready.value = true;
             this.log("All assets fully loaded.");
         };
@@ -61,6 +60,10 @@ class ScenePreloadService {
             return null;
         }
         
+        if (asset.scene) {
+            return asset.scene.clone();
+        }
+
         return asset;
     }
 

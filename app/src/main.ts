@@ -10,4 +10,4 @@ const app = createApp(App)
 app.use(router)
 app.mount('#app')
 
-console.log('App', pkg.name, pkg.version);
+console.log(pkg.name, pkg.version);
