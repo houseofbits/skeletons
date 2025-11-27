@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { ref } from "vue";
+import assets from "../helpers/assets";
 
 class ScenePreloadService {
     private manager: THREE.LoadingManager;
@@ -34,14 +35,6 @@ class ScenePreloadService {
 
     preloadAssets() {
         if (this.promise) return this.promise;
-
-        const assets = [
-            ['fish', '/models/fish.FBX'],
-            ['frog', '/models/frog.FBX'],
-            ['lizard', '/models/lizard.FBX'],
-            ['pigeon', '/models/pigeon.FBX'],
-            ['jackal', '/models/jackal.FBX'],
-        ];
 
         this.log("Starting asset preloading...");
 

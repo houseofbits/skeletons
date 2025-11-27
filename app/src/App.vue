@@ -4,7 +4,7 @@
     <NavBar />
   </div>
   <div v-else class="relative content-1080p">
-   <p class="loader-title">Skeletal Anatomy v{{ pkg.version }}</p>
+   <p class="loader-title">Skeletal Anatomy {{ pkg.version }}</p>
 
     <p class="loader-progress">{{ ScenePreloadService.progress }}%</p>
 
