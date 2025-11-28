@@ -125,15 +125,6 @@ onMounted(() => {
   prepareMeshMaterials();
   setIconCameraPosition();
 
-  const onResize = () => {
-    const w = container.value.clientWidth;
-    const h = container.value.clientHeight;
-    render3d.renderer.setSize(w, h);
-    render3d.camera.aspect = w / h;
-    render3d.camera.updateProjectionMatrix();
-  };
-  window.addEventListener("resize", onResize);
-
   render3d.render();
 
   onBeforeUnmount(render3d.dispose);

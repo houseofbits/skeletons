@@ -1,9 +1,9 @@
 <template>
   <h1>Screen 1</h1>
 
-  <div class="test">
+  <!-- <div class="test">
     <div class="test2">{{ translate('hello') }}</div>
-  </div>
+  </div> -->
 
   <NavTile :is-active="isNavTileSelected(1)" title="Zivis" width="1" height="1" left="1" top="1"
     @click="setSelectedNavTile(1)">
@@ -29,14 +29,11 @@
     @click="setSelectedNavTile(5)">
     <Viewer asset="jackal" :is-active="isNavTileSelected(5)" :config="configJackal" />
   </NavTile>
-
-  <!-- <ViewerCat src="/models/catFall_01.fbx" :is-active="true" /> -->
 </template>
 
 <script setup lang="ts">
-import { useLanguage } from "@src/composables/Language";
+// import { useLanguage } from "@src/composables/Language";
 import Viewer from "@src/components/Viewer.vue";
-// import ViewerCat from "@src/components/ViewerCat.vue";
 import NavTile from "@src/components/NavTile.vue";
 import { useNavigationState } from "../composables/NavigationState";
 import configFish from "@/src/helpers/screen1/configFish";
@@ -45,7 +42,7 @@ import configLizard from "@/src/helpers/screen1/configLizard";
 import configBird from "@/src/helpers/screen1/configBird";
 import configJackal from "@/src/helpers/screen1/configJackal";
 
-const { translate } = useLanguage();
+// const { translate } = useLanguage();
 const { setSelectedNavTile,
   isNavTileSelected } = useNavigationState();
 

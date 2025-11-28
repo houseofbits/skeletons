@@ -1,11 +1,11 @@
+<template>
+  <ViewerCat :is-active="true" />
+</template>
+
 <script setup lang="ts">
+import ViewerCat from "@src/components/ViewerCat.vue";
 
 </script>
-
-<template>
-  <h1>Screen 2</h1>
-
-</template>
 
 <style scoped>
 

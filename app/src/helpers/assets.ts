@@ -4,4 +4,5 @@ export default [
     ['lizard', '/models/lizard.FBX'],
     ['pigeon', '/models/pigeon.FBX'],
     ['jackal', '/models/jackal.FBX'],
+    ['catFall', '/models/catFall_01.fbx'],
 ] as const;

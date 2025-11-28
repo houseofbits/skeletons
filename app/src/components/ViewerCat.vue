@@ -5,147 +5,73 @@
 <script setup>
 import { onMounted, onBeforeUnmount, ref, watch } from "vue";
 import * as THREE from "three";
-import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import ScenePreloadService from "../services/ScenePreloadService";
+import { useRenderer3D } from "../composables/Renderer3D";
+
+const { initRenderer3D } = useRenderer3D();
 
 const props = defineProps({
-  src: { type: String, required: true }, // path to your .fbx file
-  background: { type: [String, Number], default: 0x000000 },
   isActive: { type: Boolean, default: false },
 });
 
 const container = ref(null);
-let renderer, scene, camera, controls, mixer, clock;
+let render3d, mixer;
 
 function logCamera() {
-  console.log("Camera position: ", camera.position);
-  console.log("Camera target: ", controls.target);
-  console.log(camera);
+  console.log("Camera position: ", render3d.camera.position);
+  console.log("Camera target: ", render3d.controls.target);
+  console.log(render3d.camera);
 }
 
 onMounted(() => {
-  // Scene
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color(props.background);
+  render3d = initRenderer3D(container.value);
 
-  // Renderer
-  renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  // renderer.setSize(container.value.clientWidth, container.value.clientHeight)
-  renderer.setSize(1500, 1000);
-  container.value.appendChild(renderer.domElement);
+  render3d.camera.position.set(76.64059891042186, 33.98536526016632, 18.017461834739485);
+  render3d.controls.target.set(7.526513403769392, 17.705962494108352, 7.4957053875706405);
+  render3d.controls.update();
 
-  // Fallback camera
-  camera = new THREE.PerspectiveCamera(
-    60,
-    container.value.clientWidth / container.value.clientHeight,
-    0.01,
-    100000
-  );
-
-  camera.position.set(45.662048788766846, 12.936460903160285, 13.428404068049197);
-  // camera.rotation.set(
-  //   0.08323235202060293,
-  //   0.632666159109924,
-  //   -0.04928904964263669
-  // );
-  scene.add(camera);
-  controls = new OrbitControls(camera, renderer.domElement);
-  controls.target.set(6.1215239666298595, 12.39541566911373, 7.408852931375124);
-  controls.update();
-
-  clock = new THREE.Clock();
-
-  //Ambient
   const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2)); // soft white light
   light.intensity = 3;
-  scene.add(light);
+  render3d.scene.add(light);
 
-  const loader = new FBXLoader();
-  loader.load(
-    props.src,
-    (object) => {
-      scene.add(object);
+  const catFall = ScenePreloadService.getAsset('catFall');
+  render3d.scene.add(catFall);
 
-      object.traverse((child) => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true; // optional
-        }
+  render3d.scene.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+    }
 
-        if (child.isLight) {
-          child.intensity = child.intensity * 800;
-        }
-      });
+    if (child.isLight) {
+      // child.intensity = child.intensity * 800;
+    }
+  });
 
-      // Animation (if available)
-      if (object.animations?.length > 0) {
-        const clips = object.animations;
-        mixer = new THREE.AnimationMixer(object)
-        mixer.timeScale = 1.0;//0.2;
-        
-        const action = mixer.clipAction(clips[0]);
-        action.time = 200 / 30;
-        action.play();
+  console.log(render3d.scene);
 
-        // clips.forEach(clip => {
-        //   const action = mixer.clipAction(clip);
-        //   action.play();
-        // });
-      }
-    },
-    (xhr) =>
-      console.log(`Loading: ${((xhr.loaded / xhr.total) * 100).toFixed(1)}%`),
-    (err) => console.error("FBX load error:", err)
-  );
+  const animatedModel = render3d.scene.getObjectByName('Group');
+  if (animatedModel && animatedModel.animations?.length > 0) {
+    console.log(animatedModel);
+    const clips = animatedModel.animations;
+    mixer = new THREE.AnimationMixer(animatedModel)
+    mixer.timeScale = 1.0;//0.2;
 
-  console.log(scene);
+    const action = mixer.clipAction(clips[0]);
+    action.time = 200 / 30;
+    action.play();
+  }
 
-  // Handle resize
-  const onResize = () => {
-    const w = container.value.clientWidth;
-    const h = container.value.clientHeight;
-    renderer.setSize(w, h);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  };
-  window.addEventListener("resize", onResize);
-
-  // Animation loop
-  const animate = () => {
-    requestAnimationFrame(animate);
-    const delta = clock.getDelta();
+  render3d.render((delta) => {
     if (mixer) {
       mixer.update(delta);
     }
-
-    renderer.render(scene, camera)
-
-    const w = container.value.clientWidth;
-    const h = container.value.clientHeight;
-    // renderer.setSize(w, h)
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  };
-
-  animate();
-
-  onBeforeUnmount(() => {
-    window.removeEventListener("resize", onResize);
-    renderer.dispose();
-    controls.dispose();
-    scene.traverse((obj) => {
-      if (obj.geometry) obj.geometry.dispose();
-      if (obj.material) {
-        if (Array.isArray(obj.material))
-          obj.material.forEach((m) => m.dispose());
-        else obj.material.dispose();
-      }
-    });
   });
+
+  onBeforeUnmount(render3d.dispose);
 });
+
 </script>
 
 <style>

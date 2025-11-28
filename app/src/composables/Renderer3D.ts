@@ -8,7 +8,7 @@ export interface Renderer3D {
     camera: THREE.PerspectiveCamera;
     controls: OrbitControls;
 
-    render(): void;
+    render(callback: CallableFunction): void;
     dispose(): void;
 }
 
@@ -33,17 +33,19 @@ export function useRenderer3D() {
         const camera = new THREE.PerspectiveCamera(
             33,
             canvas.clientWidth / canvas.clientHeight,
-            0.1,
-            10000
+            0.01,
+            1000
         );
         camera.name = 'MainCamera';
         camera.position.set(0, 2, 5);
         const controls = new OrbitControls(camera, renderer.domElement);
         scene.add(camera);
 
-        function render() {
-            requestAnimationFrame(render);
+        function render(callback: CallableFunction = () => {}) {
+            requestAnimationFrame(() => render(callback));
 
+            callback(clock.getDelta());
+            
             renderer.render(scene, camera);
 
             if (canvas) {
