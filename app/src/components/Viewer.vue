@@ -10,19 +10,21 @@ import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import ScenePreloadService from "../services/ScenePreloadService";
 import { useRenderer3D } from "../composables/Renderer3D";
+import { tweenColor, transitionCamera } from "@src/utils/transitions";
 
 const props = defineProps({
   asset: { type: String, required: true },
   isActive: { type: Boolean, default: false },
-  cameraConfig: {
+  config: {
     type: Object,
     required: true,
   }
 });
 
+const originalBoneMaterialColor = 14997948;
+
 const container = ref(null);
 let render3d;
-let activeCamera = null;
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -34,44 +36,46 @@ function logCamera() {
 
 function setIconCameraPosition() {
   const duration = 0.6;
-  gsap.timeline()
-    .to(render3d.controls.target, {
-      duration: duration,
-      x: props.cameraConfig.iconTarget.x,
-      y: props.cameraConfig.iconTarget.y,
-      z: props.cameraConfig.iconTarget.z,
-      ease: "power2.out",
-      onUpdate: () => render3d.controls.update()
-    })
-    .to(render3d.camera.position, {
-      duration: duration,
-      x: props.cameraConfig.iconPos.x,
-      y: props.cameraConfig.iconPos.y,
-      z: props.cameraConfig.iconPos.z,
-      ease: "power2.out",
-      onUpdate: () => render3d.controls.update()
-    }, "<"); // "<" = run at same tie  
+  transitionCamera(
+    render3d.controls,
+    props.config.iconPos,
+    props.config.iconTarget,
+    duration,
+    "power2.out"
+  );
 }
 
 function setInitialCameraPosition() {
   const duration = 0.8;
-  gsap.timeline()
-    .to(render3d.controls.target, {
-      duration: duration,
-      x: props.cameraConfig.initialTarget.x,
-      y: props.cameraConfig.initialTarget.y,
-      z: props.cameraConfig.initialTarget.z,
-      ease: "power2.out",
-      onUpdate: () => render3d.controls.update()
-    })
-    .to(render3d.camera.position, {
-      duration: duration,
-      x: props.cameraConfig.initialPos.x,
-      y: props.cameraConfig.initialPos.y,
-      z: props.cameraConfig.initialPos.z,
-      ease: "power2.out",
-      onUpdate: () => render3d.controls.update()
-    }, "<"); // "<" = run at same tie
+  transitionCamera(
+    render3d.controls,
+    props.config.initialPos,
+    props.config.initialTarget,
+    duration,
+    "power2.out"
+  );
+}
+
+function hilightBoneMeshes() {
+  if (props.config.activeBones.length > 0) {
+    for (const boneConfig of props.config.activeBones) {
+      for (const meshName of boneConfig.meshNames) {
+        const mesh = render3d.scene.getObjectByName(meshName);
+        tweenColor(mesh, boneConfig.materialColor, 0.5);
+      }
+    }
+  }
+}
+
+function resetHilightedBoneMeshes() {
+  if (props.config.activeBones.length > 0) {
+    for (const boneConfig of props.config.activeBones) {
+      for (const meshName of boneConfig.meshNames) {
+        const mesh = render3d.scene.getObjectByName(meshName);
+        tweenColor(mesh, originalBoneMaterialColor, 0.7);
+      }
+    }
+  }
 }
 
 watch(
@@ -79,41 +83,54 @@ watch(
   (newVal) => {
     if (newVal) {
       setInitialCameraPosition();
+      hilightBoneMeshes();
     } else {
       setIconCameraPosition();
+      resetHilightedBoneMeshes();
     }
   }
 );
 
+function prepareMeshMaterials() {
+  if (props.config.activeBones.length > 0) {
+    for (const boneConfig of props.config.activeBones) {
+      for (const meshName of boneConfig.meshNames) {
+        const mesh = render3d.scene.getObjectByName(meshName);
+        if (mesh && mesh.material) {
+          const material = mesh.material.clone();
+          mesh.material = material;
+        }
+      }
+    }
+  }
+}
+
 onMounted(() => {
   render3d = initRenderer3D(container.value);
 
-  activeCamera = render3d.camera;
-
-  setIconCameraPosition();
-
   const fishScene = ScenePreloadService.getAsset(props.asset);
-
   render3d.scene.add(fishScene.clone());
 
   render3d.scene.traverse((child) => {
     if (child.isMesh) {
       child.castShadow = true;
-      child.receiveShadow = true; // optional
+      child.receiveShadow = true;
     }
 
     if (child.isLight) {
       child.intensity = child.intensity * 800;
     }
   });
+  
+  prepareMeshMaterials();
+  setIconCameraPosition();
 
-  // Handle resize
   const onResize = () => {
     const w = container.value.clientWidth;
     const h = container.value.clientHeight;
     render3d.renderer.setSize(w, h);
-    activeCamera.aspect = w / h;
-    activeCamera.updateProjectionMatrix();
+    render3d.camera.aspect = w / h;
+    render3d.camera.updateProjectionMatrix();
   };
   window.addEventListener("resize", onResize);
 

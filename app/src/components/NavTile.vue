@@ -25,7 +25,8 @@ const outerClass = computed(() => {
             `y-1`,
             `height-full`,
             `width-full`,
-            'z-index-high'
+            'z-index-high',
+            'active'
         ];
     }
 
@@ -46,7 +47,7 @@ const outerClass = computed(() => {
     background: linear-gradient(178deg, rgba(7, 32, 38, 1) 69%, rgba(44, 44, 59, 1) 100%);
     border: 1px, solid rgba($color: #b4b4b4, $alpha: 0.1);
     position: absolute;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.4s ease-in-out;
 
     & .title {
         position: absolute;
@@ -56,6 +57,13 @@ const outerClass = computed(() => {
         font-size: 40px;
         font-weight: bold;
         opacity: 0.9;
+    }
+
+    &.active {
+        & .title {
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
     }
 
     &.z-index-high {
