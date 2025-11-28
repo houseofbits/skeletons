@@ -15,6 +15,7 @@ const props = defineProps({
   isActive: { type: Boolean, default: false },
 });
 
+const originalBoneMaterialColor = 14997948;
 const container = ref(null);
 let render3d, mixer;
 
@@ -31,17 +32,21 @@ onMounted(() => {
   render3d.controls.target.set(7.526513403769392, 17.705962494108352, 7.4957053875706405);
   render3d.controls.update();
 
-  const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2)); // soft white light
+  const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2));
   light.intensity = 3;
   render3d.scene.add(light);
 
   const catFall = ScenePreloadService.getAsset('catFall');
   render3d.scene.add(catFall);
 
+  const material = new THREE.MeshStandardMaterial({color: 0xff0000});
+  material.color = new THREE.Color(originalBoneMaterialColor);
+
   render3d.scene.traverse((child) => {
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
+      child.material = material;
     }
 
     if (child.isLight) {
