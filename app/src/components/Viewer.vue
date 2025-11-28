@@ -8,12 +8,11 @@ import { onMounted, onBeforeUnmount, ref, watch } from "vue";
 import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import ScenePreloadService from "../services/ScenePreloadService";
+import { useRenderer3D } from "../composables/Renderer3D";
 
 const props = defineProps({
-  asset: { type: String, required: true }, // path to your .fbx file
-  background: { type: [String, Number], default: 0x000000 },
+  asset: { type: String, required: true },
   isActive: { type: Boolean, default: false },
   cameraConfig: {
     type: Object,
@@ -21,58 +20,57 @@ const props = defineProps({
   }
 });
 
-
-// const cameras = ref([]);
-
 const container = ref(null);
-let renderer, scene, camera, controls, mixer, clock;
+let render3d;
 let activeCamera = null;
 
+const { initRenderer3D } = useRenderer3D();
+
 function logCamera() {
-  console.log("Camera position: ", activeCamera.position);
-  console.log("Camera target: ", controls.target);
-  console.log("Camera fov: ", activeCamera.fov);
+  console.log("Camera position: ", render3d.camera.position);
+  console.log("Camera target: ", render3d.controls.target);
+  console.log("Camera fov: ", render3d.camera.fov);
 }
 
 function setIconCameraPosition() {
   const duration = 0.6;
   gsap.timeline()
-    .to(controls.target, {
+    .to(render3d.controls.target, {
       duration: duration,
       x: props.cameraConfig.iconTarget.x,
       y: props.cameraConfig.iconTarget.y,
       z: props.cameraConfig.iconTarget.z,
       ease: "power2.out",
-      onUpdate: () => controls.update()
+      onUpdate: () => render3d.controls.update()
     })
-    .to(camera.position, {
+    .to(render3d.camera.position, {
       duration: duration,
       x: props.cameraConfig.iconPos.x,
       y: props.cameraConfig.iconPos.y,
       z: props.cameraConfig.iconPos.z,
       ease: "power2.out",
-      onUpdate: () => controls.update()
+      onUpdate: () => render3d.controls.update()
     }, "<"); // "<" = run at same tie  
 }
 
 function setInitialCameraPosition() {
   const duration = 0.8;
   gsap.timeline()
-    .to(controls.target, {
+    .to(render3d.controls.target, {
       duration: duration,
       x: props.cameraConfig.initialTarget.x,
       y: props.cameraConfig.initialTarget.y,
       z: props.cameraConfig.initialTarget.z,
       ease: "power2.out",
-      onUpdate: () => controls.update()
+      onUpdate: () => render3d.controls.update()
     })
-    .to(camera.position, {
+    .to(render3d.camera.position, {
       duration: duration,
       x: props.cameraConfig.initialPos.x,
       y: props.cameraConfig.initialPos.y,
       z: props.cameraConfig.initialPos.z,
       ease: "power2.out",
-      onUpdate: () => controls.update()
+      onUpdate: () => render3d.controls.update()
     }, "<"); // "<" = run at same tie
 }
 
@@ -88,43 +86,17 @@ watch(
 );
 
 onMounted(() => {
-  // Scene
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color(props.background);
+  render3d = initRenderer3D(container.value);
 
-  // Renderer
-  renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.setSize(1500, 1000);
-  container.value.appendChild(renderer.domElement);
-
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.0;
-
-  // Fallback camera
-  camera = new THREE.PerspectiveCamera(
-    33,
-    container.value.clientWidth / container.value.clientHeight,
-    0.1,
-    100000
-  );
-  camera.name = 'MainCamera';
-
-  camera.position.set(props.cameraConfig.iconPos.x, props.cameraConfig.iconPos.y, props.cameraConfig.iconPos.z);
-  scene.add(camera);
-  activeCamera = camera;
-  controls = new OrbitControls(camera, renderer.domElement);
+  activeCamera = render3d.camera;
 
   setIconCameraPosition();
 
-  clock = new THREE.Clock();
-
   const fishScene = ScenePreloadService.getAsset(props.asset);
 
-  scene.add(fishScene.clone());
+  render3d.scene.add(fishScene.clone());
 
-  scene.traverse((child) => {
+  render3d.scene.traverse((child) => {
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true; // optional
@@ -139,44 +111,15 @@ onMounted(() => {
   const onResize = () => {
     const w = container.value.clientWidth;
     const h = container.value.clientHeight;
-    renderer.setSize(w, h);
+    render3d.renderer.setSize(w, h);
     activeCamera.aspect = w / h;
     activeCamera.updateProjectionMatrix();
   };
   window.addEventListener("resize", onResize);
 
+  render3d.render();
 
-  // Animation loop
-  const animate = () => {
-    requestAnimationFrame(animate);
-    const delta = clock.getDelta();
-    if (mixer) mixer.update(delta);
-
-    if (activeCamera) {
-      renderer.render(scene, activeCamera);
-
-      const w = container.value.clientWidth;
-      const h = container.value.clientHeight;
-      // renderer.setSize(w, h)
-      activeCamera.aspect = w / h;
-      activeCamera.updateProjectionMatrix();
-    }
-  };
-  animate();
-
-  onBeforeUnmount(() => {
-    window.removeEventListener("resize", onResize);
-    renderer.dispose();
-    controls.dispose();
-    scene.traverse((obj) => {
-      if (obj.geometry) obj.geometry.dispose();
-      if (obj.material) {
-        if (Array.isArray(obj.material))
-          obj.material.forEach((m) => m.dispose());
-        else obj.material.dispose();
-      }
-    });
-  });
+  onBeforeUnmount(render3d.dispose);
 });
 </script>
 
