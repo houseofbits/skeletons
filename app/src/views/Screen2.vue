@@ -1,5 +1,5 @@
 <template>
-  <ViewerCat :is-active="true" />
+  <!-- <ViewerCat :is-active="true" /> -->
 </template>
 
 <script setup lang="ts">

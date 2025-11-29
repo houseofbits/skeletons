@@ -33,7 +33,7 @@ export function useRenderer3D() {
         const camera = new THREE.PerspectiveCamera(
             33,
             canvas.clientWidth / canvas.clientHeight,
-            0.001,
+            0.01,
             1000
         );
         camera.name = 'MainCamera';

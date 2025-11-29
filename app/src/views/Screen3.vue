@@ -1,5 +1,5 @@
 <template>
-  <NavTile :is-active="isNavTileSelected(1)" title="Zivis" width="1" height="1" left="1" top="1"
+  <!-- <NavTile :is-active="isNavTileSelected(1)" title="Zivis" width="1" height="1" left="1" top="1"
     @click="setSelectedNavTile(1)">
     <Viewer asset="fish" :is-active="isNavTileSelected(1)" :config="configFish" />
   </NavTile>
@@ -22,7 +22,7 @@
   <NavTile :is-active="isNavTileSelected(5)" title="Zīdītāji" width="2" height="1" left="2" top="2"
     @click="setSelectedNavTile(5)">
     <Viewer asset="jackal" :is-active="isNavTileSelected(5)" :config="configJackal" />
-  </NavTile>
+  </NavTile> -->
 </template>
 
 <script setup lang="ts">
