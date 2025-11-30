@@ -7,14 +7,62 @@ export default {
         {
             materialColor: '#ff0000',
             meshNames: [
-                'bsk1', 'bsk2', 'bsk3',
+                'limbs1',
             ],
         },
         {
             materialColor: '#00ff00',
             meshNames: [
-                'ba013', 'ba014',
+                'limbs2',
             ],
-        },         
+        },   
+        {
+            materialColor: '#ffff00',
+            meshNames: [
+                'limbs3',
+            ],
+        },    
+        {
+            materialColor: '#00ffff',
+            meshNames: [
+                'limbs4',
+            ],
+        },  
+        {
+            materialColor: '#ff0000',
+            meshNames: [
+                'limbs5',
+            ],
+        },
+        {
+            materialColor: '#00ff00',
+            meshNames: [
+                'limbs6',
+            ],
+        },   
+        {
+            materialColor: '#ffff00',
+            meshNames: [
+                'limbs7',
+            ],
+        },
+        {
+            materialColor: '#00ffff',
+            meshNames: [
+                'limbs8',
+            ],
+        },   
+        {
+            materialColor: '#00ffff',
+            meshNames: [
+                'limbs9',
+            ],
+        },    
+        {
+            materialColor: '#00ffff',
+            meshNames: [
+                'limbs10',
+            ],
+        },                      
     ],
 } as const;

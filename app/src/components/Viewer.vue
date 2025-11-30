@@ -84,6 +84,7 @@ watch(
     if (newVal) {
       setInitialCameraPosition();
       hilightBoneMeshes();
+      // console.log(render3d.scene);
     } else {
       setIconCameraPosition();
       resetHilightedBoneMeshes();

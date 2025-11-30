@@ -3,5 +3,18 @@ export default {
     iconTarget: { x: 0.9083638704236291, y: 14.235404319105905, z: 0.6072851229177963 },
     initialPos: { x: 27.32608382738744, y: 21.489998101621993, z: -65.33730649489655 },
     initialTarget: { x: 0.9086491407184824, y: 12.265583131956753, z: 0.41057530865236047 },
-    activeBones: [],
+    activeBones: [
+        {
+            materialColor: '#ff0000',
+            meshNames: [
+                'skull1',
+            ],
+        },
+        {
+            materialColor: '#00ff00',
+            meshNames: [
+                'skull2',
+            ],
+        },                     
+    ],
 } as const;

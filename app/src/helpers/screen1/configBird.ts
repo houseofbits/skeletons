@@ -1,7 +1,32 @@
 export default {
     iconPos: { x: 45.668998785489514, y: 61.202151662048124, z: -86.82135575540381 },
     iconTarget: { x: 5.728805056496356, y: 25.836828982270383, z: 6.4626473543064495 },
-    initialPos: { x: 58.967891311837874, y: 53.36531914966733, z: -99.71218818512853 },
-    initialTarget: { x: -0.12309007504298125, y: 30.06717843156067, z: 6.111793596346422 },
-    activeBones: [],
+    initialPos: { x: 90.14219946242365, y: 80.9200218835306, z: 25.79149004028225 },
+    initialTarget: { x: 1.7754562087409262, y: 28.762288290773167, z: 0.15449137094127202 },
+    activeBones: [
+        {
+            materialColor: '#ff0000',
+            meshNames: [
+                'spine1',
+            ],
+        },
+        {
+            materialColor: '#00ff00',
+            meshNames: [
+                'spine2',
+            ],
+        },   
+        {
+            materialColor: '#ffff00',
+            meshNames: [
+                'spine3',
+            ],
+        },    
+        {
+            materialColor: '#00ffff',
+            meshNames: [
+                'spine4',
+            ],
+        },                   
+    ],
 } as const;

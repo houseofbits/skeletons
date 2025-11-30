@@ -7,14 +7,14 @@ export default {
         {
             materialColor: '#ff0000',
             meshNames: [
-                'bsk1', 'bsk2', 'bsk3',
+                'skull1',
             ],
         },
         {
             materialColor: '#00ff00',
             meshNames: [
-                'ba013', 'ba014',
+                'skull2',
             ],
-        },         
+        },                     
     ],
 } as const;

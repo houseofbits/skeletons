@@ -3,5 +3,66 @@ export default {
     iconTarget: { x: 5.728805056496356, y: 25.836828982270383, z: 6.4626473543064495 },
     initialPos: { x: 58.967891311837874, y: 53.36531914966733, z: -99.71218818512853 },
     initialTarget: { x: -0.12309007504298125, y: 30.06717843156067, z: 6.111793596346422 },
-    activeBones: [],
+    activeBones: [
+        {
+            materialColor: '#ff0000',
+            meshNames: [
+                'limbs1',
+            ],
+        },
+        {
+            materialColor: '#00ff00',
+            meshNames: [
+                'limbs2',
+            ],
+        },   
+        {
+            materialColor: '#ffff00',
+            meshNames: [
+                'limbs3',
+            ],
+        },    
+        {
+            materialColor: '#00ffff',
+            meshNames: [
+                'limbs4',
+            ],
+        },  
+        {
+            materialColor: '#ff0000',
+            meshNames: [
+                'limbs5',
+            ],
+        },
+        {
+            materialColor: '#00ff00',
+            meshNames: [
+                'limbs6',
+            ],
+        },   
+        {
+            materialColor: '#ffff00',
+            meshNames: [
+                'limbs7',
+            ],
+        },
+        {
+            materialColor: '#00ffff',
+            meshNames: [
+                'limbs8',
+            ],
+        },   
+        {
+            materialColor: '#00ffff',
+            meshNames: [
+                'limbs9',
+            ],
+        },    
+        {
+            materialColor: '#00ffff',
+            meshNames: [
+                'limbs10',
+            ],
+        },                      
+    ],
 } as const;
