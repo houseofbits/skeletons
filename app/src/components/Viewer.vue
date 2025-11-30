@@ -119,9 +119,12 @@ onMounted(() => {
     }
 
     if (child.isLight) {
-      child.intensity = child.intensity * 800;
+      child.intensity = child.intensity * 600;
     }
   });
+  
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.3); 
+  render3d.scene.add(ambientLight);
   
   prepareMeshMaterials();
   setIconCameraPosition();
