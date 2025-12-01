@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+    php:
+        image: bitnami/php-fpm:7.4
+        ports:
+            - 9000:9000
+        volumes:
+            - ./dist:/app
+            - ./docker/php.ini:/opt/bitnami/php/lib/php.ini
+        networks:
+            - backbone
+
+    apache:
+        image: bitnami/apache:latest
+        ports:
+            - 80:8080
+        volumes:
+            - ./docker/vhosts.conf:/vhosts/myapp.conf:ro
+            - ./dist:/app
+        depends_on:
+            - php
+        networks:
+            - backbone
+
+networks:
+    backbone:
+        driver: bridge
