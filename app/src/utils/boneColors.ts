@@ -4,11 +4,11 @@ export default  {
     Skull1:'#0fffdf',
     Skull2: '#e6ff56',
 
-    Spine1: '#ff5733',
-    Spine2: '#33ff57',
-    Spine3: '#3357ff',
-    Spine4: '#ff33a8',
-    Spine5: '#a833ff',
+    Spine1: '#ff7f62',
+    Spine2: '#52ff72',
+    Spine3: '#91a3f0',
+    Spine4: '#ff6abe',
+    Spine5: '#e0f56a',
 
     Ribs1: '#ff0000',
     Ribs2: '#00ff00',

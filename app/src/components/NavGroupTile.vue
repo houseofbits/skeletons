@@ -47,7 +47,7 @@ const outerClass = computed(() => {
         position: absolute;
         bottom: 32px;
         left: 32px;
-        color: #fff;
+        color: rgba(255,255,255,0.9);
         font-size: 48px;
         font-weight: bold;
         opacity: 0.9;

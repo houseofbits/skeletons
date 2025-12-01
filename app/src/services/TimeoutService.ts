@@ -2,7 +2,7 @@ class TimeoutService {
 
     timerS: number = 0;
     callbacks: Array<CallableFunction> = [];
-    timerId: NodeJS.Timeout | null = null;
+    timerId: ReturnType<typeof setTimeout> | null = null;
 
     constructor(s: number) {
         this.registerEventHandlers();

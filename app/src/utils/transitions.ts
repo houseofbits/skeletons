@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import gsap from "gsap";
 
-export function tweenColor(object: { material: { color: THREE.Color; }; }, hexColor: string | number, duration = 1, ease = "power2.inOut") {
+export function tweenColor(object: { material: { color: THREE.Color; }; }, hexColor: string | number, duration = 1, ease = "power2.inOut", onComplete: () => void = () => { }) {
     if (!object || !object.material) return;
 
     const target = new THREE.Color(hexColor);
@@ -12,12 +12,15 @@ export function tweenColor(object: { material: { color: THREE.Color; }; }, hexCo
         g: target.g,
         b: target.b,
         duration,
-        ease
+        ease,
+        onComplete: onComplete
     });
 }
 
-export function transitionCamera(cameraControl: OrbitControls, toPos: THREE.Vector3, toTarget: THREE.Vector3, duration = 1.5, ease = "power2.inOut") {
-    gsap.timeline()
+export function transitionCamera(cameraControl: OrbitControls, toPos: THREE.Vector3, toTarget: THREE.Vector3, duration = 1.5, ease = "power2.inOut", onComplete: () => void = () => { }) {
+    gsap.timeline({
+        onComplete: onComplete
+    })
         .to(cameraControl.target, {
             duration,
             x: toTarget.x,

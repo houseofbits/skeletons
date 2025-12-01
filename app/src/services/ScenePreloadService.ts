@@ -1,12 +1,10 @@
 import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { ref } from "vue";
 import assets from "../helpers/assets";
 
 class ScenePreloadService {
     private manager: THREE.LoadingManager;
-    private gltfLoader: GLTFLoader;
     private fbxLoader: FBXLoader;
     private cache: Map<string, THREE.Group>;
     public ready = ref<boolean>(false);
@@ -16,7 +14,6 @@ class ScenePreloadService {
 
     constructor() {
         this.manager = new THREE.LoadingManager();
-        this.gltfLoader = new GLTFLoader(this.manager);
         this.fbxLoader = new FBXLoader(this.manager);
         this.cache = new Map();
         this.ready = ref(false);
@@ -58,10 +55,6 @@ class ScenePreloadService {
             this.log(`Warning: Asset "${name}" not found in cache.`);
 
             return null;
-        }
-        
-        if (asset.scene) {
-            return asset.scene.clone();
         }
 
         return asset;

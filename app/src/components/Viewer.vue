@@ -18,7 +18,8 @@ const props = defineProps({
   config: {
     type: Object,
     required: true,
-  }
+  },
+  activate: { type: Boolean, default: true },
 });
 
 const originalBoneMaterialColor = 14997948;
@@ -84,12 +85,20 @@ watch(
     if (newVal) {
       setInitialCameraPosition();
       hilightBoneMeshes();
-      // console.log(render3d.scene);
     } else {
       setIconCameraPosition();
       resetHilightedBoneMeshes();
     }
   }
+);
+
+watch(
+  () => props.config,
+  () => {
+    if (!props.isActive) {
+      setIconCameraPosition();
+    }
+  },
 );
 
 function prepareMeshMaterials() {
@@ -105,6 +114,28 @@ function prepareMeshMaterials() {
     }
   }
 }
+
+function initCamera() {
+  let pos = new THREE.Vector3(props.config.iconPos.x, props.config.iconPos.y, props.config.iconPos.z);
+  const target = new THREE.Vector3(props.config.iconTarget.x, props.config.iconTarget.y, props.config.iconTarget.z);
+
+  pos = pos.lerp(target, 0.3);
+  
+  render3d.camera.position.set(pos.x, pos.y, pos.z);
+  render3d.controls.target.set(props.config.iconTarget.x, props.config.iconTarget.y, props.config.iconTarget.z);
+  render3d.controls.update();
+
+  setIconCameraPosition();
+}
+
+watch(
+  () => props.activate,
+  (newVal) => {
+    if (newVal) {
+      initCamera();
+    }
+  }
+);
 
 onMounted(() => {
   render3d = initRenderer3D(container.value);
@@ -129,16 +160,7 @@ onMounted(() => {
   
   prepareMeshMaterials();
 
-  let pos = new THREE.Vector3(props.config.iconPos.x, props.config.iconPos.y, props.config.iconPos.z);
-  const target = new THREE.Vector3(props.config.iconTarget.x, props.config.iconTarget.y, props.config.iconTarget.z);
-
-  pos = pos.lerp(target, 0.5);
-  
-  render3d.camera.position.set(pos.x, pos.y, pos.z);
-  render3d.controls.target.set(props.config.iconTarget.x, props.config.iconTarget.y, props.config.iconTarget.z);
-  render3d.controls.update();
-
-  setIconCameraPosition();
+  initCamera();
 
   render3d.render();
 

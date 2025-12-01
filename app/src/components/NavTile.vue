@@ -53,7 +53,7 @@ const outerClass = computed(() => {
         position: absolute;
         bottom: 32px;
         left: 32px;
-        color: #fff;
+        color: rgba(255,255,255,0.9);
         font-size: 40px;
         font-weight: bold;
         opacity: 0.9;
@@ -62,7 +62,7 @@ const outerClass = computed(() => {
     &.active {
         & .title {
             opacity: 0;
-            transition: opacity 0.4s ease-in-out;
+            transition: opacity 0.5s ease-in-out;
         }
     }
 

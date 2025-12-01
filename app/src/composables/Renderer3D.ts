@@ -8,7 +8,7 @@ export interface Renderer3D {
     camera: THREE.PerspectiveCamera;
     controls: OrbitControls;
 
-    render(callback: CallableFunction): void;
+    render(callback: CallableFunction, redraw: boolean): void;
     dispose(): void;
 }
 
@@ -42,11 +42,13 @@ export function useRenderer3D() {
         // controls.enabled = false;
         scene.add(camera);
 
-        function render(callback: CallableFunction = () => {}) {
+        function render(callback: CallableFunction = () => { }, redraw: boolean = true) {
             requestAnimationFrame(() => render(callback));
 
             callback(clock.getDelta());
-            
+
+            if (!redraw) return;
+
             renderer.render(scene, camera);
 
             if (canvas) {
@@ -61,11 +63,25 @@ export function useRenderer3D() {
             renderer.dispose();
             controls.dispose();
             scene.traverse((obj) => {
-                if (obj.geometry) obj.geometry.dispose();
-                if (obj.material) {
-                    if (Array.isArray(obj.material))
-                        obj.material.forEach((m) => m.dispose());
-                    else obj.material.dispose();
+                if (
+                    obj instanceof THREE.Mesh ||
+                    obj instanceof THREE.Line ||
+                    obj instanceof THREE.Points
+                ) {
+                    obj.geometry.dispose();
+                }
+                if (
+                    obj instanceof THREE.Mesh ||
+                    obj instanceof THREE.Line ||
+                    obj instanceof THREE.Points
+                ) {
+                    const material = obj.material;
+
+                    if (Array.isArray(material)) {
+                        material.forEach(m => m.dispose());
+                    } else {
+                        material.dispose();
+                    }
                 }
             });
         }

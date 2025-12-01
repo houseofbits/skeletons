@@ -36,10 +36,10 @@
 
     <div class="overlay">
       <div v-if="shouldShowNavGroup && selectedNavGroup !== null && selectedNavTile === null" class="buttons">
+        <div class="button" :class="{'active': selectedNavGroup == 2}" @click="selectedNavGroup = 2">
+          Ekstremitātes</div>        
         <div class="button" :class="{'active': selectedNavGroup == 1}" @click="selectedNavGroup = 1">
           Krūšukurvis</div>
-        <div class="button" :class="{'active': selectedNavGroup == 2}" @click="selectedNavGroup = 2">
-          Ekstremitātes</div>
       </div>
     </div>
   </nav>
