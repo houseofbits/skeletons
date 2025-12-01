@@ -36,7 +36,9 @@ import configBird from "@/src/helpers/screen2/configBird";
 import configJackal from "@/src/helpers/screen2/configJackal";
 
 const { setSelectedNavTile,
-  isNavTileSelected } = useNavigationState();
+  isNavTileSelected, shouldShowNavGroup } = useNavigationState();
+
+  shouldShowNavGroup.value = false;
 
 </script>
 

@@ -35,24 +35,24 @@ function logCamera() {
 }
 
 function setIconCameraPosition() {
-  const duration = 0.6;
+  const duration = 0.9;
   transitionCamera(
     render3d.controls,
     props.config.iconPos,
     props.config.iconTarget,
     duration,
-    "power2.out"
+    "power2.inOut"
   );
 }
 
 function setInitialCameraPosition() {
-  const duration = 0.8;
+  const duration = 0.7;
   transitionCamera(
     render3d.controls,
     props.config.initialPos,
     props.config.initialTarget,
     duration,
-    "power2.out"
+    "power2.inOut"
   );
 }
 
@@ -116,6 +116,7 @@ onMounted(() => {
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
+      child.material = child.material.clone();
     }
 
     if (child.isLight) {
@@ -127,6 +128,16 @@ onMounted(() => {
   render3d.scene.add(ambientLight);
   
   prepareMeshMaterials();
+
+  let pos = new THREE.Vector3(props.config.iconPos.x, props.config.iconPos.y, props.config.iconPos.z);
+  const target = new THREE.Vector3(props.config.iconTarget.x, props.config.iconTarget.y, props.config.iconTarget.z);
+
+  pos = pos.lerp(target, 0.5);
+  
+  render3d.camera.position.set(pos.x, pos.y, pos.z);
+  render3d.controls.target.set(props.config.iconTarget.x, props.config.iconTarget.y, props.config.iconTarget.z);
+  render3d.controls.update();
+
   setIconCameraPosition();
 
   render3d.render();

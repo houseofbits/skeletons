@@ -1,8 +1,4 @@
 <template>
-  <!-- <div class="test">
-    <div class="test2">{{ translate('hello') }}</div>
-  </div> -->
-
   <NavTile :is-active="isNavTileSelected(1)" title="Zivis" width="1" height="1" left="1" top="1"
     @click="setSelectedNavTile(1)">
     <Viewer asset="fish" :is-active="isNavTileSelected(1)" :config="configFish" />
@@ -42,7 +38,9 @@ import configJackal from "@/src/helpers/screen1/configJackal";
 
 // const { translate } = useLanguage();
 const { setSelectedNavTile,
-  isNavTileSelected } = useNavigationState();
+  isNavTileSelected, shouldShowNavGroup } = useNavigationState();
+
+  shouldShowNavGroup.value = false;
 
 </script>
 

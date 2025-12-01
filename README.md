@@ -1,6 +1,7 @@
 ## screen1 - Mugurkauls
 ## screen2 - Gavlaskauss
-## screen3 - Krūšukurvis un ekstremitātes
+## screen3_1 - Krūšukurvis
+## screen3_2 - Ekstremitātes
 
 
 # Abinieki (frog.FBX)

@@ -39,7 +39,7 @@ export function useRenderer3D() {
         camera.name = 'MainCamera';
         camera.position.set(0, 2, 5);
         const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enabled = false;
+        // controls.enabled = false;
         scene.add(camera);
 
         function render(callback: CallableFunction = () => {}) {

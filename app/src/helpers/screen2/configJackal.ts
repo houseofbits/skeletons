@@ -1,3 +1,5 @@
+import Colors from '@src/utils/boneColors';
+
 export default {
     iconPos: { x: 26.995925180942635, y: 20.42634599053176, z: -26.600471169909497 },
     iconTarget: { x: 6.979530142908989, y: 21.23024417732, z: 4.351756100858074 },
@@ -5,16 +7,16 @@ export default {
     initialTarget: { x: 6.99257695914961, y: 20.78602692235013, z: 2.3416743908298283 },
     activeBones: [
         {
-            materialColor: '#8adeff',
+            materialColor: Colors.Skull1,
             meshNames: [
                 'skull1',
             ],
         },
         {
-            materialColor: '#e6ff56',
+            materialColor: Colors.Skull2,
             meshNames: [
                 'skull2',
             ],
-        },                    
+        },                   
     ],
 } as const;

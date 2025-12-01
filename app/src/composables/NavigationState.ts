@@ -1,6 +1,8 @@
 import { ref } from "vue";
 
 const selectedNavTile = ref<number | null>(null);
+const shouldShowNavGroup = ref<boolean>(false);
+const selectedNavGroup = ref<number | null>(null);
 
 export function useNavigationState() {
     function setSelectedNavTile(index: number | null) {
@@ -14,6 +16,8 @@ export function useNavigationState() {
     return {
         selectedNavTile,
         setSelectedNavTile,
-        isNavTileSelected
+        isNavTileSelected,
+        shouldShowNavGroup,
+        selectedNavGroup
     };
 };

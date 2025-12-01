@@ -7,28 +7,16 @@ export default {
     initialTarget: { x: 13.375797188603645, y: 3.1168572387926754, z: -2.1105047911238173 },
     activeBones: [
         {
-            materialColor: Colors.Spine1,
+            materialColor: Colors.Ribs1,
             meshNames: [
-                'spine1',
+                'ribs1',
             ],
         },
         {
-            materialColor: Colors.Spine2,
+            materialColor: Colors.Ribs2,
             meshNames: [
-                'spine2',
+                'ribs2',
             ],
-        },   
-        {
-            materialColor: Colors.Spine3,
-            meshNames: [
-                'spine3',
-            ],
-        },    
-        {
-            materialColor: Colors.Spine4,
-            meshNames: [
-                'spine4',
-            ],
-        }, 
+        },                      
     ],
 } as const;

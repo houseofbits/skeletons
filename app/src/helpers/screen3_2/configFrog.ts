@@ -1,3 +1,5 @@
+import Colors from '@src/utils/boneColors';
+
 export default {
     iconPos: { x: 61.40008230504858, y: 193.51202726379665, z: 36.20987324637265 },
     iconTarget: { x: -1.1078951267901478, y: 15.209523985097178, z: 2.618371260793424 },
@@ -5,64 +7,58 @@ export default {
     initialTarget: { x: 8.73849998335421, y: 13.436541868809586, z: -0.8059272026782758 },
     activeBones: [
         {
-            materialColor: '#ff0000',
+            materialColor: Colors.Limbs1,
             meshNames: [
                 'limbs1',
             ],
         },
         {
-            materialColor: '#00ff00',
+            materialColor: Colors.Limbs2,
             meshNames: [
                 'limbs2',
             ],
         },   
         {
-            materialColor: '#ffff00',
+            materialColor: Colors.Limbs3,
             meshNames: [
                 'limbs3',
             ],
         },    
         {
-            materialColor: '#00ffff',
+            materialColor: Colors.Limbs4,
             meshNames: [
                 'limbs4',
             ],
         },  
         {
-            materialColor: '#ff0000',
+            materialColor: Colors.Limbs5,
             meshNames: [
                 'limbs5',
             ],
         },
         {
-            materialColor: '#00ff00',
+            materialColor: Colors.Limbs6,
             meshNames: [
                 'limbs6',
             ],
         },   
         {
-            materialColor: '#ffff00',
+            materialColor: Colors.Limbs7,
             meshNames: [
                 'limbs7',
             ],
         },
         {
-            materialColor: '#00ffff',
+            materialColor: Colors.Limbs8,
             meshNames: [
                 'limbs8',
             ],
         },   
         {
-            materialColor: '#00ffff',
+            materialColor: Colors.Limbs9,
             meshNames: [
                 'limbs9',
             ],
-        },    
-        {
-            materialColor: '#00ffff',
-            meshNames: [
-                'limbs10',
-            ],
-        },                      
+        },                                
     ],
 } as const;
