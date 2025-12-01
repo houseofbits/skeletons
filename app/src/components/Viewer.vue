@@ -1,5 +1,6 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera"></div>
+  <!-- <Callout /> -->
 </template>
 
 <script setup>
@@ -8,8 +9,9 @@ import { onMounted, onBeforeUnmount, ref, watch } from "vue";
 import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import ScenePreloadService from "../services/ScenePreloadService";
-import { useRenderer3D } from "../composables/Renderer3D";
+import ScenePreloadService from "@src/services/ScenePreloadService";
+import { useRenderer3D } from "@src/composables/Renderer3D";
+import Callout from "@src/components/Callout.vue";
 import { tweenColor, transitionCamera } from "@src/utils/transitions";
 
 const props = defineProps({

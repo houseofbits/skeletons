@@ -6,8 +6,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
+import { computed, watch } from 'vue';
+import { useNavigationState } from "../composables/NavigationState";
+const { setTitle} = useNavigationState();
 
 const props = defineProps<{
     isActive?: boolean;
@@ -15,8 +16,12 @@ const props = defineProps<{
     height: string | number;
     left: string | number;
     top: string | number;
-    title?: string;
+    title: string;
 }>();
+
+watch(() => props.isActive, (isActive) => {
+    setTitle(isActive ? props.title : null);
+});
 
 const outerClass = computed(() => {
     if (props.isActive) {

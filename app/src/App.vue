@@ -26,14 +26,17 @@
 
 import TimeoutService from "@src/services/TimeoutService";
 import { onMounted } from "vue";
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 import { useLanguage } from "@src/composables/Language";
 import { Language } from "@src/services/TranslationsService";
 import NavBar from "@src/components/NavBar.vue";
 import ScenePreloadService from "@src/services/ScenePreloadService";
 import pkg from '../../package.json'
+import { useNavigationState } from "@src/composables/NavigationState";
 
-const router = useRouter();
+const { resetNavigationState } = useNavigationState();
+
+// const router = useRouter();
 const language = useLanguage();
 
 onMounted(() => {
@@ -41,7 +44,8 @@ onMounted(() => {
 
   TimeoutService.registerCallback(() => {
     // selectLanguage('lv');
-    router.push('/');
+    // router.push('/');
+    resetNavigationState();
   });
 
   language.loadTranslations([

@@ -36,10 +36,13 @@
 
     <div class="overlay">
       <div v-if="shouldShowNavGroup && selectedNavGroup !== null && selectedNavTile === null" class="buttons">
-        <div class="button" :class="{'active': selectedNavGroup == 2}" @click="selectedNavGroup = 2">
-          Ekstremitātes</div>        
-        <div class="button" :class="{'active': selectedNavGroup == 1}" @click="selectedNavGroup = 1">
+        <div class="button" :class="{ 'active': selectedNavGroup == 2 }" @click="selectedNavGroup = 2">
+          Ekstremitātes</div>
+        <div class="button" :class="{ 'active': selectedNavGroup == 1 }" @click="selectedNavGroup = 1">
           Krūšukurvis</div>
+      </div>
+      <div class="nav-title" v-if="getTitle() !== null">
+        {{ getTitle() }}
       </div>
     </div>
   </nav>
@@ -47,9 +50,9 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useNavigationState } from "../composables/NavigationState";
+import { useNavigationState } from "@src/composables/NavigationState";
 
-const { selectedNavTile, shouldShowNavGroup, selectedNavGroup } = useNavigationState();
+const { selectedNavTile, shouldShowNavGroup, selectedNavGroup, getTitle } = useNavigationState();
 
 const hintText = computed(() => {
   if (selectedNavTile.value === null) {
@@ -131,6 +134,13 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    & .nav-title {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 40px;
+      font-weight: bold;
+      opacity: 0.9;
+    }
 
     & .buttons {
       display: flex;
