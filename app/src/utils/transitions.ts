@@ -17,7 +17,7 @@ export function tweenColor(object: { material: { color: THREE.Color; }; }, hexCo
     });
 }
 
-export function transitionCamera(cameraControl: OrbitControls, toPos: THREE.Vector3, toTarget: THREE.Vector3, duration = 1.5, ease = "power2.inOut", onComplete: () => void = () => { }) {
+export function transitionCamera(cameraControl: OrbitControls, toPos: THREE.Vector3, toTarget: THREE.Vector3, duration = 1.5, ease = "power2.inOut", onComplete: () => void = () => { }, onUpdate:  () => void = () => { }) {
     gsap.timeline({
         onComplete: onComplete
     })
@@ -29,6 +29,7 @@ export function transitionCamera(cameraControl: OrbitControls, toPos: THREE.Vect
             ease,
             onUpdate: () => {
                 cameraControl.update();
+                onUpdate();
             }
         })
         .to(cameraControl.object.position, {
@@ -39,6 +40,7 @@ export function transitionCamera(cameraControl: OrbitControls, toPos: THREE.Vect
             ease,
             onUpdate: () => {
                 cameraControl.update();
+                onUpdate();
             }
         }, "<"); // "<" = run at same tie  
 }   

@@ -19,4 +19,14 @@ export default {
             ],
         },                   
     ],
+    activePoints: [
+        {
+            name: 'p-skull1',
+            text: 'Smadzeņu nodalījums',
+        },
+        {
+            name: 'p-skull2',
+            text: 'Sejas nodalījums',
+        },                
+    ],
 } as const;

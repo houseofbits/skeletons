@@ -1,6 +1,13 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-  <!-- <Callout /> -->
+  <template v-if="showActivePoints">
+    <Callout
+      v-for="(pos, i) in activePointPositions"
+      :text="getActivePointText(i)"
+      :position="pos"
+      :key="i"
+    />
+  </template>
 </template>
 
 <script setup>
@@ -13,6 +20,7 @@ import ScenePreloadService from "@src/services/ScenePreloadService";
 import { useRenderer3D } from "@src/composables/Renderer3D";
 import Callout from "@src/components/Callout.vue";
 import { tweenColor, transitionCamera } from "@src/utils/transitions";
+import { toScreenPosition } from "@src/utils/utils3d";
 
 const props = defineProps({
   asset: { type: String, required: true },
@@ -28,13 +36,15 @@ const originalBoneMaterialColor = 14997948;
 
 const container = ref(null);
 let render3d;
+const activePointPositions = ref([]);
+const showActivePoints = ref(false);
 
 const { initRenderer3D } = useRenderer3D();
 
 function logCamera() {
-  console.log("Camera position: ", render3d.camera.position);
-  console.log("Camera target: ", render3d.controls.target);
-  console.log("Camera fov: ", render3d.camera.fov);
+  // console.log("Camera position: ", render3d.camera.position);
+  // console.log("Camera target: ", render3d.controls.target);
+  // console.log("Camera fov: ", render3d.camera.fov);
 }
 
 function setIconCameraPosition() {
@@ -55,7 +65,11 @@ function setInitialCameraPosition() {
     props.config.initialPos,
     props.config.initialTarget,
     duration,
-    "power2.inOut"
+    "power2.inOut",
+    () => {
+      showActivePoints.value = true;
+    },
+    prepareActivePoints
   );
 }
 
@@ -89,6 +103,7 @@ watch(
       hilightBoneMeshes();
     } else {
       setIconCameraPosition();
+      showActivePoints.value = false;
       resetHilightedBoneMeshes();
     }
   }
@@ -100,8 +115,31 @@ watch(
     if (!props.isActive) {
       setIconCameraPosition();
     }
-  },
+  }
 );
+
+function getActivePointText(i) {
+  return props.config.activePoints[i]?.text ?? "undefined";
+}
+
+function prepareActivePoints() {
+  activePointPositions.value = [];
+  if (props.config.activePoints.length === 0) {
+    return;
+  }
+
+  for (const activePoint of props.config.activePoints) {
+    const pointGroup = render3d.scene.getObjectByName(activePoint.name);
+    if (pointGroup) {
+      const point = toScreenPosition(
+        pointGroup,
+        render3d.camera,
+        render3d.renderer
+      );
+      activePointPositions.value.push(point);
+    }
+  }
+}
 
 function prepareMeshMaterials() {
   if (props.config.activeBones.length > 0) {
@@ -118,13 +156,25 @@ function prepareMeshMaterials() {
 }
 
 function initCamera() {
-  let pos = new THREE.Vector3(props.config.iconPos.x, props.config.iconPos.y, props.config.iconPos.z);
-  const target = new THREE.Vector3(props.config.iconTarget.x, props.config.iconTarget.y, props.config.iconTarget.z);
+  let pos = new THREE.Vector3(
+    props.config.iconPos.x,
+    props.config.iconPos.y,
+    props.config.iconPos.z
+  );
+  const target = new THREE.Vector3(
+    props.config.iconTarget.x,
+    props.config.iconTarget.y,
+    props.config.iconTarget.z
+  );
 
   pos = pos.lerp(target, 0.3);
-  
+
   render3d.camera.position.set(pos.x, pos.y, pos.z);
-  render3d.controls.target.set(props.config.iconTarget.x, props.config.iconTarget.y, props.config.iconTarget.z);
+  render3d.controls.target.set(
+    props.config.iconTarget.x,
+    props.config.iconTarget.y,
+    props.config.iconTarget.z
+  );
   render3d.controls.update();
 
   setIconCameraPosition();
@@ -156,10 +206,10 @@ onMounted(() => {
       child.intensity = child.intensity * 600;
     }
   });
-  
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.3); 
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
   render3d.scene.add(ambientLight);
-  
+
   prepareMeshMaterials();
 
   initCamera();

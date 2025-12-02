@@ -13,4 +13,10 @@ export default {
             ],
         },                    
     ],
+    activePoints: [
+        {
+            name: 'p-ribs1',
+            text: 'Ribas',
+        },
+    ],
 } as const;

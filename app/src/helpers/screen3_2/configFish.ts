@@ -17,12 +17,22 @@ export default {
             meshNames: [
                 'limbs2',
             ],
-        },   
+        },
         {
-            materialColor: Colors.Limbs3,
+            materialColor: Colors.Limbs2,
             meshNames: [
                 'limbs3',
             ],
-        },                                 
+        },
+    ],
+    activePoints: [
+        {
+            name: 'p-limbs1',
+            text: 'Krūšu spura ar plecu joslu',
+        },
+        {
+            name: 'p-limbs2',
+            text: 'Vēdera spura ar iegurņa joslu',
+        },
     ],
 } as const;

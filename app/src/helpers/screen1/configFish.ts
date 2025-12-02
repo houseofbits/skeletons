@@ -19,4 +19,14 @@ export default {
             ],
         },                            
     ],
+    activePoints: [
+        {
+            name: 'p-spine1',
+            text: 'Vidukļa skriemeļi',
+        },
+        {
+            name: 'p-spine2',
+            text: 'Astes skriemeļi',
+        },
+    ],
 } as const;

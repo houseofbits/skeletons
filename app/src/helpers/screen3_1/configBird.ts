@@ -19,4 +19,14 @@ export default {
             ],
         },                       
     ],
+    activePoints: [
+        {
+            name: 'p-ribs1',
+            text: 'Ribas',
+        },
+        {
+            name: 'p-ribs2',
+            text: 'Krūšu kauls',
+        },        
+    ],
 } as const;

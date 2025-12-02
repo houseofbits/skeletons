@@ -61,4 +61,42 @@ export default {
             ],
         },                                
     ],
+    activePoints: [
+        {
+            name: 'p-limbs1',
+            text: 'Atslēgas kauls',
+        },
+        {
+            name: 'p-limbs2',
+            text: 'Lāpstiņa',
+        },
+        {
+            name: 'p-limbs3',
+            text: 'Augšdelma kauls',
+        },
+        {
+            name: 'p-limbs4',
+            text: 'Saaugušie spieķa kauls un elkoņa kauls',
+        },
+        {
+            name: 'p-limbs5',
+            text: 'Plaukstas kauli',
+        },
+        {
+            name: 'p-limbs6',
+            text: 'Iegurņa kauli',
+        },
+        {
+            name: 'p-limbs7',
+            text: 'Augšstilba kauls',
+        },
+        {
+            name: 'p-limbs8',
+            text: 'Saaugušie lielais lielakauls un mazais lielakauls',
+        }, 
+        {
+            name: 'p-limbs9',
+            text: 'Pēdas kauli',
+        },                                
+    ],
 } as const;
