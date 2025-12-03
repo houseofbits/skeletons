@@ -8,7 +8,7 @@
             </svg>
 
             <div class="title">Skeleta daļas</div>
-            <div class="subtitle">Spied uz kādu no grupām lai apskatītu kaulu un tā atrasšanos vietu rāpuļa skeletā.
+            <div class="subtitle">Spied uz kādu no grupām lai apskatītu kaulu un tā atrašanos vietu skeletā.
             </div>
         </div>
         <div class="list">
@@ -63,11 +63,13 @@ nextTick(() => {
     width: 400px;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(25, 24, 5, 0.95) 100%);
     border-left: solid 1px rgba(255, 255, 255, 0.1);
-    transition: all 200ms ease-out;
+    transition: all 250ms ease-out;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(10px);
     
     &.visible {
         right:0;
-        transition: all 300ms ease-in;
+        transition: all 250ms ease-in;
     }
 
     & .header {

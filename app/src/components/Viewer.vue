@@ -36,13 +36,14 @@ const props = defineProps({
 });
 
 const originalBoneMaterialColor = 14997948;
-const hilightedBoneMaterialColor = '#ff0000';
+const hilightedBoneMaterialColor = '#dbba00';
 
 const container = ref(null);
 let render3d;
 const activePointPositions = ref([]);
 const showActivePoints = ref(false);
 const selectedActivePoint = ref(-1);
+let showActivePointsTimeout = null;
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -64,7 +65,7 @@ function setIconCameraPosition() {
 }
 
 function setInitialCameraPosition() {
-  const duration = 0.7;
+  const duration = 1.6;
   transitionCamera(
     render3d.controls,
     props.config.initialPos,
@@ -72,7 +73,7 @@ function setInitialCameraPosition() {
     duration,
     "power2.inOut",
     () => {
-      showActivePoints.value = true;
+      // showActivePoints.value = true;
     },
     prepareActivePoints
   );
@@ -112,8 +113,19 @@ watch(
   (newVal) => {
     if (newVal) {
       setInitialCameraPosition();
+      if (showActivePointsTimeout) {
+        clearTimeout(showActivePointsTimeout);
+        showActivePointsTimeout = null;
+      }
+      showActivePointsTimeout = setTimeout(() => {
+        showActivePoints.value = true;
+      }, 600);
     } else {
       setIconCameraPosition();
+      if (showActivePointsTimeout) {
+        clearTimeout(showActivePointsTimeout);
+        showActivePointsTimeout = null;
+      }      
       showActivePoints.value = false;
       selectedActivePoint.value = -1;
     }

@@ -1,7 +1,10 @@
 <template>
     <div class="tile" :class="outerClass">
         <slot></slot>
-        <div class="title">{{ title }}</div>
+        <div class="title">
+            {{ title }}
+            <div class="subtitle">{{ subtitle }}</div>
+        </div>
     </div>
 </template>
 
@@ -13,6 +16,7 @@ const props = defineProps<{
     isActive?: boolean;
     left: number;
     title?: string;
+    subtitle: string;
 }>();
 
 const outerClass = computed(() => {
@@ -51,6 +55,12 @@ const outerClass = computed(() => {
         font-size: 48px;
         font-weight: bold;
         opacity: 0.9;
+
+        & .subtitle {
+            font-size: 24px;
+            font-weight: normal;
+            color: rgba(255,255,255,0.6);
+        }
     }
 
     &.x-1 {

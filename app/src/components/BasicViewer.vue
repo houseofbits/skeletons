@@ -26,9 +26,9 @@ const container = ref(null);
 let render3d, mixer;
 
 function logCamera() {
-  console.log("Camera position: ", render3d.camera.position);
-  console.log("Camera target: ", render3d.controls.target);
-  console.log(render3d.camera);
+//   console.log("Camera position: ", render3d.camera.position);
+//   console.log("Camera target: ", render3d.controls.target);
+//   console.log(render3d.camera);
 }
 
 function initCamera() {

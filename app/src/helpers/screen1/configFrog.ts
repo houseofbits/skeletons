@@ -1,10 +1,10 @@
 import Colors from '@src/utils/boneColors';
 
 export default {
-    iconPos: { x: 61.40008230504858, y: 193.51202726379665, z: 36.20987324637265 },
-    iconTarget: { x: -1.1078951267901478, y: 15.209523985097178, z: 2.618371260793424 },
-    initialPos: { x: 76.02385767500336, y: 130.21132865327777, z: -19.004897674218647 },
-    initialTarget: { x: 12.510421458908057, y: 11.52768305121222, z: -1.4945370424286266 },    
+    iconPos: { x: 61.753792533716194, y: 120.79376864426301, z: 12.385414826265238 },
+    iconTarget: { x: 12.823410426083052, y: 9.192655135855281, z: 9.8895432607303 },
+    initialPos: { x: 74.07762534167544, y: 130.28360838180797, z: -25.574353922024883 },
+    initialTarget: { x: 10.56418834167548, y: 11.599962381807952, z: -8.063992922024886 },    
     activeBones: [
         {
             materialColor: Colors.Spine1,
@@ -35,17 +35,17 @@ export default {
         {
             name: 'p-spine1',
             text: 'Kakla skriemelis',
-            meshes:['spine1'],
+            meshes:['spine3'],
         },
         {
             name: 'p-spine2',
-            text: 'Vidukļa skriemeļii',
-            meshes:['spine2'],
+            text: 'Vidukļa skriemeļi',
+            meshes:['spine1'],
         },
         {
             name: 'p-spine3',
             text: 'Krustu skriemelis',
-            meshes:['spine3'],
+            meshes:['spine2'],
         },
         {
             name: 'p-spine4',

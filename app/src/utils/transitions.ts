@@ -17,30 +17,45 @@ export function tweenColor(object: { material: { color: THREE.Color; }; }, hexCo
     });
 }
 
-export function transitionCamera(cameraControl: OrbitControls, toPos: THREE.Vector3, toTarget: THREE.Vector3, duration = 1.5, ease = "power2.inOut", onComplete: () => void = () => { }, onUpdate:  () => void = () => { }) {
-    gsap.timeline({
+export function transitionCamera(cameraControl: OrbitControls, toPos: THREE.Vector3, toTarget: THREE.Vector3, duration = 1.5, ease = "power2.inOut", onComplete: () => void = () => { }, onUpdate: () => void = () => { }) {
+    // gsap.timeline({
+    //     onComplete: onComplete
+    // })
+    //     .to(cameraControl.target, {
+    //         duration,
+    //         x: toTarget.x,
+    //         y: toTarget.y,
+    //         z: toTarget.z,
+    //         ease,
+    //         onUpdate: () => {
+    //             cameraControl.update();
+    //             onUpdate();
+    //         }
+    //     })
+    //     .to(cameraControl.object.position, {
+    //         duration,
+    //         x: toPos.x,
+    //         y: toPos.y,
+    //         z: toPos.z,
+    //         ease,
+    //         onUpdate: () => {
+    //             cameraControl.update();
+    //             onUpdate();
+    //         }
+    //     }, "<"); // "<" = run at same tie  
+
+    const startPos = cameraControl.object.position.clone();
+    const startTarget = cameraControl.target.clone();
+    const s = { t: 0 };
+
+    gsap.to(s, {
+        duration,
+        t: 1,
+        onUpdate: () => {
+            cameraControl.object.position.lerpVectors(startPos, toPos, s.t);
+            cameraControl.target.lerpVectors(startTarget, toTarget, s.t);
+            cameraControl.update();
+        },
         onComplete: onComplete
-    })
-        .to(cameraControl.target, {
-            duration,
-            x: toTarget.x,
-            y: toTarget.y,
-            z: toTarget.z,
-            ease,
-            onUpdate: () => {
-                cameraControl.update();
-                onUpdate();
-            }
-        })
-        .to(cameraControl.object.position, {
-            duration,
-            x: toPos.x,
-            y: toPos.y,
-            z: toPos.z,
-            ease,
-            onUpdate: () => {
-                cameraControl.update();
-                onUpdate();
-            }
-        }, "<"); // "<" = run at same tie  
+    });
 }   
