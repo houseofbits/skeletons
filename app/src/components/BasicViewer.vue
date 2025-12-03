@@ -69,7 +69,11 @@ onMounted(() => {
   render3d = initRenderer3D(container.value);
 
   const asset = ScenePreloadService.getAsset(props.asset);
-  render3d.scene.add(asset.clone());
+  if (asset) {
+    render3d.scene.add(asset.clone());
+  } else {
+    console.error(props.asset, "not found");
+  }
 
   initCamera();
 

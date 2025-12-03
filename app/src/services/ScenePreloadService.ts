@@ -1,7 +1,9 @@
 import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { ref } from "vue";
-import assets from "../helpers/assets";
+
+export type ModelTuple = readonly [string, string];
+export type Models = readonly ModelTuple[];
 
 class ScenePreloadService {
     private manager: THREE.LoadingManager;
@@ -29,13 +31,19 @@ class ScenePreloadService {
         };
     }
 
-    preloadAssets() {
+    preloadAssets(assets: Models) {
         if (this.promise) return this.promise;
 
         this.log("Starting asset preloading...");
 
         this.promise = Promise.all(
-            assets.map(async ([key, url]) => {
+            assets
+            .filter(([key,]) => {
+                const asset = this.getAsset(key);
+
+                return !asset;
+            })
+            .map(async ([key, url]) => {
                 this.log(`Loading: ${url}`);
 
                 const gltf = await this.fbxLoader.loadAsync(url);

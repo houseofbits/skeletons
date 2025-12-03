@@ -1,5 +1,6 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera"></div>
+  <div class="btn btn-primary btn-play" @click="play">Play</div>
 </template>
 
 <script setup>
@@ -27,14 +28,33 @@ function logCamera() {
 
 onMounted(() => {
   render3d = initRenderer3D(container.value);
-
+  
   render3d.camera.position.set(76.64059891042186, 33.98536526016632, 18.017461834739485);
   render3d.controls.target.set(7.526513403769392, 17.705962494108352, 7.4957053875706405);
+
+  render3d.camera.fov = 25;
   render3d.controls.update();
 
-  const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2));
-  light.intensity = 3;
-  render3d.scene.add(light);
+  const catFallScene = ScenePreloadService.getAsset('catFallScene');
+  render3d.scene.add(catFallScene);
+
+  render3d.scene.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+      // child.material = child.material.clone();
+    }
+
+    if (child.isLight) {
+      child.intensity = child.intensity * 600;
+      child.shadow.mapSize.width = 2048;
+      child.shadow.mapSize.height = 2048;
+    }
+  });
+
+  // const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2));
+  // light.intensity = 1;
+  // render3d.scene.add(light);
 
   const catFall = ScenePreloadService.getAsset('catFall');
   render3d.scene.add(catFall);
@@ -46,11 +66,26 @@ onMounted(() => {
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
-      child.material = material;
-    }
+      child.frustumCulled = false;
+      // child.material = material;
 
-    if (child.isLight) {
-      // child.intensity = child.intensity * 800;
+      child.geometry.computeVertexNormals();
+      // child.geometry.normalizeNormals();
+      // child.geometry.computeTangents();
+
+      // child.scale.x *= -1;
+      // child.geometry.computeVertexNormals();
+      // child.material.side = THREE.DoubleSide; // optional
+      // const geometry = child.geometry;
+
+      // // Flip normals by multiplying by -1
+      // geometry.attributes.normal.array.forEach((v, i, arr) => {
+      //   arr[i] = arr[i] * -1;
+      // });
+
+      // geometry.attributes.normal.needsUpdate = true;
+
+
     }
   });
 
@@ -61,7 +96,7 @@ onMounted(() => {
     console.log(animatedModel);
     const clips = animatedModel.animations;
     mixer = new THREE.AnimationMixer(animatedModel)
-    mixer.timeScale = 1.0;//0.2;
+    mixer.timeScale = 3.0;//0.2;
 
     const action = mixer.clipAction(clips[0]);
     action.time = 200 / 30;
@@ -77,6 +112,19 @@ onMounted(() => {
   onBeforeUnmount(render3d.dispose);
 });
 
+function play() {
+  const animatedModel = render3d.scene.getObjectByName('Group');
+  if (animatedModel && animatedModel.animations?.length > 0) {
+    const clips = animatedModel.animations;
+    mixer = new THREE.AnimationMixer(animatedModel)
+    mixer.timeScale = 3.0;
+
+    const action = mixer.clipAction(clips[0]);
+    action.time = 200 / 30;
+    action.play();
+  }
+}
+
 </script>
 
 <style>
@@ -91,5 +139,11 @@ onMounted(() => {
   width: 100% !important;
   height: 100% !important;
   display: block;
+}
+
+.btn-play {
+  position: absolute;
+  top: 120px;
+  left: 20px;
 }
 </style>

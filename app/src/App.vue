@@ -13,9 +13,10 @@
     </div>
   </div>
   <div class="relative">
-    <router-link to="/screen1" class="btn btn-primary mr">Screen 1</router-link>
-    <router-link to="/screen2" class="btn btn-primary mr">Screen 2</router-link>
-    <router-link to="/screen3" class="btn btn-primary mr">Screen 3</router-link>
+    <a href="screen1" class="btn btn-primary mr">Screen 1</a>
+    <a href="screen2" class="btn btn-primary mr">Screen 2</a>
+    <a href="screen3" class="btn btn-primary mr">Screen 3</a>
+    <a href="animation" class="btn btn-primary mr">Animation test</a>
 
     <div class="btn btn-primary mr" @click="language.selectLanguage(Language.LV)">LV</div>
     <div class="btn btn-primary mr" @click="language.selectLanguage(Language.EN)">EN</div>
@@ -26,21 +27,35 @@
 
 import TimeoutService from "@src/services/TimeoutService";
 import { onMounted } from "vue";
-// import { useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useLanguage } from "@src/composables/Language";
 import { Language } from "@src/services/TranslationsService";
 import NavBar from "@src/components/NavBar.vue";
-import ScenePreloadService from "@src/services/ScenePreloadService";
+import ScenePreloadService, {Models} from "@src/services/ScenePreloadService";
 import pkg from '../../package.json'
 import { useNavigationState } from "@src/composables/NavigationState";
+import Screen1Assets from "@src/helpers/Screen1Assets";
+import Screen2Assets from "@src/helpers/Screen2Assets";
+import Screen3Assets from "@src/helpers/Screen3Assets";
+import AnimationTestAssets from "@src/helpers/AnimationTestAssets";
 
 const { resetNavigationState } = useNavigationState();
 
-// const router = useRouter();
+const router = useRouter();
 const language = useLanguage();
 
-onMounted(() => {
-  ScenePreloadService.preloadAssets();
+const routeAssets: Record<string, Models> = {
+  '/screen1': Screen1Assets,
+  '/screen2': Screen2Assets,
+  '/screen3': Screen3Assets,
+  '/animation': AnimationTestAssets,
+};
+
+onMounted(async () => {
+  await router.isReady();
+  const routePath = router.currentRoute.value.fullPath;
+  const assets = routeAssets[routePath] ?? [];
+  ScenePreloadService.preloadAssets(assets);
 
   TimeoutService.registerCallback(() => {
     // selectLanguage('lv');

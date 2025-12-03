@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Screen1 from '../views/Screen1.vue'
-import Screen2 from '../views/Screen2.vue'
-import Screen3 from '../views/Screen3.vue'
+import Screen1 from '@src/views/Screen1.vue'
+import Screen2 from '@src/views/Screen2.vue'
+import Screen3 from '@src/views/Screen3.vue'
+import AnimationTest from '@src/views/AnimationTest.vue'
 
 const routes = [
   {
@@ -23,6 +24,11 @@ const routes = [
     path: '/screen3',
     name: 'screen-3',
     component: Screen3,
+  },
+  {
+    path: '/animation',
+    name: 'animation',
+    component: AnimationTest,
   },
 ]
 

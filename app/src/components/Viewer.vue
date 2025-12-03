@@ -192,8 +192,12 @@ watch(
 onMounted(() => {
   render3d = initRenderer3D(container.value);
 
-  const fishScene = ScenePreloadService.getAsset(props.asset);
-  render3d.scene.add(fishScene.clone());
+  const assetScene = ScenePreloadService.getAsset(props.asset);
+  if (assetScene) {
+    render3d.scene.add(assetScene.clone());
+  } else {
+    console.error(props.asset, "not found");
+  }
 
   render3d.scene.traverse((child) => {
     if (child.isMesh) {
