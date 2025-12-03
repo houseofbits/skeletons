@@ -23,10 +23,12 @@ export default {
         {
             name: 'p-ribs1',
             text: 'Ribas',
+            meshes:['ribs1'],
         },
         {
             name: 'p-ribs2',
             text: 'Krūšu kauls',
+            meshes:['ribs2'],
         },        
     ],
 } as const;

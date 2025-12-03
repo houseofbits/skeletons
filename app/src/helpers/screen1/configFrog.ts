@@ -35,18 +35,22 @@ export default {
         {
             name: 'p-spine1',
             text: 'Kakla skriemelis',
+            meshes:['spine1'],
         },
         {
             name: 'p-spine2',
             text: 'Vidukļa skriemeļii',
+            meshes:['spine2'],
         },
         {
             name: 'p-spine3',
             text: 'Krustu skriemelis',
+            meshes:['spine3'],
         },
         {
             name: 'p-spine4',
             text: 'Urostils - saaugušie astes skriemeļi',
+            meshes:['spine4'],
         },                  
     ],
 } as const;

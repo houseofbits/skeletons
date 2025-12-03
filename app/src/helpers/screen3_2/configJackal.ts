@@ -71,42 +71,52 @@ export default {
         {
             name: 'p-limbs1',
             text: 'Lāpstiņa',
+            meshes:['limbs2'],
         },
         {
             name: 'p-limbs2',
             text: 'Augšdelma kauls',
+            meshes:['limbs4'],
         },
         {
             name: 'p-limbs3',
             text: 'Elkoņa kauls',
+            meshes:['limbs7'],
         },
         {
             name: 'p-limbs4',
             text: 'Spieķa kauls',
+            meshes:['limbs8'],
         },
         {
             name: 'p-limbs5',
             text: 'Plaukstas kauli',
+            meshes:['limbs10'],
         },
         {
             name: 'p-limbs6',
             text: 'Iegurņa kauli',
+            meshes:['limbs1'],
         },
         {
             name: 'p-limbs7',
             text: 'Augšstilba kauls',
+            meshes:['limbs3'],
         }, 
         {
             name: 'p-limbs8',
             text: 'Lielais lielakauls',
+            meshes:['limbs5'],
         },  
         {
             name: 'p-limbs9',
             text: 'Mazais lielakauls',
+            meshes:['limbs6'],
         },
         {
             name: 'p-limbs10',
             text: 'Pēdas kauli',
+            meshes:['limbs9'],
         },
     ]
 } as const;

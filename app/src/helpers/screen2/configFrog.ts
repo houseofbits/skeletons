@@ -23,10 +23,12 @@ export default {
         {
             name: 'p-skull1',
             text: 'Smadzeņu nodalījums',
+            meshes:['skull1'],
         },
         {
             name: 'p-skull2',
             text: 'Sejas nodalījums',
-        },                
+            meshes:['skull2'],
+        },                 
     ],
 } as const;

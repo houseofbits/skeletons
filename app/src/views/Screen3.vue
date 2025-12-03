@@ -1,11 +1,11 @@
 <template>
   <div v-show="selectedNavGroup === null">
-    <NavGroupTile :is-active="true" :left="0" title="Krūšukurvis" @click="selectedNavGroup = 1">
+    <NavGroupTile :is-active="true" :left="0" title="Krūšukurvis" @click="selectGroup(1)">
       <BasicViewer asset="jackal"
         :camera-position="{ x: 32.39880045719946, y: -0.5811985619324567, z: -35.45206870757965 }"
         :camera-target="{ x: 8.394740984218696, y: 16.045282222964367, z: -6.84514459380977 }" :activate="groupActive" />
     </NavGroupTile>
-    <NavGroupTile :is-active="true" :left="1" title="Ekstremitātes" @click="selectedNavGroup = 2">
+    <NavGroupTile :is-active="true" :left="1" title="Ekstremitātes" @click="selectGroup(2)">
       <BasicViewer asset="frog" :camera-position="{ x: 66.29589011930452, y: 154.1176065327111, z: -45.71402694403301 }"
         :camera-target="{ x: 5.817329828826439, y: 11.277224554232113, z: -3.3664831285689574 }"
         :activate="groupActive" />
@@ -60,6 +60,11 @@ import NavGroupTile from "../components/NavGroupTile.vue";
 
 const { setSelectedNavTile,
   isNavTileSelected, shouldShowNavGroup, selectedNavGroup } = useNavigationState();
+
+function selectGroup(group: number) {
+  selectedNavGroup.value = group;
+  setSelectedNavTile(null);
+}
 
 shouldShowNavGroup.value = true;
 selectedNavGroup.value = null;

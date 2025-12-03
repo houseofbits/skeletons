@@ -29,10 +29,12 @@ export default {
         {
             name: 'p-limbs1',
             text: 'Krūšu spura ar plecu joslu',
+            meshes:['limbs1'],
         },
         {
             name: 'p-limbs2',
             text: 'Vēdera spura ar iegurņa joslu',
+            meshes:['limbs2', 'limbs3'],
         },
     ],
 } as const;

@@ -1,13 +1,16 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-  <template v-if="showActivePoints">
+  <!-- <template v-if="showActivePoints">
     <Callout
       v-for="(pos, i) in activePointPositions"
       :text="getActivePointText(i)"
       :position="pos"
       :key="i"
     />
-  </template>
+  </template> -->
+
+  <Sidebar v-if="showActivePoints" :selected="selectedActivePoint" :active-points="props.config.activePoints"
+    @select="(i) => selectedActivePoint = i" />
 </template>
 
 <script setup>
@@ -18,7 +21,7 @@ import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import ScenePreloadService from "@src/services/ScenePreloadService";
 import { useRenderer3D } from "@src/composables/Renderer3D";
-import Callout from "@src/components/Callout.vue";
+import Sidebar from "@src/components/Sidebar.vue";
 import { tweenColor, transitionCamera } from "@src/utils/transitions";
 import { toScreenPosition } from "@src/utils/utils3d";
 
@@ -33,11 +36,13 @@ const props = defineProps({
 });
 
 const originalBoneMaterialColor = 14997948;
+const hilightedBoneMaterialColor = '#ff0000';
 
 const container = ref(null);
 let render3d;
 const activePointPositions = ref([]);
 const showActivePoints = ref(false);
+const selectedActivePoint = ref(-1);
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -74,23 +79,30 @@ function setInitialCameraPosition() {
 }
 
 function hilightBoneMeshes() {
-  if (props.config.activeBones.length > 0) {
-    for (const boneConfig of props.config.activeBones) {
-      for (const meshName of boneConfig.meshNames) {
-        const mesh = render3d.scene.getObjectByName(meshName);
-        tweenColor(mesh, boneConfig.materialColor, 0.5);
-      }
+  if (props.config.activePoints.length === 0) {
+    return;
+  }
+
+  if (selectedActivePoint.value < 0) {
+    return;
+  }
+
+  let i = 0;
+  for (const activePoint of props.config.activePoints) {
+    const color = (selectedActivePoint.value === i) ? hilightedBoneMaterialColor : originalBoneMaterialColor;
+    for (const meshName of activePoint.meshes) {
+      const mesh = render3d.scene.getObjectByName(meshName);
+      tweenColor(mesh, color, 0.7);
     }
+    i++;
   }
 }
 
 function resetHilightedBoneMeshes() {
-  if (props.config.activeBones.length > 0) {
-    for (const boneConfig of props.config.activeBones) {
-      for (const meshName of boneConfig.meshNames) {
-        const mesh = render3d.scene.getObjectByName(meshName);
-        tweenColor(mesh, originalBoneMaterialColor, 0.7);
-      }
+  for (const activePoint of props.config.activePoints) {
+    for (const meshName of activePoint.meshes) {
+      const mesh = render3d.scene.getObjectByName(meshName);
+      tweenColor(mesh, originalBoneMaterialColor, 0.7);
     }
   }
 }
@@ -100,11 +112,10 @@ watch(
   (newVal) => {
     if (newVal) {
       setInitialCameraPosition();
-      hilightBoneMeshes();
     } else {
       setIconCameraPosition();
       showActivePoints.value = false;
-      resetHilightedBoneMeshes();
+      selectedActivePoint.value = -1;
     }
   }
 );
@@ -114,6 +125,17 @@ watch(
   () => {
     if (!props.isActive) {
       setIconCameraPosition();
+    }
+  }
+);
+
+watch(
+  () => selectedActivePoint.value,
+  () => {
+    if (selectedActivePoint.value >= 0) {
+      hilightBoneMeshes();
+    } else {
+      resetHilightedBoneMeshes();
     }
   }
 );

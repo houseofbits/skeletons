@@ -23,10 +23,12 @@ export default {
         {
             name: 'p-spine1',
             text: 'Vidukļa skriemeļi',
+            meshes:['spine1'],
         },
         {
             name: 'p-spine2',
             text: 'Astes skriemeļi',
+            meshes:['spine2'],
         },
     ],
 } as const;

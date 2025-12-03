@@ -17,6 +17,7 @@ export default {
         {
             name: 'p-ribs1',
             text: 'Ribas',
+            meshes:['ribs1'],
         },
     ],
 } as const;
