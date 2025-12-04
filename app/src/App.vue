@@ -14,9 +14,9 @@
     </div>
   </div>
   <div class="relative">
-    <a href="screen1" class="btn btn-primary mr">Mugurkauls</a>
-    <a href="screen2" class="btn btn-primary mr">Galvaskauss</a>
-    <a href="screen3" class="btn btn-primary mr">Ribas un ekstremitātes</a>
+    <a href="index.html?screen1" class="btn btn-primary mr">Mugurkauls</a>
+    <a href="index.html?screen2" class="btn btn-primary mr">Galvaskauss</a>
+    <a href="index.html?screen3" class="btn btn-primary mr">Ribas un ekstremitātes</a>
     <!-- <a href="animation" class="btn btn-primary mr">Animation test</a> -->
 
     <div class="btn btn-secondary mr" @click="language.selectLanguage(Language.LV)">LV</div>
