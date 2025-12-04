@@ -51,10 +51,12 @@ export function transitionCamera(cameraControl: OrbitControls, toPos: THREE.Vect
     gsap.to(s, {
         duration,
         t: 1,
+        ease,
         onUpdate: () => {
             cameraControl.object.position.lerpVectors(startPos, toPos, s.t);
             cameraControl.target.lerpVectors(startTarget, toTarget, s.t);
             cameraControl.update();
+            onUpdate();
         },
         onComplete: onComplete
     });

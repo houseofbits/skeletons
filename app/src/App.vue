@@ -4,7 +4,7 @@
     <NavBar />
   </div>
   <div v-else class="relative content-1080p">
-   <p class="loader-title">Skeletal Anatomy {{ pkg.version }}</p>
+    <p class="loader-title">Skeletal Anatomy {{ pkg.version }}</p>
 
     <p class="loader-progress">{{ ScenePreloadService.progress }}%</p>
 
@@ -31,7 +31,7 @@ import { useRouter } from "vue-router";
 import { useLanguage } from "@src/composables/Language";
 import { Language } from "@src/services/TranslationsService";
 import NavBar from "@src/components/NavBar.vue";
-import ScenePreloadService, {Models} from "@src/services/ScenePreloadService";
+import ScenePreloadService, { type Models } from "@src/services/ScenePreloadService";
 import pkg from '../../package.json'
 import { useNavigationState } from "@src/composables/NavigationState";
 import Screen1Assets from "@src/helpers/Screen1Assets";
@@ -89,12 +89,14 @@ onMounted(async () => {
   margin-left: 8px;
   margin-top: 24px;
 }
+
 .loader-progress {
   font-size: 18px;
   color: rgb(255, 255, 255);
   margin-left: 8px;
   margin-top: 8px;
 }
+
 .log-window {
   overflow-y: auto;
   color: rgb(255, 255, 255);

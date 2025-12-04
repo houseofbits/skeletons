@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, PropType, nextTick } from "vue";
+import { ref, type PropType, nextTick } from "vue";
 
 const emit = defineEmits<{
     (e: 'select', index: number): void;
