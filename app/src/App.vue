@@ -16,7 +16,7 @@
     <a href="screen1" class="btn btn-primary mr">Screen 1</a>
     <a href="screen2" class="btn btn-primary mr">Screen 2</a>
     <a href="screen3" class="btn btn-primary mr">Screen 3</a>
-    <a href="animation" class="btn btn-primary mr">Animation test</a>
+    <!-- <a href="animation" class="btn btn-primary mr">Animation test</a> -->
 
     <div class="btn btn-primary mr" @click="language.selectLanguage(Language.LV)">LV</div>
     <div class="btn btn-primary mr" @click="language.selectLanguage(Language.EN)">EN</div>

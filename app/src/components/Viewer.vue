@@ -36,7 +36,7 @@ const props = defineProps({
 });
 
 const originalBoneMaterialColor = 14997948;
-const hilightedBoneMaterialColor = '#dbba00';
+const hilightedBoneMaterialColor = '#ccb102';
 
 const container = ref(null);
 let render3d;

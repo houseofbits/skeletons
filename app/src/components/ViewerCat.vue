@@ -69,7 +69,7 @@ onMounted(() => {
       child.frustumCulled = false;
       // child.material = material;
 
-      child.geometry.computeVertexNormals();
+      // child.geometry.computeVertexNormals();
       // child.geometry.normalizeNormals();
       // child.geometry.computeTangents();
 
@@ -96,7 +96,7 @@ onMounted(() => {
     console.log(animatedModel);
     const clips = animatedModel.animations;
     mixer = new THREE.AnimationMixer(animatedModel)
-    mixer.timeScale = 3.0;//0.2;
+    mixer.timeScale = 1.0;//0.2;
 
     const action = mixer.clipAction(clips[0]);
     action.time = 200 / 30;
@@ -117,7 +117,7 @@ function play() {
   if (animatedModel && animatedModel.animations?.length > 0) {
     const clips = animatedModel.animations;
     mixer = new THREE.AnimationMixer(animatedModel)
-    mixer.timeScale = 3.0;
+    mixer.timeScale = 1.0;
 
     const action = mixer.clipAction(clips[0]);
     action.time = 200 / 30;
