@@ -5,7 +5,7 @@
     <NavBar />
   </div>
   <div v-else class="relative content-1080p">
-    <p class="loader-title">Skeletal Anatomy {{ pkg.version }}</p>
+    <p class="loader-title">Skeletal Anatomy ({{ currentRouteName }}) {{ pkg.version }}</p>
 
     <p class="loader-progress">{{ ScenePreloadService.progress }}%</p>
 
@@ -48,22 +48,27 @@ const { resetNavigationState } = useNavigationState();
 const router = useRouter();
 const language = useLanguage();
 const currentComponent = ref<Component|null>(null);
+const currentRouteName = ref<string|null>(null);
 
 interface ViewDef {
+  name: string
   assets: Models;
   view: Component;
 };
 
 const routeAssets: Record<string, ViewDef> = {
   'screen1': {
+    name: "Mugurkauls",
     assets: Screen1Assets,
     view: Screen1,
   },
   'screen2': {
+    name: "Galvaskauss",
     assets: Screen2Assets,
     view: Screen2,
   },
   'screen3': {
+    name: "Ribas un ekstremitātes",
     assets: Screen3Assets,
     view: Screen3,
   }
@@ -78,6 +83,7 @@ const getViewDef = (url: string) => {
 onMounted(async () => {
   await router.isReady();
   const viewDef = getViewDef(router.currentRoute.value.fullPath);
+  currentRouteName.value = viewDef?.name ?? null;
   const assets = viewDef?.assets ?? [];
   if (viewDef?.view) {
     currentComponent.value = markRaw(viewDef?.view);
