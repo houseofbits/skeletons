@@ -1,6 +1,7 @@
 <template>
   <div v-if="ScenePreloadService.ready.value" class="relative content-1080p">
-    <RouterView />
+    <!-- <RouterView /> -->
+      <component v-if="currentComponent" :is="currentComponent" />
     <NavBar />
   </div>
   <div v-else class="relative content-1080p">
@@ -26,7 +27,7 @@
 <script setup lang="ts">
 
 import TimeoutService from "@src/services/TimeoutService";
-import { onMounted } from "vue";
+import { onMounted, type Component, ref, markRaw } from "vue";
 import { useRouter } from "vue-router";
 import { useLanguage } from "@src/composables/Language";
 import { Language } from "@src/services/TranslationsService";
@@ -37,24 +38,51 @@ import { useNavigationState } from "@src/composables/NavigationState";
 import Screen1Assets from "@src/helpers/Screen1Assets";
 import Screen2Assets from "@src/helpers/Screen2Assets";
 import Screen3Assets from "@src/helpers/Screen3Assets";
-import AnimationTestAssets from "@src/helpers/AnimationTestAssets";
+// import AnimationTestAssets from "@src/helpers/AnimationTestAssets";
+import Screen1 from "@src/views/Screen1.vue";
+import Screen2 from "@src/views/Screen2.vue";
+import Screen3 from "@src/views/Screen3.vue";
 
 const { resetNavigationState } = useNavigationState();
 
 const router = useRouter();
 const language = useLanguage();
+const currentComponent = ref<Component|null>(null);
 
-const routeAssets: Record<string, Models> = {
-  '/screen1': Screen1Assets,
-  '/screen2': Screen2Assets,
-  '/screen3': Screen3Assets,
-  '/animation': AnimationTestAssets,
+interface ViewDef {
+  assets: Models;
+  view: Component;
+};
+
+const routeAssets: Record<string, ViewDef> = {
+  'screen1': {
+    assets: Screen1Assets,
+    view: Screen1,
+  },
+  'screen2': {
+    assets: Screen2Assets,
+    view: Screen2,
+  },
+  'screen3': {
+    assets: Screen3Assets,
+    view: Screen3,
+  }
+  // 'animation': AnimationTestAssets,
+};
+
+const getViewDef = (url: string) => {
+  const name = Object.keys(routeAssets).find(key => url.includes(key));
+  return name ? routeAssets[name] : undefined;
 };
 
 onMounted(async () => {
   await router.isReady();
-  const routePath = router.currentRoute.value.fullPath;
-  const assets = routeAssets[routePath] ?? [];
+  const viewDef = getViewDef(router.currentRoute.value.fullPath);
+  const assets = viewDef?.assets ?? [];
+  if (viewDef?.view) {
+    currentComponent.value = markRaw(viewDef?.view);
+  }
+
   ScenePreloadService.preloadAssets(assets);
 
   TimeoutService.registerCallback(() => {
