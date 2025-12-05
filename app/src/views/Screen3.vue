@@ -1,6 +1,6 @@
 <template>
   <div v-show="selectedNavGroup === null">
-    <NavGroupTile :is-active="true" :left="0" title="Krūšukurvis" subtitle="un krūšu kauls" @click="selectGroup(1)">
+    <NavGroupTile :is-active="true" :left="0" title="Ribas" subtitle="un krūšu kauls" @click="selectGroup(1)">
       <BasicViewer asset="jackal"
         :camera-position="{ x: 32.39880045719946, y: -0.5811985619324567, z: -35.45206870757965 }"
         :camera-target="{ x: 8.394740984218696, y: 16.045282222964367, z: -6.84514459380977 }" :activate="groupActive" />
