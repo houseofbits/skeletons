@@ -5,11 +5,10 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-html {
+html, body {
     -webkit-touch-callout: none;
-}
-
-body {
+    overscroll-behavior: none;
+    touch-action: none;
     background: rgb(49, 49, 49);
     font-family: Arimo;
     user-select: none;

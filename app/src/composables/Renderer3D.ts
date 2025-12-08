@@ -39,6 +39,12 @@ export function useRenderer3D() {
         camera.name = 'MainCamera';
         camera.position.set(0, 2, 5);
         const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.3;
+
+        // controls.minPolarAngle = Math.PI * 0.1;  // limit how far up you can look
+        // controls.maxPolarAngle = Math.PI * 0.4;  // limit how far down you can look
+
         controls.enabled = false;
         scene.add(camera);
 

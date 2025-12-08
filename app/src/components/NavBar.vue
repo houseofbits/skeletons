@@ -37,9 +37,9 @@
     <div class="overlay">
       <div v-if="shouldShowNavGroup && selectedNavGroup !== null && selectedNavTile === null" class="buttons">
         <div class="button" :class="{ 'active': selectedNavGroup == 2 }" @click="selectedNavGroup = 2">
-          Ekstremitātes</div>
+          Ekstremitātes un to joslas</div>
         <div class="button" :class="{ 'active': selectedNavGroup == 1 }" @click="selectedNavGroup = 1">
-          Krūšukurvis</div>
+          Ribas un krūšu kauls</div>
       </div>
       <div class="nav-title" v-if="getTitle() !== null">
         {{ getTitle() }}

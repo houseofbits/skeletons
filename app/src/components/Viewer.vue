@@ -120,12 +120,22 @@ watch(
       showActivePointsTimeout = setTimeout(() => {
         showActivePoints.value = true;
       }, 600);
+      render3d.controls.enabled = true;
+      // render3d.controls.minPolarAngle = Math.PI * 0.1;
+      // render3d.controls.maxPolarAngle = Math.PI * 0.4;
+
+
+      console.log(render3d.scene);
     } else {
+      render3d.controls.enabled = false;
+      render3d.controls.minAzimuthAngle = Infinity;
+      render3d.controls.maxAzimuthAngle = Infinity;
+
       setIconCameraPosition();
       if (showActivePointsTimeout) {
         clearTimeout(showActivePointsTimeout);
         showActivePointsTimeout = null;
-      }      
+      }
       showActivePoints.value = false;
       selectedActivePoint.value = -1;
     }
