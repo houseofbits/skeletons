@@ -124,6 +124,15 @@ function resetHilightedBoneMeshes() {
   }
 }
 
+function resetHilightedBoneMeshesInstant() {
+  for (const activePoint of props.config.activePoints) {
+    for (const meshName of activePoint.meshes) {
+      const mesh = render3d.scene.getObjectByName(meshName);
+      mesh?.material.color.set(originalBoneMaterialColor);
+    }
+  }
+}
+
 watch(
   () => props.isActive,
   (newVal) => {
@@ -138,6 +147,7 @@ watch(
       }, 600);
 
       // console.log(render3d.scene);
+      resetHilightedBoneMeshesInstant();
     } else {
       if (pivot) {
         gsap.to(pivot.rotation, {
@@ -302,6 +312,7 @@ watch(
   (newVal) => {
     if (newVal) {
       initCamera();
+      resetHilightedBoneMeshesInstant();
     }
   }
 );
