@@ -1,16 +1,14 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-  <!-- <template v-if="showActivePoints">
-    <Callout
-      v-for="(pos, i) in activePointPositions"
-      :text="getActivePointText(i)"
-      :position="pos"
-      :key="i"
-    />
-  </template> -->
 
-  <Sidebar v-if="showActivePoints" :selected="selectedActivePoint" :active-points="props.config.activePoints"
-    @select="(i) => selectedActivePoint = i" />
+  <Sidebar
+    v-if="showActivePoints"
+    :selected="selectedActivePoint"
+    :active-points="props.config.activePoints"
+    @select="(i) => (selectedActivePoint = i)"
+  />
+
+  <!-- <div v-if="isActive" @click="toggleCameraMode" class="btn btn-primary camera-btn">Camera mode ({{ isCameraControlEnabled }})</div> -->
 </template>
 
 <script setup>
@@ -36,7 +34,7 @@ const props = defineProps({
 });
 
 const originalBoneMaterialColor = 14997948;
-const hilightedBoneMaterialColor = '#ccb102';
+const hilightedBoneMaterialColor = "#d98602";
 
 const container = ref(null);
 let render3d;
@@ -44,13 +42,28 @@ const activePointPositions = ref([]);
 const showActivePoints = ref(false);
 const selectedActivePoint = ref(-1);
 let showActivePointsTimeout = null;
+let dragging = false;
+let lastX = 0;
+let pivot = null;
+const isCameraControlEnabled = ref(false);
 
 const { initRenderer3D } = useRenderer3D();
+
+function toggleCameraMode() {
+  isCameraControlEnabled.value = !isCameraControlEnabled.value;
+
+  render3d.controls.enabled = isCameraControlEnabled.value;
+}
 
 function logCamera() {
   // console.log("Camera position: ", render3d.camera.position);
   // console.log("Camera target: ", render3d.controls.target);
   // console.log("Camera fov: ", render3d.camera.fov);
+
+  // const azimuth = render3d.controls.getAzimuthalAngle(); // left/right rotation
+  // const polar = render3d.controls.getPolarAngle(); // up/down rotation
+  // console.log("Azimuth:", azimuth);
+  // console.log("Polar:", polar);
 }
 
 function setIconCameraPosition() {
@@ -90,7 +103,10 @@ function hilightBoneMeshes() {
 
   let i = 0;
   for (const activePoint of props.config.activePoints) {
-    const color = (selectedActivePoint.value === i) ? hilightedBoneMaterialColor : originalBoneMaterialColor;
+    const color =
+      selectedActivePoint.value === i
+        ? hilightedBoneMaterialColor
+        : originalBoneMaterialColor;
     for (const meshName of activePoint.meshes) {
       const mesh = render3d.scene.getObjectByName(meshName);
       tweenColor(mesh, color, 0.7);
@@ -120,16 +136,16 @@ watch(
       showActivePointsTimeout = setTimeout(() => {
         showActivePoints.value = true;
       }, 600);
-      render3d.controls.enabled = true;
-      // render3d.controls.minPolarAngle = Math.PI * 0.1;
-      // render3d.controls.maxPolarAngle = Math.PI * 0.4;
 
-
-      console.log(render3d.scene);
+      // console.log(render3d.scene);
     } else {
-      render3d.controls.enabled = false;
-      render3d.controls.minAzimuthAngle = Infinity;
-      render3d.controls.maxAzimuthAngle = Infinity;
+      if (pivot) {
+        gsap.to(pivot.rotation, {
+          y: 0,
+          duration: 3,
+          ease: "power2.out",
+        });
+      }
 
       setIconCameraPosition();
       if (showActivePointsTimeout) {
@@ -224,6 +240,63 @@ function initCamera() {
   setIconCameraPosition();
 }
 
+function initPivot() {
+  if (props.config.pivot == undefined) {
+    return;
+  }
+
+  const model = render3d.scene.getObjectByName("model-group");
+  if (model == undefined) {
+    return;
+  }
+
+  const worldPos = new THREE.Vector3();
+  model.getWorldPosition(worldPos);
+
+  pivot = new THREE.Object3D();
+  pivot.position.set(
+    props.config.pivot.x,
+    props.config.pivot.y,
+    props.config.pivot.z
+  );
+
+  model.position.copy(worldPos.sub(pivot.position));
+
+  pivot.add(model);
+
+  render3d.scene.add(pivot);
+
+  render3d.renderer.domElement.addEventListener("pointerdown", (e) => {
+    if (!props.isActive || isCameraControlEnabled.value) {
+      dragging = false;
+      return;
+    }
+    dragging = true;
+    lastX = e.clientX;
+  });
+
+  render3d.renderer.domElement.addEventListener("pointermove", (e) => {
+    if (!props.isActive || isCameraControlEnabled.value) {
+      dragging = false;
+      return;
+    }
+
+    if (!dragging) return;
+
+    const dx = e.clientX - lastX;
+    lastX = e.clientX;
+
+    pivot.rotation.y += dx * 0.003;
+    if (Math.abs(pivot.rotation.y) > Math.PI * 2) {
+      pivot.rotation.y = 0;
+    }    
+  });
+
+  window.addEventListener("pointerup", () => {
+    dragging = false;
+  });
+}
+
 watch(
   () => props.activate,
   (newVal) => {
@@ -248,17 +321,29 @@ onMounted(() => {
       child.castShadow = true;
       child.receiveShadow = true;
       child.material = child.material.clone();
+      child.frustumCulled = false;
     }
 
     if (child.isLight) {
       child.intensity = child.intensity * 600;
+      child.shadow.mapSize.width = 2048;
+      child.shadow.mapSize.height = 2048;
     }
   });
+
+  const backgroundModel = render3d.scene.getObjectByName("background");
+  if (backgroundModel) {
+    const c = backgroundModel.material.emissive;
+    const scale = 2;
+    backgroundModel.material.emissive.set(c.r * scale, c.g * scale, c.b * scale);
+  }
 
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
   render3d.scene.add(ambientLight);
 
   prepareMeshMaterials();
+
+  initPivot();
 
   initCamera();
 
@@ -280,5 +365,12 @@ onMounted(() => {
   width: 100% !important;
   height: 100% !important;
   display: block;
+}
+
+.camera-btn {
+  position: absolute;
+  z-index: 20;
+  bottom: 10px;
+  left: 10px;
 }
 </style>

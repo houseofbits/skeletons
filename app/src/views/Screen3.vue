@@ -2,12 +2,12 @@
   <div v-show="selectedNavGroup === null">
     <NavGroupTile :is-active="true" :left="0" title="Ribas" subtitle="un krūšu kauls" @click="selectGroup(1)">
       <BasicViewer asset="jackal"
-        :camera-position="{ x: 32.39880045719946, y: -0.5811985619324567, z: -35.45206870757965 }"
-        :camera-target="{ x: 8.394740984218696, y: 16.045282222964367, z: -6.84514459380977 }" :activate="groupActive" />
+        :camera-position="{ x: 26.903458858152014, y: 0.3085318542698676, z: -27.36639027167504 }"
+        :camera-target="{ x: 8.329575215343231, y: 13.173785743333053, z: -5.2308977119308535 }" :activate="groupActive" />
     </NavGroupTile>
     <NavGroupTile :is-active="true" :left="1" title="Ekstremitātes" subtitle="un to joslas" @click="selectGroup(2)">
-      <BasicViewer asset="frog" :camera-position="{ x: 66.29589011930452, y: 154.1176065327111, z: -45.71402694403301 }"
-        :camera-target="{ x: 5.817329828826439, y: 11.277224554232113, z: -3.3664831285689574 }"
+      <BasicViewer asset="frog" :camera-position="{ x: 60.11466692319426, y: 118.24839386147517, z: -37.417388280344674 }"
+        :camera-target="{ x: 13.317509842977977, y: 7.7212291813095755, z: -4.649666125992658 }"
         :activate="groupActive" />
     </NavGroupTile>
   </div>
