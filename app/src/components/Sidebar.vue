@@ -8,7 +8,7 @@
             </svg>
 
             <div class="title">Skeleta daļas</div>
-            <div class="subtitle">Spied uz kādu no grupām lai apskatītu kaulu un tā atrašanos vietu skeletā.
+            <div class="subtitle">Spied uz kādu no grupām, lai apskatītu kaulu un tā atrašanās vietu skeletā!
             </div>
         </div>
         <div class="list">
