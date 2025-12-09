@@ -107,6 +107,7 @@ nav {
     margin-right: 8px;
     font-size: 20px;
     padding-left: 8px;
+    height: 100%;
   }
 
   & .logo {
@@ -162,6 +163,10 @@ nav {
         cursor: pointer;
         padding-left: 8px;
         padding-right: 8px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         &.active {
           color: white;
