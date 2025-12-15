@@ -91,10 +91,10 @@ onMounted(async () => {
 
   ScenePreloadService.preloadAssets(assets);
 
-  TimeoutService.registerCallback(() => {
-    // selectLanguage('lv');
-    // router.push('/');
-    resetNavigationState();
+  TimeoutService.registerCallback((timeout: boolean) => {
+    if (timeout) {
+      resetNavigationState();
+    }
   });
 
   language.loadTranslations([

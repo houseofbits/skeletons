@@ -7,6 +7,7 @@ export interface Renderer3D {
     clock: THREE.Clock;
     camera: THREE.PerspectiveCamera;
     controls: OrbitControls;
+    canvas: HTMLCanvasElement;
 
     render(callback: CallableFunction, redraw: boolean): void;
     dispose(): void;
@@ -89,7 +90,7 @@ export function useRenderer3D() {
             });
         }
 
-        return { scene, renderer, clock, camera, controls, render, dispose };
+        return { scene, renderer, clock, camera, controls, render, dispose, canvas };
     }
 
     return {

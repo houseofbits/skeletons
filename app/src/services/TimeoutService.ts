@@ -19,7 +19,7 @@ class TimeoutService {
         }
 
         for (const callback of this.callbacks) {
-            callback();
+            callback(true);
         }
     }
 
@@ -53,7 +53,11 @@ class TimeoutService {
             clearTimeout(this.timerId);
         }
         this.timerId = setTimeout(this.timeOut.bind(this), this.timerS * 1000);
+
+        for (const callback of this.callbacks) {
+            callback(false);
+        }        
     }
 }
 
-export default new TimeoutService(180);
+export default new TimeoutService(3);

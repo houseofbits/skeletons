@@ -1,14 +1,8 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera"></div>
 
-  <Sidebar
-    v-if="showActivePoints"
-    :selected="selectedActivePoint"
-    :active-points="props.config.activePoints"
-    @select="(i) => (selectedActivePoint = i)"
-  />
-
-  <!-- <div v-if="isActive" @click="toggleCameraMode" class="btn btn-primary camera-btn">Camera mode ({{ isCameraControlEnabled }})</div> -->
+  <Sidebar v-if="showActivePoints" :selected="selectedActivePoint" :active-points="props.config.activePoints"
+    @select="(i) => (selectedActivePoint = i)" />
 </template>
 
 <script setup>
@@ -30,7 +24,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  activate: { type: Boolean, default: true },
+  cameraConfig: {
+    type: Object,
+    required: true,
+  }
 });
 
 const originalBoneMaterialColor = 14997948;
@@ -49,48 +46,28 @@ const isCameraControlEnabled = ref(false);
 
 const { initRenderer3D } = useRenderer3D();
 
-function toggleCameraMode() {
-  isCameraControlEnabled.value = !isCameraControlEnabled.value;
-
-  render3d.controls.enabled = isCameraControlEnabled.value;
-}
-
 function logCamera() {
   // console.log("Camera position: ", render3d.camera.position);
   // console.log("Camera target: ", render3d.controls.target);
-  // console.log("Camera fov: ", render3d.camera.fov);
-
-  // const azimuth = render3d.controls.getAzimuthalAngle(); // left/right rotation
-  // const polar = render3d.controls.getPolarAngle(); // up/down rotation
-  // console.log("Azimuth:", azimuth);
-  // console.log("Polar:", polar);
 }
 
-function setIconCameraPosition() {
-  const duration = 0.9;
+watch(() => props.cameraConfig, (cameraConf) => {
   transitionCamera(
     render3d.controls,
-    props.config.iconPos,
-    props.config.iconTarget,
-    duration,
-    "power2.inOut"
-  );
-}
-
-function setInitialCameraPosition() {
-  const duration = 1.6;
-  transitionCamera(
-    render3d.controls,
-    props.config.initialPos,
-    props.config.initialTarget,
-    duration,
+    cameraConf.position,
+    cameraConf.target,
+    cameraConf.transitionTime,
     "power2.inOut",
-    () => {
-      // showActivePoints.value = true;
-    },
-    prepareActivePoints
   );
-}
+});
+
+watch(() => props.iconCameraConfigType, (value) => {
+  if (props.isActive) {
+    return;
+  }
+
+  setIconCameraPosition();
+});
 
 function hilightBoneMeshes() {
   if (props.config.activePoints.length === 0) {
@@ -137,7 +114,6 @@ watch(
   () => props.isActive,
   (newVal) => {
     if (newVal) {
-      setInitialCameraPosition();
       if (showActivePointsTimeout) {
         clearTimeout(showActivePointsTimeout);
         showActivePointsTimeout = null;
@@ -146,7 +122,6 @@ watch(
         showActivePoints.value = true;
       }, 600);
 
-      // console.log(render3d.scene);
       resetHilightedBoneMeshesInstant();
     } else {
       if (pivot) {
@@ -157,22 +132,12 @@ watch(
         });
       }
 
-      setIconCameraPosition();
       if (showActivePointsTimeout) {
         clearTimeout(showActivePointsTimeout);
         showActivePointsTimeout = null;
       }
       showActivePoints.value = false;
       selectedActivePoint.value = -1;
-    }
-  }
-);
-
-watch(
-  () => props.config,
-  () => {
-    if (!props.isActive) {
-      setIconCameraPosition();
     }
   }
 );
@@ -227,33 +192,31 @@ function prepareMeshMaterials() {
 
 function initCamera() {
   let pos = new THREE.Vector3(
-    props.config.iconPos.x,
-    props.config.iconPos.y,
-    props.config.iconPos.z
+    props.cameraConfig.position.x,
+    props.cameraConfig.position.y,
+    props.cameraConfig.position.z
   );
   const target = new THREE.Vector3(
-    props.config.iconTarget.x,
-    props.config.iconTarget.y,
-    props.config.iconTarget.z
+    props.cameraConfig.target.x,
+    props.cameraConfig.target.y,
+    props.cameraConfig.target.z
   );
 
   pos = pos.lerp(target, 0.3);
 
   render3d.camera.position.set(pos.x, pos.y, pos.z);
   render3d.controls.target.set(
-    props.config.iconTarget.x,
-    props.config.iconTarget.y,
-    props.config.iconTarget.z
+    target.x,
+    target.y,
+    target.z
   );
   render3d.controls.update();
-
-  setIconCameraPosition();
 }
 
 function initPivot() {
-  if (props.config.pivot == undefined) {
-    return;
-  }
+  // if (props.config.pivot == undefined) {
+  //   return;
+  // }
 
   const model = render3d.scene.getObjectByName("model-group");
   if (model == undefined) {
@@ -264,11 +227,18 @@ function initPivot() {
   model.getWorldPosition(worldPos);
 
   pivot = new THREE.Object3D();
+  // pivot.position.set(
+  //   props.config.pivot.x,
+  //   props.config.pivot.y,
+  //   props.config.pivot.z
+  // );
+
   pivot.position.set(
-    props.config.pivot.x,
-    props.config.pivot.y,
-    props.config.pivot.z
+    0,
+    0,
+    0
   );
+
 
   model.position.copy(worldPos.sub(pivot.position));
 
@@ -299,23 +269,13 @@ function initPivot() {
     pivot.rotation.y += dx * 0.003;
     if (Math.abs(pivot.rotation.y) > Math.PI * 2) {
       pivot.rotation.y = 0;
-    }    
+    }
   });
 
   window.addEventListener("pointerup", () => {
     dragging = false;
   });
 }
-
-watch(
-  () => props.activate,
-  (newVal) => {
-    if (newVal) {
-      initCamera();
-      resetHilightedBoneMeshesInstant();
-    }
-  }
-);
 
 onMounted(() => {
   render3d = initRenderer3D(container.value);

@@ -52,7 +52,7 @@ const outerClass = computed(() => {
     background: linear-gradient(178deg, rgba(7, 32, 38, 1) 69%, rgba(44, 44, 59, 1) 100%);
     border: 1px, solid rgba($color: #b4b4b4, $alpha: 0.1);
     position: absolute;
-    transition: all 0.4s ease-in;
+    transition: all 0.3s ease-in-out;
 
     & .title {
         position: absolute;

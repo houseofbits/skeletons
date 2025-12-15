@@ -13,3 +13,5 @@ app.mount('#app')
 console.log(pkg.name, pkg.version);
 
 window.addEventListener("contextmenu", e => e.preventDefault());
+
+

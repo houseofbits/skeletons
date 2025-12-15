@@ -53,10 +53,10 @@ export function transitionCamera(cameraControl: OrbitControls, toPos: THREE.Vect
         t: 1,
         ease,
         onUpdate: () => {
+            onUpdate();
             cameraControl.object.position.lerpVectors(startPos, toPos, s.t);
             cameraControl.target.lerpVectors(startTarget, toTarget, s.t);
-            cameraControl.update();
-            onUpdate();
+            cameraControl.update();            
         },
         onComplete: onComplete
     });

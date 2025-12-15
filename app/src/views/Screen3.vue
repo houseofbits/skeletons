@@ -3,46 +3,30 @@
     <NavGroupTile :is-active="true" :left="0" title="Ribas" subtitle="un krūšu kauls" @click="selectGroup(1)">
       <BasicViewer asset="jackal"
         :camera-position="{ x: 26.903458858152014, y: 0.3085318542698676, z: -27.36639027167504 }"
-        :camera-target="{ x: 8.329575215343231, y: 13.173785743333053, z: -5.2308977119308535 }" :activate="groupActive" />
+        :camera-target="{ x: 8.329575215343231, y: 13.173785743333053, z: -5.2308977119308535 }"
+        :activate="groupActive" />
     </NavGroupTile>
     <NavGroupTile :is-active="true" :left="1" title="Ekstremitātes" subtitle="un to joslas" @click="selectGroup(2)">
-      <BasicViewer asset="frog" :camera-position="{ x: 60.11466692319426, y: 118.24839386147517, z: -37.417388280344674 }"
+      <BasicViewer asset="frog"
+        :camera-position="{ x: 60.11466692319426, y: 118.24839386147517, z: -37.417388280344674 }"
         :camera-target="{ x: 13.317509842977977, y: 7.7212291813095755, z: -4.649666125992658 }"
         :activate="groupActive" />
     </NavGroupTile>
   </div>
   <div v-show="selectedNavGroup !== null">
-    <NavTile :is-active="isNavTileSelected(1)" title="Zivis" width="1" height="1" left="1" top="1"
-      @click="setSelectedNavTile(1)">
-      <Viewer asset="fish" :is-active="isNavTileSelected(1)" :config="configFish" :activate="groupInactive" />
-    </NavTile>
-
-    <NavTile :is-active="isNavTileSelected(2)" title="Abinieki" width="1" height="1" left="2" top="1"
-      @click="setSelectedNavTile(2)">
-      <Viewer asset="frog" :is-active="isNavTileSelected(2)" :config="configFrog" :activate="groupInactive" />
-    </NavTile>
-
-    <NavTile :is-active="isNavTileSelected(3)" title="Rāpuļi" width="1" height="1" left="3" top="1"
-      @click="setSelectedNavTile(3)">
-      <Viewer asset="lizard" :is-active="isNavTileSelected(3)" :config="configLizard" :activate="groupInactive" />
-    </NavTile>
-
-    <NavTile :is-active="isNavTileSelected(4)" title="Putni" width="1" height="1" left="1" top="2"
-      @click="setSelectedNavTile(4)">
-      <Viewer asset="pigeon" :is-active="isNavTileSelected(4)" :config="configBird" :activate="groupInactive" />
-    </NavTile>
-
-    <NavTile :is-active="isNavTileSelected(5)" title="Zīdītāji" width="2" height="1" left="2" top="2"
-      @click="setSelectedNavTile(5)">
-      <Viewer asset="jackal" :is-active="isNavTileSelected(5)" :config="configJackal" :activate="groupInactive" />
-    </NavTile>
+    <TilesView :config="{
+      fish: configFish,
+      frog: configFrog,
+      bird: configBird,
+      lizard: configLizard,
+      jackal: configJackal,
+    }" :animate="false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import Viewer from "@src/components/Viewer.vue";
+import TilesView from "@src/components/TilesView.vue";
 import BasicViewer from "@src/components/BasicViewer.vue";
-import NavTile from "@src/components/NavTile.vue";
 import { useNavigationState } from "../composables/NavigationState";
 import configFish1 from "@/src/helpers/screen3_1/configFish";
 import configFrog1 from "@/src/helpers/screen3_1/configFrog";
@@ -58,8 +42,7 @@ import configJackal2 from "@/src/helpers/screen3_2/configJackal";
 import { computed } from "vue";
 import NavGroupTile from "../components/NavGroupTile.vue";
 
-const { setSelectedNavTile,
-  isNavTileSelected, shouldShowNavGroup, selectedNavGroup } = useNavigationState();
+const { setSelectedNavTile, shouldShowNavGroup, selectedNavGroup } = useNavigationState();
 
 function selectGroup(group: number) {
   selectedNavGroup.value = group;
@@ -76,7 +59,6 @@ const configBird = computed(() => (selectedNavGroup.value === 1) ? configBird1 :
 const configLizard = computed(() => (selectedNavGroup.value === 1) ? configLizard1 : configLizard2);
 
 const groupActive = computed(() => selectedNavGroup.value === null);
-const groupInactive = computed(() => selectedNavGroup.value !== null);
 
 </script>
 
