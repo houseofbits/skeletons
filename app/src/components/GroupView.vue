@@ -53,7 +53,7 @@ const activeIndexR = ref(1);
 const prevActiveIndexL = ref(0);
 const activeIndexL = ref(1);
 
-function randomInt(min, max) {
+function randomInt(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 

@@ -2,7 +2,7 @@
 
 
 export default class TileOccupancyService {
-    private tileOccupancy: Record<number, Record<number, number | null>> = [
+    private tileOccupancy: Array<Array<number | null>> = [
         [1, 2, 3],
         [4, 5, 5]
     ];
