@@ -60,4 +60,4 @@ class TimeoutService {
     }
 }
 
-export default new TimeoutService(3);
+export default new TimeoutService(180);

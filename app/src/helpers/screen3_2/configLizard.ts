@@ -1,11 +1,30 @@
 import Colors from '@src/utils/boneColors';
+import CameraConfigTypes from '@src/types/CameraConfigTypes';
+import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 
 export default {
-    iconPos: { x: 26.19683696958516, y: 20.185683050897588, z: 31.687224659366375 },
-    iconTarget: { x: 13.716003803955006, y: 3.66249981593652, z: 5.933014847593138 },
-    initialPos: { x: 16.23148092920129, y: 43.98925574123308, z: 49.48099802988402 },
-    initialTarget: { x: 7.1941010199911135, y: 4.3100636746769165, z: -2.539650105746088 },
-    pivot: { x: 0, y: 0, z: 0 },
+    cameraConfig: {
+        [CameraConfigTypes.CAMERA_ICON_RECT]: {
+            position: { x: 26.19683696958516, y: 20.185683050897588, z: 31.687224659366375 },
+            target: { x: 13.716003803955006, y: 3.66249981593652, z: 5.933014847593138 },
+            transitionTime: CameraTransitionTime.ICON_RESIZE,
+        },
+        [CameraConfigTypes.CAMERA_ICON_VERT]: {
+            position: { x: 26.19683696958516, y: 20.185683050897588, z: 31.687224659366375 },
+            target: { x: 13.716003803955006, y: 3.66249981593652, z: 5.933014847593138 },
+            transitionTime: CameraTransitionTime.ICON_RESIZE,
+        },
+        [CameraConfigTypes.CAMERA_ICON_HORIZ]: {
+            position: { x: 26.19683696958516, y: 20.185683050897588, z: 31.687224659366375 },
+            target: { x: 13.716003803955006, y: 3.66249981593652, z: 5.933014847593138 },
+            transitionTime: CameraTransitionTime.ICON_RESIZE,
+        },
+        [CameraConfigTypes.CAMERA_FULL]: {
+            position: { x: 16.23148092920129, y: 43.98925574123308, z: 49.48099802988402 },
+            target: { x: 7.1941010199911135, y: 4.3100636746769165, z: -2.539650105746088 },
+            transitionTime: CameraTransitionTime.ICON_TO_FULLSCREEN,
+        },
+    },
     activeBones: [
         {
             materialColor: Colors.Limbs1,

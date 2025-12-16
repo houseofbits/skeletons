@@ -2,7 +2,7 @@
 
   <NavTile v-for="(tile, i) in tiles" :key="tile.asset" :is-active="isNavTileSelected(i + 1)" :title="tile.title"
     :width="tile.width" :height="tile.height" :left="tile.x" :top="tile.y" @click="setSelectedNavTile(i + 1)">
-    <Viewer :asset="tile.asset" :is-active="isNavTileSelected(i + 1)" :config="tile.config"
+    <Viewer :asset="tile.asset" :is-active="isNavTileSelected(i + 1)" :config="config[i]"
       :camera-config="getCameraConfig(i)" />
   </NavTile>
 </template>
@@ -16,7 +16,6 @@ import { reactive } from "vue";
 import TileOccupancyService from '@src/services/TileOccupancyService';
 import useTimeoutInterval from "../composables/TimeoutInterval";
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
-import type Config from "@src/types/Config";
 
 const props = defineProps({
   config: {
@@ -25,15 +24,13 @@ const props = defineProps({
   },
   animate: {
     type: Boolean,
-    default: () => true,
+    default: true,
   },
 });
 
 // const { translate } = useLanguage();
-const { setSelectedNavTile,
-  isNavTileSelected, shouldShowNavGroup } = useNavigationState();
-
-shouldShowNavGroup.value = false;
+const { setSelectedNavTile, 
+  isNavTileSelected } = useNavigationState();
 
 const service = new TileOccupancyService();
 
@@ -44,7 +41,6 @@ interface TileSettings {
   height: number;
   title: string;
   asset: string;
-  config: Config;
 };
 
 const tiles = reactive<TileSettings[]>([
@@ -55,7 +51,6 @@ const tiles = reactive<TileSettings[]>([
     height: 1,
     title: "Zivis",
     asset: 'fish',
-    config: props.config.fish,
   },
   {
     x: 2,
@@ -64,7 +59,6 @@ const tiles = reactive<TileSettings[]>([
     height: 1,
     title: "Abinieki",
     asset: 'frog',
-    config: props.config.frog,
   },
   {
     x: 3,
@@ -73,7 +67,6 @@ const tiles = reactive<TileSettings[]>([
     height: 1,
     title: "Rāpuļi",
     asset: 'lizard',
-    config: props.config.lizard
   },
   {
     x: 1,
@@ -82,7 +75,6 @@ const tiles = reactive<TileSettings[]>([
     height: 1,
     title: "Putni",
     asset: 'pigeon',
-    config: props.config.bird,
   },
   {
     x: 2,
@@ -91,7 +83,6 @@ const tiles = reactive<TileSettings[]>([
     height: 1,
     title: "Zīdītāji",
     asset: 'jackal',
-    config: props.config.jackal,
   },
 ]);
 
@@ -114,24 +105,21 @@ function updateTiles(id: number, sx: number, sy: number, tx: number, ty: number,
 }
 
 function getCameraConfig(index: number) {
-  const tile = tiles[index];
-  if (!tile) {
+  if (!tiles[index]) {
     return;
   }
 
-  const cam = tile.config.cameraConfig;
+  const cam = props.config[index].cameraConfig;
   if (isNavTileSelected(index + 1)) {
     return cam[CameraConfigTypes.CAMERA_FULL];
   }
 
-  if (tile) {
-    if (tile.width > tile.height) {
-      return cam[CameraConfigTypes.CAMERA_ICON_HORIZ];
-    }
+  if (tiles[index].width > tiles[index].height) {
+    return cam[CameraConfigTypes.CAMERA_ICON_HORIZ];
+  }
 
-    if (tile.width < tile.height) {
-      return cam[CameraConfigTypes.CAMERA_ICON_VERT];
-    }
+  if (tiles[index].width < tiles[index].height) {
+    return cam[CameraConfigTypes.CAMERA_ICON_VERT];
   }
 
   return cam[CameraConfigTypes.CAMERA_ICON_RECT];

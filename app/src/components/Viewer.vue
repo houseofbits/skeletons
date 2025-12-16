@@ -191,33 +191,16 @@ function prepareMeshMaterials() {
 }
 
 function initCamera() {
-  let pos = new THREE.Vector3(
-    props.cameraConfig.position.x,
-    props.cameraConfig.position.y,
-    props.cameraConfig.position.z
+  transitionCamera(
+    render3d.controls,
+    props.cameraConfig.position,
+    props.cameraConfig.target,
+    props.cameraConfig.transitionTime,
+    "power2.inOut",
   );
-  const target = new THREE.Vector3(
-    props.cameraConfig.target.x,
-    props.cameraConfig.target.y,
-    props.cameraConfig.target.z
-  );
-
-  pos = pos.lerp(target, 0.3);
-
-  render3d.camera.position.set(pos.x, pos.y, pos.z);
-  render3d.controls.target.set(
-    target.x,
-    target.y,
-    target.z
-  );
-  render3d.controls.update();
 }
 
 function initPivot() {
-  // if (props.config.pivot == undefined) {
-  //   return;
-  // }
-
   const model = render3d.scene.getObjectByName("model-group");
   if (model == undefined) {
     return;
@@ -227,18 +210,7 @@ function initPivot() {
   model.getWorldPosition(worldPos);
 
   pivot = new THREE.Object3D();
-  // pivot.position.set(
-  //   props.config.pivot.x,
-  //   props.config.pivot.y,
-  //   props.config.pivot.z
-  // );
-
-  pivot.position.set(
-    0,
-    0,
-    0
-  );
-
+  pivot.position.set(0,0,0);
 
   model.position.copy(worldPos.sub(pivot.position));
 

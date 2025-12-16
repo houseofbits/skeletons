@@ -1,11 +1,11 @@
 <template>
-  <TilesView :config="{
-    fish: configFish,
-    frog: configFrog,
-    bird: configBird,
-    lizard: configLizard,
-    jackal: configJackal,
-  }" />
+  <TilesView :config="[
+    configFish,
+    configFrog,
+    configLizard,
+    configBird,
+    configJackal,
+  ]" :animate="true" />
 </template>
 
 <script setup lang="ts">
