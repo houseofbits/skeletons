@@ -43,7 +43,7 @@ export function useRenderer3D() {
         // controls.enableDamping = true;
         // controls.dampingFactor = 0.3;
 
-        controls.enabled = false;
+        // controls.enabled = false;
         scene.add(camera);
 
         function render(callback: CallableFunction = () => { }, redraw: boolean = true) {

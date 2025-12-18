@@ -1,7 +1,7 @@
 <template>
   <div v-if="ScenePreloadService.ready.value" class="relative content-1080p">
     <!-- <RouterView /> -->
-      <component v-if="currentComponent" :is="currentComponent" />
+    <component v-if="currentComponent" :is="currentComponent" />
     <NavBar />
   </div>
   <div v-else class="relative content-1080p">
@@ -13,14 +13,20 @@
       <div v-for="(line, i) in ScenePreloadService.logs.value" :key="i">{{ line }}</div>
     </div>
   </div>
-  <div class="relative">
-    <a href="index.html?screen1" class="btn btn-primary mr">Mugurkauls</a>
-    <a href="index.html?screen2" class="btn btn-primary mr">Galvaskauss</a>
-    <a href="index.html?screen3" class="btn btn-primary mr">Ribas un ekstremitātes</a>
-    <!-- <a href="animation" class="btn btn-primary mr">Animation test</a> -->
+  <div class="relative rows">
 
-    <div class="btn btn-secondary mr" @click="language.selectLanguage(Language.LV)">LV</div>
-    <div class="btn btn-secondary mr" @click="language.selectLanguage(Language.EN)">EN</div>
+    <div>
+      <a href="index.html?screen1" class="btn btn-primary mr">Mugurkauls</a>
+      <a href="index.html?screen2" class="btn btn-primary mr">Galvaskauss</a>
+      <a href="index.html?screen3" class="btn btn-primary mr">Ribas un ekstremitātes</a>
+      <!-- <a href="animation" class="btn btn-primary mr">Animation test</a> -->
+
+      <div class="btn btn-secondary mr" @click="language.selectLanguage(Language.LV)">LV</div>
+      <div class="btn btn-secondary mr" @click="language.selectLanguage(Language.EN)">EN</div>
+    </div>
+    <div v-if="isDev">
+      <a href="index.html?animation" class="btn btn-primary mr">Animation test</a>
+    </div>
   </div>
 </template>
 
@@ -38,17 +44,20 @@ import { useNavigationState } from "@src/composables/NavigationState";
 import Screen1Assets from "@src/helpers/Screen1Assets";
 import Screen2Assets from "@src/helpers/Screen2Assets";
 import Screen3Assets from "@src/helpers/Screen3Assets";
-// import AnimationTestAssets from "@src/helpers/AnimationTestAssets";
+import AnimationTestAssets from "@src/helpers/AnimationTestAssets";
 import Screen1 from "@src/views/Screen1.vue";
 import Screen2 from "@src/views/Screen2.vue";
 import Screen3 from "@src/views/Screen3.vue";
+import AnimationTest from "@src/views/AnimationTest.vue";
+
+const isDev = import.meta.env.DEV
 
 const { resetNavigationState } = useNavigationState();
 
 const router = useRouter();
 const language = useLanguage();
-const currentComponent = ref<Component|null>(null);
-const currentRouteName = ref<string|null>(null);
+const currentComponent = ref<Component | null>(null);
+const currentRouteName = ref<string | null>(null);
 
 interface ViewDef {
   name: string
@@ -71,8 +80,12 @@ const routeAssets: Record<string, ViewDef> = {
     name: "Ribas un ekstremitātes",
     assets: Screen3Assets,
     view: Screen3,
-  }
-  // 'animation': AnimationTestAssets,
+  },
+  'animation': {
+    name: "Animation",
+    assets: AnimationTestAssets,
+    view: AnimationTest,
+  }  
 };
 
 const getViewDef = (url: string) => {
@@ -138,5 +151,10 @@ onMounted(async () => {
   font-family: monospace;
   font-size: 12px;
   border-radius: 4px;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
 }
 </style>
