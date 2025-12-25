@@ -21,16 +21,16 @@ const container = ref(null);
 let render3d, mixer;
 
 function logCamera() {
-  // console.log("Camera position: ", render3d.camera.position);
-  // console.log("Camera target: ", render3d.controls.target);
+  console.log("Camera position: ", render3d.camera.position);
+  console.log("Camera target: ", render3d.controls.target);
   // console.log(render3d.camera);
 }
 
 onMounted(() => {
   render3d = initRenderer3D(container.value);
   
-  render3d.camera.position.set(76.64059891042186, 33.98536526016632, 18.017461834739485);
-  render3d.controls.target.set(7.526513403769392, 17.705962494108352, 7.4957053875706405);
+  render3d.camera.position.set(128.68624793019552, 27.206282993959626, 14.222991132157553);
+  render3d.controls.target.set(5.891008284777704, 24.11162686017622, 7.810266578575801);
 
   render3d.camera.fov = 25;
   render3d.controls.update();
@@ -64,6 +64,14 @@ onMounted(() => {
   material.color = new THREE.Color(originalBoneMaterialColor);
 
   render3d.scene.traverse((child) => {
+    if (child.isLight) {
+      child.shadow.normalBias = 0.05;
+      child.shadow.bias = -0.00002;
+
+      // child.shadow.mapSize.width = 2048;
+      // child.shadow.mapSize.height = 2048;
+
+    }
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;

@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
+import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { ref } from "vue";
 
 export type ModelTuple = readonly [string, string];
@@ -8,7 +9,8 @@ export type Models = readonly ModelTuple[];
 class ScenePreloadService {
     private manager: THREE.LoadingManager;
     private fbxLoader: FBXLoader;
-    private cache: Map<string, THREE.Group>;
+    private gltfLoader: GLTFLoader;
+    private cache: Map<string, THREE.Group | GLTF>;
     public ready = ref<boolean>(false);
     private promise: Promise<void[]> | null = null;
     public progress = ref(0);
@@ -17,6 +19,7 @@ class ScenePreloadService {
     constructor() {
         this.manager = new THREE.LoadingManager();
         this.fbxLoader = new FBXLoader(this.manager);
+        this.gltfLoader = new GLTFLoader(this.manager);
         this.cache = new Map();
         this.ready = ref(false);
 
@@ -38,20 +41,38 @@ class ScenePreloadService {
 
         this.promise = Promise.all(
             assets
-            .filter(([key,]) => {
-                const asset = this.getAsset(key);
+                .filter(([key,]) => {
+                    const asset = this.getAsset(key);
 
-                return !asset;
-            })
-            .map(async ([key, url]) => {
-                this.log(`Loading: ${url}`);
+                    return !asset;
+                })
+                .map(async ([key, url]) => {
+                    const ext = this.getExtension(url);
 
-                const gltf = await this.fbxLoader.loadAsync(url);
+                    let model = null;
 
-                this.cache.set(key, gltf);
+                    if (ext === 'fbx') {
+                        this.log(`Loading: ${url}`);
 
-                this.log(`Cached: ${key}`);
-            })
+                        model = await this.fbxLoader.loadAsync(url);
+                    }
+
+                    if (ext === 'gltf' || ext === 'glb') {
+                        this.log(`Loading: ${url}`);
+
+                        const scene = await this.gltfLoader.loadAsync(url);
+                        model = scene.scene;
+                        model.animations = scene.animations;
+                    }
+
+                    if (model) {
+                        this.cache.set(key, model);
+
+                        this.log(`Cached: ${key}`);
+                    } else {
+                        this.log(`Unrecognized ext: ${url}`);
+                    }
+                })
         );
 
         return this.promise;
@@ -70,6 +91,10 @@ class ScenePreloadService {
 
     private log(message: string) {
         this.logs.value.push(message);
+    }
+
+    private getExtension(filename) {
+        return filename.split('.').pop().toLowerCase();
     }
 }
 

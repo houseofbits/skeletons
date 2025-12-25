@@ -35,7 +35,7 @@ export function useRenderer3D() {
             33,
             canvas.clientWidth / canvas.clientHeight,
             0.01,
-            3000
+            500
         );
         camera.name = 'MainCamera';
         camera.position.set(0, 2, 5);
