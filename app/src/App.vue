@@ -35,7 +35,6 @@
 
 import TimeoutService from "@src/services/TimeoutService";
 import { onMounted, type Component, ref, markRaw } from "vue";
-import { useRouter } from "vue-router";
 import { useLanguage } from "@src/composables/Language";
 import { Language } from "@src/services/TranslationsService";
 import NavBar from "@src/components/NavBar.vue";
@@ -55,7 +54,6 @@ import AnimationTest from "@src/views/AnimationTest.vue";
 
 const { resetNavigationState } = useNavigationState();
 
-const router = useRouter();
 const language = useLanguage();
 const currentComponent = ref<Component | null>(null);
 const currentRouteName = ref<string | null>(null);
@@ -95,8 +93,7 @@ const getViewDef = (url: string) => {
 };
 
 onMounted(async () => {
-  await router.isReady();
-  const viewDef = getViewDef(router.currentRoute.value.fullPath);
+  const viewDef = getViewDef(window.location.href);
   currentRouteName.value = viewDef?.name ?? null;
   const assets = viewDef?.assets ?? [];
   if (viewDef?.view) {

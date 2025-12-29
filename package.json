@@ -11,12 +11,9 @@
   "dependencies": {
     "@types/three": "^0.181.0",
     "axios": "^1.13.1",
-    "babylonjs": "^8.36.1",
-    "babylonjs-loaders": "^8.36.1",
     "gsap": "^3.13.0",
     "three": "^0.181.1",
-    "vue": "^3.5.22",
-    "vue-router": "^4.6.3"
+    "vue": "^3.5.22"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
