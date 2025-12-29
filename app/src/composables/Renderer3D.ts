@@ -35,13 +35,11 @@ export function useRenderer3D() {
             33,
             canvas.clientWidth / canvas.clientHeight,
             0.01,
-            500
+            1500
         );
         camera.name = 'MainCamera';
         camera.position.set(0, 2, 5);
         const controls = new OrbitControls(camera, renderer.domElement);
-        // controls.enableDamping = true;
-        // controls.dampingFactor = 0.3;
 
         controls.enabled = isCameraControlsEnabled;
         

@@ -66,7 +66,11 @@ class ScenePreloadService {
             model = await this.loadFBXFromArrayBuffer(data);
         }
         if (ext === 'glb') {
-            model = await this.loadGLBFromArrayBuffer(data);
+            const scene = await this.loadGLBFromArrayBuffer(data);
+            if (scene) {
+                model = scene.scene;
+                model.animations = scene.animations;
+            }
         }
 
         if (model) {

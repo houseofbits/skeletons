@@ -1,5 +1,7 @@
 <template>
-  <ViewerGeneric v-if="selectedModel" :model="selectedModel" :key="fileUploadCounter"/>
+  <template v-for="model in loadedModels" :key="'model-' + model">
+    <ViewerGeneric v-show="model === selectedModel" :model="model" />
+  </template>
 
   <div
     class="dropzone"
@@ -18,29 +20,35 @@
       :accept="accept"
       @change="onFileChange"
     />
-    Upload
+    <div v-if="loading" class="dot-loader">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div v-else>Upload</div>
   </div>
 
   <ul class="loaded-models-list">
-    <li v-for="model in loadedModels" :key="model" @click="selectModel(model)">{{ model }}</li>
+    <li v-for="model in loadedModels" :key="model" @click="selectModel(model)">
+      {{ model }}
+    </li>
   </ul>
 </template>
 
 <script setup lang="ts">
 import ViewerGeneric from "@src/components/ViewerGeneric.vue";
 import { ref } from "vue";
-import ScenePreloadService, { type Models } from "@src/services/ScenePreloadService";
+import ScenePreloadService, {
+  type Models,
+} from "@src/services/ScenePreloadService";
 
-const allowedExtensions = [
-  "fbx",
-  "glb",
-];
+const allowedExtensions = ["fbx", "glb"];
 
-const accept = allowedExtensions.map(ext => `.${ext}`).join(",");
+const accept = allowedExtensions.map((ext) => `.${ext}`).join(",");
 
 const fileInput = ref<HTMLInputElement | null>(null);
 const dragover = ref<boolean>(false);
-let fileUploadCounter = 0;
+const loading = ref<boolean>(false);
 const selectedModel = ref<string | null>(null);
 const loadedModels = ref<string[]>([]);
 
@@ -64,12 +72,16 @@ function openFileDialog(): void {
 function onDrop(e: DragEvent): void {
   dragover.value = false;
   if (!e.dataTransfer) return;
+
+  loading.value = true;
   addFiles(e.dataTransfer.files);
 }
 
 function onFileChange(e: Event): void {
   const target = e.target as HTMLInputElement;
   if (!target.files) return;
+
+  loading.value = true;
   addFiles(target.files);
 }
 
@@ -92,15 +104,12 @@ async function addFiles(fileList: FileList): Promise<void> {
 
     break;
   }
+
+  loading.value = false;
 }
 
 function selectModel(modelKey: string) {
   selectedModel.value = modelKey;
-  fileUploadCounter++;
-}
-
-function formatSize(bytes: number): string {
-  return `${(bytes / 1024).toFixed(1)} KB`;
 }
 </script>
 
@@ -122,7 +131,7 @@ function formatSize(bytes: number): string {
 }
 
 .dropzone.dragover {
-  background: rgba(255,255,255,0.3);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .loaded-models-list {
@@ -134,12 +143,52 @@ function formatSize(bytes: number): string {
   padding: 0;
   margin-left: 10px;
 
-  & li{
+  & li {
     cursor: pointer;
     margin-top: 8px;
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+.dot-loader {
+  display: flex;
+  gap: 8px; /* space between dots */
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.dot-loader span {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation: bounce 1.2s infinite ease-in-out;
+}
+
+.dot-loader span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.dot-loader span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot-loader span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.6;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 </style>

@@ -35,7 +35,7 @@ onMounted(() => {
   render3d.camera.fov = 25;
   render3d.controls.update();
 
-  const catFallScene = ScenePreloadService.getAsset('catFallScene');
+  const catFallScene = ScenePreloadService.getAsset('animation-preview-scene');
   render3d.scene.add(catFallScene.clone());
 
   render3d.scene.traverse((child) => {
@@ -64,6 +64,10 @@ onMounted(() => {
       child.frustumCulled = false;
     }
   });
+
+  const light = new THREE.AmbientLight(new THREE.Color(0.25, 0.25, 0.2));
+  light.intensity = 1;
+  render3d.scene.add(light);
 
   const animatedModel = render3d.scene.getObjectByName('Group');
   if (animatedModel && animatedModel.animations?.length > 0) {
