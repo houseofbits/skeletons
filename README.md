@@ -1,3 +1,15 @@
+
+
+# Run locally
+Requires node version 22
+
+    npm install
+    npm run dev
+
+----
+---
+# Models reference
+
 ## screen1 - Mugurkauls
 ## screen2 - Gavlaskauss
 ## screen3_1 - Krūšukurvis
