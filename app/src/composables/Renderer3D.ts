@@ -14,7 +14,7 @@ export interface Renderer3D {
 }
 
 export function useRenderer3D() {
-    function initRenderer3D(canvas: HTMLCanvasElement): Renderer3D {
+    function initRenderer3D(canvas: HTMLCanvasElement, isCameraControlsEnabled: boolean = false): Renderer3D {
         // Scene
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0, 0, 0);
@@ -43,7 +43,8 @@ export function useRenderer3D() {
         // controls.enableDamping = true;
         // controls.dampingFactor = 0.3;
 
-        // controls.enabled = false;
+        controls.enabled = isCameraControlsEnabled;
+        
         scene.add(camera);
 
         function render(callback: CallableFunction = () => { }, redraw: boolean = true) {

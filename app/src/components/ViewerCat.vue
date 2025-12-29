@@ -23,7 +23,7 @@ let render3d, mixer;
 function logCamera() {
   console.log("Camera position: ", render3d.camera.position);
   console.log("Camera target: ", render3d.controls.target);
-  console.log(render3d.camera);
+  // console.log(render3d.camera);
 }
 
 onMounted(() => {
@@ -89,11 +89,11 @@ onMounted(() => {
     }
   });
 
-  console.log(render3d.scene);
+  // console.log(render3d.scene);
 
   const animatedModel = render3d.scene.getObjectByName('Group');
   if (animatedModel && animatedModel.animations?.length > 0) {
-    console.log(animatedModel);
+    // console.log(animatedModel);
     const clips = animatedModel.animations;
     mixer = new THREE.AnimationMixer(animatedModel)
     mixer.timeScale = 1.0;//0.2;

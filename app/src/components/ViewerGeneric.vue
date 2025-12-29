@@ -1,6 +1,6 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-  <div class="btn btn-primary btn-play" @click="play">Play</div>
+  <!-- <div class="btn btn-primary btn-play" @click="play">Play</div> -->
 </template>
 
 <script setup>
@@ -13,7 +13,7 @@ import { useRenderer3D } from "../composables/Renderer3D";
 const { initRenderer3D } = useRenderer3D();
 
 const props = defineProps({
-  isActive: { type: Boolean, default: false },
+  model: { type: String, required: true },
 });
 
 const originalBoneMaterialColor = 14997948;
@@ -30,21 +30,15 @@ onMounted(() => {
   render3d = initRenderer3D(container.value, true);
   
   render3d.camera.position.set(128.68624793019552, 27.206282993959626, 14.222991132157553);
-  render3d.controls.target.set(5.891008284777704, 24.11162686017622, 7.810266578575801);
+  render3d.controls.target.set(0, 0, 0);
 
   render3d.camera.fov = 25;
   render3d.controls.update();
 
   const catFallScene = ScenePreloadService.getAsset('catFallScene');
-  render3d.scene.add(catFallScene);
+  render3d.scene.add(catFallScene.clone());
 
   render3d.scene.traverse((child) => {
-    if (child.isMesh) {
-      child.castShadow = true;
-      child.receiveShadow = true;
-      // child.material = child.material.clone();
-    }
-
     if (child.isLight) {
       child.intensity = child.intensity * 600;
       child.shadow.mapSize.width = 2048;
@@ -52,11 +46,7 @@ onMounted(() => {
     }
   });
 
-  // const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2));
-  // light.intensity = 1;
-  // render3d.scene.add(light);
-
-  const model = ScenePreloadService.getAsset('dogBreathing');
+  const model = ScenePreloadService.getAsset(props.model);
   model.name = 'Group';
   render3d.scene.add(model);
 
@@ -67,42 +57,16 @@ onMounted(() => {
     if (child.isLight) {
       child.shadow.normalBias = 0.05;
       child.shadow.bias = -0.00002;
-
-      // child.shadow.mapSize.width = 2048;
-      // child.shadow.mapSize.height = 2048;
-
     }
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
       child.frustumCulled = false;
-      // child.material = material;
-
-      // child.geometry.computeVertexNormals();
-      // child.geometry.normalizeNormals();
-      // child.geometry.computeTangents();
-
-      // child.scale.x *= -1;
-      // child.geometry.computeVertexNormals();
-      // child.material.side = THREE.DoubleSide; // optional
-      // const geometry = child.geometry;
-
-      // // Flip normals by multiplying by -1
-      // geometry.attributes.normal.array.forEach((v, i, arr) => {
-      //   arr[i] = arr[i] * -1;
-      // });
-
-      // geometry.attributes.normal.needsUpdate = true;
-
-
     }
   });
 
-  // console.log(render3d.scene);
-
   const animatedModel = render3d.scene.getObjectByName('Group');
   if (animatedModel && animatedModel.animations?.length > 0) {
-    // console.log(animatedModel);
     const clips = animatedModel.animations;
     mixer = new THREE.AnimationMixer(animatedModel)
     mixer.timeScale = 1.0;//0.2;
