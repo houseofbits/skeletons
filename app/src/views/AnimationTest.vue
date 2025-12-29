@@ -38,9 +38,7 @@
 <script setup lang="ts">
 import ViewerGeneric from "@src/components/ViewerGeneric.vue";
 import { ref } from "vue";
-import ScenePreloadService, {
-  type Models,
-} from "@src/services/ScenePreloadService";
+import ScenePreloadService from "@src/services/ScenePreloadService";
 
 const allowedExtensions = ["fbx", "glb"];
 
