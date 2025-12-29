@@ -51,7 +51,7 @@ import Screen2 from "@src/views/Screen2.vue";
 import Screen3 from "@src/views/Screen3.vue";
 import AnimationTest from "@src/views/AnimationTest.vue";
 
-const isDev = import.meta.env.DEV
+// const isDev = import.meta.env.DEV
 
 const { resetNavigationState } = useNavigationState();
 
