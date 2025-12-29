@@ -24,8 +24,9 @@
       <div class="btn btn-secondary mr" @click="language.selectLanguage(Language.LV)">LV</div>
       <div class="btn btn-secondary mr" @click="language.selectLanguage(Language.EN)">EN</div>
     </div>
-    <div v-if="isDev">
-      <a href="index.html?animation" class="btn btn-primary mr">Animation test</a>
+    <!-- <div v-if="isDev"> -->
+    <div>
+      <a href="index.html?animation" class="btn btn-primary mr">Animation preview</a>
     </div>
   </div>
 </template>
