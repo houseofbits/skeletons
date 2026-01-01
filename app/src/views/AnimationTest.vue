@@ -3,23 +3,9 @@
     <ViewerGeneric v-show="model === selectedModel" :model="model" />
   </template>
 
-  <div
-    class="dropzone"
-    :class="{ dragover }"
-    @click="openFileDialog"
-    @dragenter.prevent
-    @dragover.prevent="dragover = true"
-    @dragleave.prevent="dragover = false"
-    @drop.prevent="onDrop"
-  >
-    <input
-      ref="fileInput"
-      type="file"
-      hidden
-      multiple
-      :accept="accept"
-      @change="onFileChange"
-    />
+  <div class="dropzone" :class="{ dragover }" @click="openFileDialog" @dragenter.prevent
+    @dragover.prevent="dragover = true" @dragleave.prevent="dragover = false" @drop.prevent="onDrop">
+    <input ref="fileInput" type="file" hidden multiple :accept="accept" @change="onFileChange" />
     <div v-if="loading" class="dot-loader">
       <span></span>
       <span></span>
@@ -144,6 +130,7 @@ function selectModel(modelKey: string) {
   & li {
     cursor: pointer;
     margin-top: 8px;
+
     &:hover {
       text-decoration: underline;
     }
@@ -152,7 +139,8 @@ function selectModel(modelKey: string) {
 
 .dot-loader {
   display: flex;
-  gap: 8px; /* space between dots */
+  gap: 8px;
+  /* space between dots */
   justify-content: center;
   align-items: center;
   height: 50px;
@@ -180,13 +168,18 @@ function selectModel(modelKey: string) {
 }
 
 @keyframes bounce {
-  0%, 80%, 100% {
+
+  0%,
+  80%,
+  100% {
     transform: scale(0);
     opacity: 0.6;
   }
+
   40% {
     transform: scale(1);
     opacity: 1;
   }
 }
+
 </style>
