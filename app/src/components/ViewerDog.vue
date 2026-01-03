@@ -12,6 +12,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import ScenePreloadService from "../services/ScenePreloadService";
 import { useRenderer3D } from "../composables/Renderer3D";
 import usePivotRotation from "@src/composables/PivotRotation";
+import { boneMaterial, boneHilightMaterial } from "@src/helpers/Materials";
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -38,7 +39,7 @@ onMounted(() => {
   render3d.camera.fov = 25;
   render3d.controls.update();
 
-  const catFallScene = ScenePreloadService.getAsset('catFallScene').clone();
+  const catFallScene = ScenePreloadService.getAsset('dogScene').clone();
   render3d.scene.add(catFallScene);
 
   const model = ScenePreloadService.getAsset('dogBreathing');
@@ -47,22 +48,6 @@ onMounted(() => {
   const pivotRotation = usePivotRotation(render3d.renderer.domElement);
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);
-
-  const boneMaterial = new THREE.MeshPhongMaterial({
-    color: new THREE.Color(0.7758223476257268, 0.6938718871722084, 0.5028864818811943),
-    shininess: 32,
-    specular: new THREE.Color(0.06743726399864605, 0.06743726399864605, 0.06743726399864605),
-    reflectivity: 1,
-    name: 'boneMaterial',
-  });
-
-  const boneHilightMaterial = new THREE.MeshPhongMaterial({
-    color: new THREE.Color("#d98602"),
-    shininess: 32,
-    specular: new THREE.Color(0.06743726399864605, 0.06743726399864605, 0.06743726399864605),
-    reflectivity: 1,
-    name: 'hilightedMaterial',
-  });  
 
   render3d.scene.traverse((child) => {
     if (child.isLight) {
@@ -86,8 +71,6 @@ onMounted(() => {
       }      
     }
   });
-
-
 
   const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2));
   light.intensity = 1;

@@ -19,7 +19,7 @@ const comps = [
   ViewerDog,
 ];
 
-const selectedCompIndex = ref(1);
+const selectedCompIndex = ref(0);
 
 </script>
 

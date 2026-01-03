@@ -12,6 +12,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import ScenePreloadService from "../services/ScenePreloadService";
 import { useRenderer3D } from "../composables/Renderer3D";
 import usePivotRotation from "@src/composables/PivotRotation";
+import { boneMaterial, boneHilightMaterial } from "@src/helpers/Materials";
+import gsap from "gsap";
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -22,6 +24,8 @@ const props = defineProps({
 const originalBoneMaterialColor = 14997948;
 const container = ref(null);
 let render3d, mixer;
+let pivot = null;
+let animationPlaying = null;
 
 function logCamera() {
   console.log("Camera position: ", render3d.camera.position);
@@ -29,16 +33,72 @@ function logCamera() {
   // console.log(render3d.camera);
 }
 
-onMounted(() => {
-  render3d = initRenderer3D(container.value, true);
+function playAnimation() {
+  const animatedModel = render3d.scene.getObjectByName('Group');
+  if (animatedModel && animatedModel.animations?.length > 0) {
+    const clips = animatedModel.animations;
+    mixer = new THREE.AnimationMixer(animatedModel)
+    mixer.timeScale = 1.0;
 
-  render3d.camera.position.set(76.64059891042186, 33.98536526016632, 18.017461834739485);
-  render3d.controls.target.set(7.526513403769392, 17.705962494108352, 7.4957053875706405);
+
+    const action = mixer.clipAction(clips[0]);
+    // action.time = 200 / 30;
+    action.play();
+    action.setLoop(THREE.LoopOnce);
+
+    if (pivot) {
+      if (animationPlaying) {
+        animationPlaying.kill();
+      };
+      pivot.position.set(0, 20, 0);
+
+      // render3d.camera.position.set(113.26140436977622, -3.9165300354975274, -36.061920672506005);
+      // render3d.controls.target.set(-3.5693443200606003, 7.173470469768186, 0.775001860830176);
+      // render3d.controls.update();
+
+      animationPlaying = gsap.to(pivot.position, {
+        x: 0,
+        y: -30,
+        z: 0,
+        duration: 8,
+        ease: "power1.inOut"
+      });
+
+      // gsap.to(render3d.controls.target, {
+      //   x: 0.19823798211067456, y: -11.85257362829387, z: 1.6196289236085364,
+      //   duration: 1,
+      //   delay: 6,
+      //   ease: "power2.inOut",
+      //   onUpdate: () => {
+      //     render3d.controls.update();
+      //   },
+      // });
+      // gsap.to(render3d.camera.position, {
+      //   x: 78.118988513895, y: -14.775887107899953, z: -7.911587896122452,
+      //   duration: 1,
+      //   delay: 6,
+      //   ease: "power2.inOut",
+      //   onUpdate: () => {
+      //     render3d.controls.update();
+      //   },
+      // });
+    }
+  }
+}
+
+onMounted(() => {
+  render3d = initRenderer3D(container.value, false);
+
+  // render3d.camera.position.set(113.26140436977622, -3.9165300354975274, -36.061920672506005);
+  // render3d.controls.target.set(-3.5693443200606003, 7.173470469768186, 0.775001860830176);
+
+  render3d.camera.position.set(140.04757093740184,-8.575213700125868,-44.5347886683078);
+  render3d.controls.target.set(-3.7582807000121026, 5.075361899222495, 0.8074271097605541);
 
   render3d.camera.fov = 25;
   render3d.controls.update();
 
-  const catFallScene = ScenePreloadService.getAsset('catFallScene').clone();
+  const catFallScene = ScenePreloadService.getAsset('catScene').clone();
   render3d.scene.add(catFallScene);
 
   const model = ScenePreloadService.getAsset('catFall');
@@ -46,22 +106,7 @@ onMounted(() => {
   const pivotRotation = usePivotRotation(render3d.renderer.domElement);
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);
-
-  const boneMaterial = new THREE.MeshPhongMaterial({
-    color: new THREE.Color(0.7758223476257268, 0.6938718871722084, 0.5028864818811943),
-    shininess: 32,
-    specular: new THREE.Color(0.06743726399864605, 0.06743726399864605, 0.06743726399864605),
-    reflectivity: 1,
-    name: 'boneMaterial',
-  });
-
-  const boneHilightMaterial = new THREE.MeshPhongMaterial({
-    color: new THREE.Color("#d98602"),
-    shininess: 32,
-    specular: new THREE.Color(0.06743726399864605, 0.06743726399864605, 0.06743726399864605),
-    reflectivity: 1,
-    name: 'hilightedMaterial',
-  });
+  pivot = pivotRotation.pivot;
 
   render3d.scene.traverse((child) => {
     if (child.isLight) {
@@ -74,7 +119,6 @@ onMounted(() => {
       child.receiveShadow = true;
       child.frustumCulled = false;
 
-      console.log(child.material.name);
       if (child.material.name === 'Cat_Low_Poly' || child.material.name === 'asRed2' || child.material.name === 'asBlue2') {
         child.material = boneMaterial;
       }
@@ -88,18 +132,6 @@ onMounted(() => {
   light.intensity = 1;
   render3d.scene.add(light);
 
-  const animatedModel = render3d.scene.getObjectByName('Group');
-  if (animatedModel && animatedModel.animations?.length > 0) {
-    // console.log(animatedModel);
-    const clips = animatedModel.animations;
-    mixer = new THREE.AnimationMixer(animatedModel)
-    mixer.timeScale = 1.0;//0.2;
-
-    const action = mixer.clipAction(clips[0]);
-    action.time = 200 / 30;
-    action.play();
-  }
-
   render3d.render((delta) => {
     if (mixer) {
       mixer.update(delta);
@@ -110,16 +142,7 @@ onMounted(() => {
 });
 
 function play() {
-  const animatedModel = render3d.scene.getObjectByName('Group');
-  if (animatedModel && animatedModel.animations?.length > 0) {
-    const clips = animatedModel.animations;
-    mixer = new THREE.AnimationMixer(animatedModel)
-    mixer.timeScale = 1.0;
-
-    const action = mixer.clipAction(clips[0]);
-    action.time = 200 / 30;
-    action.play();
-  }
+  playAnimation();
 }
 
 </script>
