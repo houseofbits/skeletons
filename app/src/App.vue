@@ -26,7 +26,8 @@
     </div>
     <!-- <div v-if="isDev"> -->
     <div>
-      <a href="index.html?animation" class="btn btn-primary mr">Animation preview</a>
+      <a href="index.html?animation" class="btn btn-primary mr">Model preview</a>
+      <a href="index.html?clips" class="btn btn-primary mr">Animation clips</a>
     </div>
   </div>
 </template>
@@ -45,10 +46,12 @@ import Screen1Assets from "@src/helpers/Screen1Assets";
 import Screen2Assets from "@src/helpers/Screen2Assets";
 import Screen3Assets from "@src/helpers/Screen3Assets";
 import AnimationTestAssets from "@src/helpers/AnimationTestAssets";
+import AnimationClipsAssets from "@src/helpers/AnimationClipsAssets";
 import Screen1 from "@src/views/Screen1.vue";
 import Screen2 from "@src/views/Screen2.vue";
 import Screen3 from "@src/views/Screen3.vue";
 import AnimationTest from "@src/views/AnimationTest.vue";
+import AnimationClips from "@src/views/AnimationClips.vue";
 
 // const isDev = import.meta.env.DEV
 
@@ -84,7 +87,12 @@ const routeAssets: Record<string, ViewDef> = {
     name: "Animation",
     assets: AnimationTestAssets,
     view: AnimationTest,
-  }  
+  } ,
+  'clips': {
+    name: "Clips",
+    assets: AnimationClipsAssets,
+    view: AnimationClips,
+  }    
 };
 
 const getViewDef = (url: string) => {

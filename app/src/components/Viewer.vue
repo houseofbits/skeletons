@@ -16,6 +16,7 @@ import { useRenderer3D } from "@src/composables/Renderer3D";
 import Sidebar from "@src/components/Sidebar.vue";
 import { tweenColor, transitionCamera } from "@src/utils/transitions";
 import { toScreenPosition } from "@src/utils/utils3d";
+import usePivotRotation from "@src/composables/PivotRotation";
 
 const props = defineProps({
   asset: { type: String, required: true },
@@ -39,10 +40,7 @@ const activePointPositions = ref([]);
 const showActivePoints = ref(false);
 const selectedActivePoint = ref(-1);
 let showActivePointsTimeout = null;
-let dragging = false;
-let lastX = 0;
 let pivot = null;
-const isCameraControlEnabled = ref(false);
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -184,6 +182,7 @@ function prepareMeshMaterials() {
         if (mesh && mesh.material) {
           const material = mesh.material.clone();
           mesh.material = material;
+          console.log(material);
         }
       }
     }
@@ -206,47 +205,11 @@ function initPivot() {
     return;
   }
 
-  const worldPos = new THREE.Vector3();
-  model.getWorldPosition(worldPos);
+  const pivotRotation = usePivotRotation(render3d.renderer.domElement);
 
-  pivot = new THREE.Object3D();
-  pivot.position.set(0,0,0);
-
-  model.position.copy(worldPos.sub(pivot.position));
-
-  pivot.add(model);
-
-  render3d.scene.add(pivot);
-
-  render3d.renderer.domElement.addEventListener("pointerdown", (e) => {
-    if (!props.isActive || isCameraControlEnabled.value) {
-      dragging = false;
-      return;
-    }
-    dragging = true;
-    lastX = e.clientX;
-  });
-
-  render3d.renderer.domElement.addEventListener("pointermove", (e) => {
-    if (!props.isActive || isCameraControlEnabled.value) {
-      dragging = false;
-      return;
-    }
-
-    if (!dragging) return;
-
-    const dx = e.clientX - lastX;
-    lastX = e.clientX;
-
-    pivot.rotation.y += dx * 0.003;
-    if (Math.abs(pivot.rotation.y) > Math.PI * 2) {
-      pivot.rotation.y = 0;
-    }
-  });
-
-  window.addEventListener("pointerup", () => {
-    dragging = false;
-  });
+  pivotRotation.pivot.add(model);
+  render3d.scene.add(pivotRotation.pivot);
+  pivot = pivotRotation.pivot;
 }
 
 onMounted(() => {

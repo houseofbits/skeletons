@@ -1,6 +1,8 @@
 <template>
-  <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-  <div class="btn btn-primary btn-play" @click="play">Play</div>
+  <div>
+    <div ref="container" class="fbx-viewer" @click="logCamera"></div>
+    <div class="btn btn-primary btn-play" @click="play">Play</div>
+  </div>
 </template>
 
 <script setup>
@@ -9,6 +11,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import ScenePreloadService from "../services/ScenePreloadService";
 import { useRenderer3D } from "../composables/Renderer3D";
+import usePivotRotation from "@src/composables/PivotRotation";
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -27,69 +30,63 @@ function logCamera() {
 }
 
 onMounted(() => {
-  render3d = initRenderer3D(container.value);
-  
+  render3d = initRenderer3D(container.value, true);
+
   render3d.camera.position.set(76.64059891042186, 33.98536526016632, 18.017461834739485);
   render3d.controls.target.set(7.526513403769392, 17.705962494108352, 7.4957053875706405);
 
   render3d.camera.fov = 25;
   render3d.controls.update();
 
-  const catFallScene = ScenePreloadService.getAsset('catFallScene');
+  const catFallScene = ScenePreloadService.getAsset('catFallScene').clone();
   render3d.scene.add(catFallScene);
 
-  render3d.scene.traverse((child) => {
-    if (child.isMesh) {
-      child.castShadow = true;
-      child.receiveShadow = true;
-      // child.material = child.material.clone();
-    }
+  const model = ScenePreloadService.getAsset('catFall');
+  model.name = 'Group';
+  const pivotRotation = usePivotRotation(render3d.renderer.domElement);
+  pivotRotation.pivot.add(model);
+  render3d.scene.add(pivotRotation.pivot);
 
+  const boneMaterial = new THREE.MeshPhongMaterial({
+    color: new THREE.Color(0.7758223476257268, 0.6938718871722084, 0.5028864818811943),
+    shininess: 32,
+    specular: new THREE.Color(0.06743726399864605, 0.06743726399864605, 0.06743726399864605),
+    reflectivity: 1,
+    name: 'boneMaterial',
+  });
+
+  const boneHilightMaterial = new THREE.MeshPhongMaterial({
+    color: new THREE.Color("#d98602"),
+    shininess: 32,
+    specular: new THREE.Color(0.06743726399864605, 0.06743726399864605, 0.06743726399864605),
+    reflectivity: 1,
+    name: 'hilightedMaterial',
+  });
+
+  render3d.scene.traverse((child) => {
     if (child.isLight) {
       child.intensity = child.intensity * 600;
       child.shadow.mapSize.width = 2048;
       child.shadow.mapSize.height = 2048;
     }
-  });
-
-  // const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2));
-  // light.intensity = 1;
-  // render3d.scene.add(light);
-
-  const catFall = ScenePreloadService.getAsset('catFall');
-  render3d.scene.add(catFall);
-
-  const material = new THREE.MeshStandardMaterial({color: 0xff0000});
-  material.color = new THREE.Color(originalBoneMaterialColor);
-
-  render3d.scene.traverse((child) => {
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
       child.frustumCulled = false;
-      // child.material = material;
 
-      // child.geometry.computeVertexNormals();
-      // child.geometry.normalizeNormals();
-      // child.geometry.computeTangents();
-
-      // child.scale.x *= -1;
-      // child.geometry.computeVertexNormals();
-      // child.material.side = THREE.DoubleSide; // optional
-      // const geometry = child.geometry;
-
-      // // Flip normals by multiplying by -1
-      // geometry.attributes.normal.array.forEach((v, i, arr) => {
-      //   arr[i] = arr[i] * -1;
-      // });
-
-      // geometry.attributes.normal.needsUpdate = true;
-
-
+      console.log(child.material.name);
+      if (child.material.name === 'Cat_Low_Poly' || child.material.name === 'asRed2' || child.material.name === 'asBlue2') {
+        child.material = boneMaterial;
+      }
+      if (child.material.name === 'asGreen2') {
+        child.material = boneHilightMaterial;
+      }
     }
   });
 
-  // console.log(render3d.scene);
+  const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2));
+  light.intensity = 1;
+  render3d.scene.add(light);
 
   const animatedModel = render3d.scene.getObjectByName('Group');
   if (animatedModel && animatedModel.animations?.length > 0) {

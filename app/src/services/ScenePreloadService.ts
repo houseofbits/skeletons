@@ -52,7 +52,6 @@ class ScenePreloadService {
         );
 
         this.promise.then(() => {
-            console.log('all promises done');
             this.ready.value = true;
             this.log("All assets fully loaded.");
         });
@@ -105,14 +104,11 @@ class ScenePreloadService {
     private storeAsset(key: string, model: THREE.Group | GLTF) {
         this.cache.set(key, model);
 
-        console.log('Store asset ', key, model);
-
         this.log(`Cached: ${key}`);
     }
 
     getAsset(name: string) {
         const asset = this.cache.get(name);
-        console.log('get asset', name, asset, this.promise);
         if (!asset) {
             this.log(`Warning: Asset "${name}" not found in cache.`);
 

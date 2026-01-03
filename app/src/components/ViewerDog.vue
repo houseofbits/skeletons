@@ -1,6 +1,8 @@
 <template>
-  <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-  <div class="btn btn-primary btn-play" @click="play">Play</div>
+  <div>
+    <div ref="container" class="fbx-viewer" @click="logCamera"></div>
+    <div class="btn btn-primary btn-play" @click="play">Play</div>
+  </div>
 </template>
 
 <script setup>
@@ -9,6 +11,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import ScenePreloadService from "../services/ScenePreloadService";
 import { useRenderer3D } from "../composables/Renderer3D";
+import usePivotRotation from "@src/composables/PivotRotation";
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -27,77 +30,68 @@ function logCamera() {
 }
 
 onMounted(() => {
-  render3d = initRenderer3D(container.value, true);
-  
-  render3d.camera.position.set(128.68624793019552, 27.206282993959626, 14.222991132157553);
-  render3d.controls.target.set(5.891008284777704, 24.11162686017622, 7.810266578575801);
+  render3d = initRenderer3D(container.value, false);
+
+  render3d.camera.position.set(154.0305698377881, 36.749830464126774, 36.512778766792984);
+  render3d.controls.target.set(6.201491736114454, 18.123757394595394, 9.642520475540605);
 
   render3d.camera.fov = 25;
   render3d.controls.update();
 
-  const catFallScene = ScenePreloadService.getAsset('catFallScene');
+  const catFallScene = ScenePreloadService.getAsset('catFallScene').clone();
   render3d.scene.add(catFallScene);
-
-  render3d.scene.traverse((child) => {
-    if (child.isMesh) {
-      child.castShadow = true;
-      child.receiveShadow = true;
-      // child.material = child.material.clone();
-    }
-
-    if (child.isLight) {
-      child.intensity = child.intensity * 600;
-      child.shadow.mapSize.width = 2048;
-      child.shadow.mapSize.height = 2048;
-    }
-  });
-
-  // const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2));
-  // light.intensity = 1;
-  // render3d.scene.add(light);
 
   const model = ScenePreloadService.getAsset('dogBreathing');
   model.name = 'Group';
-  render3d.scene.add(model);
 
-  const material = new THREE.MeshStandardMaterial({color: 0xff0000});
-  material.color = new THREE.Color(originalBoneMaterialColor);
+  const pivotRotation = usePivotRotation(render3d.renderer.domElement);
+  pivotRotation.pivot.add(model);
+  render3d.scene.add(pivotRotation.pivot);
+
+  const boneMaterial = new THREE.MeshPhongMaterial({
+    color: new THREE.Color(0.7758223476257268, 0.6938718871722084, 0.5028864818811943),
+    shininess: 32,
+    specular: new THREE.Color(0.06743726399864605, 0.06743726399864605, 0.06743726399864605),
+    reflectivity: 1,
+    name: 'boneMaterial',
+  });
+
+  const boneHilightMaterial = new THREE.MeshPhongMaterial({
+    color: new THREE.Color("#d98602"),
+    shininess: 32,
+    specular: new THREE.Color(0.06743726399864605, 0.06743726399864605, 0.06743726399864605),
+    reflectivity: 1,
+    name: 'hilightedMaterial',
+  });  
 
   render3d.scene.traverse((child) => {
     if (child.isLight) {
       child.shadow.normalBias = 0.05;
       child.shadow.bias = -0.00002;
-
-      // child.shadow.mapSize.width = 2048;
-      // child.shadow.mapSize.height = 2048;
-
+      child.intensity = child.intensity * 600;
+      child.shadow.mapSize.width = 2048;
+      child.shadow.mapSize.height = 2048;
     }
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
       child.frustumCulled = false;
-      // child.material = material;
 
-      // child.geometry.computeVertexNormals();
-      // child.geometry.normalizeNormals();
-      // child.geometry.computeTangents();
+      if (child.material.name === 'shader_69') {
+        child.material = boneMaterial;
+      }
 
-      // child.scale.x *= -1;
-      // child.geometry.computeVertexNormals();
-      // child.material.side = THREE.DoubleSide; // optional
-      // const geometry = child.geometry;
-
-      // // Flip normals by multiplying by -1
-      // geometry.attributes.normal.array.forEach((v, i, arr) => {
-      //   arr[i] = arr[i] * -1;
-      // });
-
-      // geometry.attributes.normal.needsUpdate = true;
-
-
+      if (child.material.name === 'ribMat_M' || child.material.name === 'ribMat_C') {
+        child.material = boneHilightMaterial;
+      }      
     }
   });
 
+
+
+  const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2));
+  light.intensity = 1;
+  render3d.scene.add(light);
   // console.log(render3d.scene);
 
   const animatedModel = render3d.scene.getObjectByName('Group');
