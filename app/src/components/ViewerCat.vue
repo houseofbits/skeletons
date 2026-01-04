@@ -2,7 +2,7 @@
   <div>
     <div ref="container" class="fbx-viewer" @click="logCamera"></div>
     <PlayButton class="btn-play" @click="playPauseAnimation" :is-playing="isAnimationPlaying" />
-    <!-- <div class="btn btn-primary btn-next" @click="stepForwardAnimation">Step forward</div> -->
+    <div class="btn btn-primary btn-next" @click="stepForwardAnimation">Step forward</div>
   </div>
 </template>
 
@@ -39,9 +39,8 @@ let animationPlaying = null;
 const isAnimationPlaying = ref(false);
 
 function logCamera() {
-  console.log("Camera position: ", render3d.camera.position);
-  console.log("Camera target: ", render3d.controls.target);
-  // console.log(render3d.camera);
+  // console.log("Camera position: ", render3d.camera.position);
+  // console.log("Camera target: ", render3d.controls.target);
 }
 
 function initAnimation() {
@@ -117,21 +116,24 @@ function stepForwardAnimation() {
     animation.gsapTimeline.pause();
     isAnimationPlaying.value = false;
 
-    const stepDuration = 0.3;
-    const newTime = Math.min(animation.action.time + stepDuration, animation.action.getClip().duration);
+    const stepDuration = 0.2;
+    let newTime = animation.action.time + stepDuration;
+    if(newTime > animation.action.getClip().duration) {
+        newTime = 0;
+    }
+
     animation.action.time = newTime;
     animation.mixer.update(0);
 
-    // pivot.position.set(0, 20, 0);
-    animation.gsapTimeline.time(newTime);
+    animation.gsapTimeline.time(newTime / animation.mixer.timeScale);
   }
 }
 
 onMounted(() => {
   render3d = initRenderer3D(container.value, false);
 
-  render3d.camera.position.set(140.18211515184288, 0.14745027060443228, -46.72804757531041);
-  render3d.controls.target.set(-3.3994317493369133, 13.798025869952792, -0.6804755840411869);
+  render3d.camera.position.set(153.62562089378935, -7.07344970129659, -50.81826781490016);
+  render3d.controls.target.set(-3.843766682705013, 7.8974697941971685, -0.31677150604446797);
 
   render3d.camera.fov = 25;
   render3d.controls.update();
@@ -167,7 +169,7 @@ onMounted(() => {
   });
 
   const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2));
-  light.intensity = 2;
+  light.intensity = 1;
   render3d.scene.add(light);
 
   render3d.render((delta) => {
