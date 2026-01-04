@@ -1,7 +1,8 @@
 <template>
   <div>
     <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-    <div class="btn btn-primary btn-play" @click="play">Play</div>
+    <PlayButton class="btn-play" @click="playPauseAnimation" :is-playing="isAnimationPlaying" />
+    <!-- <div class="btn btn-primary btn-next" @click="stepForwardAnimation">Step forward</div> -->
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import { useRenderer3D } from "../composables/Renderer3D";
 import usePivotRotation from "@src/composables/PivotRotation";
 import { boneMaterial, boneHilightMaterial } from "@src/helpers/Materials";
 import gsap from "gsap";
+import PlayButton from "@src/components/PlayButton.vue";
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -24,8 +26,17 @@ const props = defineProps({
 const originalBoneMaterialColor = 14997948;
 const container = ref(null);
 let render3d, mixer;
+
+const animation = {
+  mixer: null,
+  action: null,
+  gsapTimeline: null,
+  hasFinished: false,
+};
+
 let pivot = null;
 let animationPlaying = null;
+const isAnimationPlaying = ref(false);
 
 function logCamera() {
   console.log("Camera position: ", render3d.camera.position);
@@ -33,67 +44,94 @@ function logCamera() {
   // console.log(render3d.camera);
 }
 
-function playAnimation() {
+function initAnimation() {
   const animatedModel = render3d.scene.getObjectByName('Group');
   if (animatedModel && animatedModel.animations?.length > 0) {
+
     const clips = animatedModel.animations;
-    mixer = new THREE.AnimationMixer(animatedModel)
-    mixer.timeScale = 1.0;
+    animation.mixer = new THREE.AnimationMixer(animatedModel)
+    animation.mixer.timeScale = 1.5;
 
+    animation.action = animation.mixer.clipAction(clips[0]);
+    animation.action.setLoop(THREE.LoopOnce);
+    animation.action.paused = true;
+    animation.action.clampWhenFinished = true;
+    animation.action.play();
+    animation.mixer.addEventListener("finished", (event) => {
+      if (event.action === animation.action) {
+        isAnimationPlaying.value = false;
+        animation.hasFinished = true;
+        animation.gsapTimeline.pause();
+      }
+    });
 
-    const action = mixer.clipAction(clips[0]);
-    // action.time = 200 / 30;
-    action.play();
-    action.setLoop(THREE.LoopOnce);
+    pivot.position.set(0, 20, 0);
 
-    if (pivot) {
-      if (animationPlaying) {
-        animationPlaying.kill();
-      };
-      pivot.position.set(0, 20, 0);
+    animation.gsapTimeline = gsap.timeline({
+      paused: true
+    });
 
-      // render3d.camera.position.set(113.26140436977622, -3.9165300354975274, -36.061920672506005);
-      // render3d.controls.target.set(-3.5693443200606003, 7.173470469768186, 0.775001860830176);
-      // render3d.controls.update();
-
-      animationPlaying = gsap.to(pivot.position, {
+    animation.gsapTimeline
+      .to(pivot.position, {
         x: 0,
         y: -30,
         z: 0,
         duration: 8,
         ease: "power1.inOut"
-      });
+      }, 0)
+      .to(animation.mixer, {
+        timeScale: 1.0,
+        duration: 8,
+        ease: "power1.out"
+      }, 0);
+  }
 
-      // gsap.to(render3d.controls.target, {
-      //   x: 0.19823798211067456, y: -11.85257362829387, z: 1.6196289236085364,
-      //   duration: 1,
-      //   delay: 6,
-      //   ease: "power2.inOut",
-      //   onUpdate: () => {
-      //     render3d.controls.update();
-      //   },
-      // });
-      // gsap.to(render3d.camera.position, {
-      //   x: 78.118988513895, y: -14.775887107899953, z: -7.911587896122452,
-      //   duration: 1,
-      //   delay: 6,
-      //   ease: "power2.inOut",
-      //   onUpdate: () => {
-      //     render3d.controls.update();
-      //   },
-      // });
+  playPauseAnimation();
+}
+
+function playPauseAnimation() {
+  if (isAnimationPlaying.value) {
+    // Pause
+    animation.action.paused = true;
+    animation.gsapTimeline.pause();
+    isAnimationPlaying.value = false;
+  } else {
+    if (animation.hasFinished) {
+      // Restart
+      animation.action.reset();
+      animation.gsapTimeline.restart();
+      animation.hasFinished = false;
+      pivot.position.set(0, 20, 0);
     }
+    // Play
+    animation.action.paused = false;
+    animation.action.play();
+    animation.gsapTimeline.play();
+    isAnimationPlaying.value = true;
+  }
+}
+
+function stepForwardAnimation() {
+  if (animation.mixer) {
+    animation.action.paused = true;
+    animation.gsapTimeline.pause();
+    isAnimationPlaying.value = false;
+
+    const stepDuration = 0.3;
+    const newTime = Math.min(animation.action.time + stepDuration, animation.action.getClip().duration);
+    animation.action.time = newTime;
+    animation.mixer.update(0);
+
+    // pivot.position.set(0, 20, 0);
+    animation.gsapTimeline.time(newTime);
   }
 }
 
 onMounted(() => {
   render3d = initRenderer3D(container.value, false);
 
-  // render3d.camera.position.set(113.26140436977622, -3.9165300354975274, -36.061920672506005);
-  // render3d.controls.target.set(-3.5693443200606003, 7.173470469768186, 0.775001860830176);
-
-  render3d.camera.position.set(140.04757093740184,-8.575213700125868,-44.5347886683078);
-  render3d.controls.target.set(-3.7582807000121026, 5.075361899222495, 0.8074271097605541);
+  render3d.camera.position.set(140.18211515184288, 0.14745027060443228, -46.72804757531041);
+  render3d.controls.target.set(-3.3994317493369133, 13.798025869952792, -0.6804755840411869);
 
   render3d.camera.fov = 25;
   render3d.controls.update();
@@ -129,21 +167,19 @@ onMounted(() => {
   });
 
   const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2));
-  light.intensity = 1;
+  light.intensity = 2;
   render3d.scene.add(light);
 
   render3d.render((delta) => {
-    if (mixer) {
-      mixer.update(delta);
+    if (animation.mixer) {
+      animation.mixer.update(delta);
     }
   });
 
   onBeforeUnmount(render3d.dispose);
-});
 
-function play() {
-  playAnimation();
-}
+  initAnimation();
+});
 
 </script>
 
@@ -163,7 +199,13 @@ function play() {
 
 .btn-play {
   position: absolute;
-  top: 120px;
+  top: 140px;
   left: 20px;
+}
+
+.btn-next {
+  position: absolute;
+  top: 155px;
+  left: 100px;
 }
 </style>

@@ -1,7 +1,6 @@
 <template>
   <div>
     <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-    <div class="btn btn-primary btn-play" @click="play">Play</div>
   </div>
 </template>
 
@@ -73,7 +72,7 @@ onMounted(() => {
   });
 
   const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.2));
-  light.intensity = 1;
+  light.intensity = 2;
   render3d.scene.add(light);
   // console.log(render3d.scene);
 
@@ -98,19 +97,6 @@ onMounted(() => {
   onBeforeUnmount(render3d.dispose);
 });
 
-function play() {
-  const animatedModel = render3d.scene.getObjectByName('Group');
-  if (animatedModel && animatedModel.animations?.length > 0) {
-    const clips = animatedModel.animations;
-    mixer = new THREE.AnimationMixer(animatedModel)
-    mixer.timeScale = 1.0;
-
-    const action = mixer.clipAction(clips[0]);
-    action.time = 0;//200 / 30;
-    action.play();
-  }
-}
-
 </script>
 
 <style>
@@ -125,11 +111,5 @@ function play() {
   width: 100% !important;
   height: 100% !important;
   display: block;
-}
-
-.btn-play {
-  position: absolute;
-  top: 120px;
-  left: 20px;
 }
 </style>
