@@ -10,6 +10,7 @@ export interface Renderer3D {
     canvas: HTMLCanvasElement;
 
     render(callback: CallableFunction, redraw: boolean): void;
+    renderRaw(callback: CallableFunction): void;
     dispose(): void;
 }
 
@@ -45,6 +46,13 @@ export function useRenderer3D() {
         
         scene.add(camera);
 
+        function renderRaw(callback: CallableFunction = () => { }) {
+            requestAnimationFrame(() => renderRaw(callback));
+            if (canvas) {
+                callback(canvas.clientWidth, canvas.clientHeight, clock.getDelta());
+            }
+        }
+        
         function render(callback: CallableFunction = () => { }, redraw: boolean = true) {
             requestAnimationFrame(() => render(callback));
 
@@ -89,7 +97,7 @@ export function useRenderer3D() {
             });
         }
 
-        return { scene, renderer, clock, camera, controls, render, dispose, canvas };
+        return { scene, renderer, clock, camera, controls, renderRaw, render, dispose, canvas };
     }
 
     return {

@@ -29,9 +29,10 @@ const selectedCompIndex = ref(0);
   padding: 0;
   margin: 1rem 0 0 0;
   position: absolute;
-  top: 150px;
-  right: 50px;
-
+  top: 35px;
+  right: 900px;
+  display: flex;
+  z-index: 1000;
   li {
     padding: 0.5rem 1rem;
     cursor: pointer;
