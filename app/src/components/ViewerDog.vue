@@ -32,8 +32,8 @@ function logCamera() {
 onMounted(() => {
   render3d = initRenderer3D(container.value, false);
 
-  render3d.camera.position.set(154.0305698377881, 36.749830464126774, 36.512778766792984);
-  render3d.controls.target.set(6.201491736114454, 18.123757394595394, 9.642520475540605);
+  render3d.camera.position.set(132.28744347022547, 43.75250025911629, 29.583064531225613);
+  render3d.controls.target.set(5.577133749862201, 25.537154586642675, 8.071380222071216);
 
   render3d.camera.fov = 25;
   render3d.controls.update();
@@ -45,6 +45,7 @@ onMounted(() => {
   model.name = 'Group';
 
   const pivotRotation = usePivotRotation(render3d.renderer.domElement);
+  pivotRotation.setEnabled(true);
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);
 

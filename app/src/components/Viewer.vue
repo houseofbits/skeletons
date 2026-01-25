@@ -41,6 +41,7 @@ const showActivePoints = ref(false);
 const selectedActivePoint = ref(-1);
 let showActivePointsTimeout = null;
 let pivot = null;
+let pivotRotation = null;
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -111,6 +112,7 @@ function resetHilightedBoneMeshesInstant() {
 watch(
   () => props.isActive,
   (newVal) => {
+    pivotRotation.setEnabled(newVal);
     if (newVal) {
       if (showActivePointsTimeout) {
         clearTimeout(showActivePointsTimeout);
@@ -205,7 +207,7 @@ function initPivot() {
     return;
   }
 
-  const pivotRotation = usePivotRotation(render3d.renderer.domElement);
+  pivotRotation = usePivotRotation(render3d.renderer.domElement);
 
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);

@@ -5,7 +5,7 @@ export default function usePivotRotation(domElement: HTMLBaseElement) {
   pivot.position.set(0, 0, 0);
   let dragging = false;
   let lastX = 0;
-  let isEnabled: boolean = true;
+  let isEnabled: boolean = false;
   let enabledCallback: CallableFunction = () => true;
 
 

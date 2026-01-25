@@ -1,11 +1,7 @@
 <template>
   <div>
     <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-    <PlayButton
-      class="btn-play"
-      @click="playPauseAnimation"
-      :is-playing="isAnimationPlaying"
-    />
+    <PlayButton class="btn-play" @click="playPauseAnimation" :is-playing="isAnimationPlaying" />
     <!-- <div class="btn btn-primary btn-next" @click="stepForwardAnimation">
       Step forward
     </div> -->
@@ -182,7 +178,7 @@ onMounted(() => {
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);
   pivot = pivotRotation.pivot;
-  // pivotRotation.setEnabled(false);
+  pivotRotation.setEnabled(true);
 
   render3d.scene.traverse((child) => {
     if (child.isLight) {
@@ -218,13 +214,13 @@ onMounted(() => {
   render3d.scene.add(cam1.camera);
   render3d.scene.add(cam2.camera);
 
-  cam1.camera.position.set(209.95928439162913, -12.029180385731102, -12.453310798798382);
-  cam1.controls.target.set(-3.57385144949077, 3.118806515666467, 2.478930199032835);
+  cam1.camera.position.set(210.58809529420833, -2.0256999197838113, -13.557052442887159);
+  cam1.controls.target.set(-2.853514665404741, 14.367342790109586, 1.3687882062824073);
   cam1.camera.fov = 25;
   cam1.controls.update();
 
-  const cam2InitPos = new THREE.Vector3(108.46331703875357, 15.535748000000002, 3.788903684248791);
-  const cam2InitTarget = new THREE.Vector3(-1.5371662133000208, 15.535748000000002, 2.2891935863438984);
+  const cam2InitPos = new THREE.Vector3(108.46331703875357, 18, 3.788903684248791);
+  const cam2InitTarget = new THREE.Vector3(-1.5371662133000208, 18, 2.2891935863438984);
 
   cam2.camera.position.set(cam2InitPos.x, cam2InitPos.y, cam2InitPos.z);
   cam2.controls.target.set(cam2InitTarget.x, cam2InitTarget.y, cam2InitTarget.z);
@@ -242,8 +238,7 @@ onMounted(() => {
     if (animation.mixer) {
       animation.mixer.update(delta);
     }
-
-    render3d.renderer.setSize(width, height);
+    
     render3d.renderer.setScissorTest(true);
 
     const divider = 0.35;
@@ -270,8 +265,6 @@ onMounted(() => {
     );
     cam2.update(width * (1.0 - divider), height);
     render3d.renderer.render(render3d.scene, cam2.camera);
-
-    
   });
 
   onBeforeUnmount(render3d.dispose);
@@ -308,10 +301,10 @@ onMounted(() => {
 
 .divider-border {
   position: absolute;
-  height:1080px;
+  height: 1080px;
   width: 1px;
-  top:0;
-  left:671px;
+  top: 0;
+  left: 671px;
   border-left: solid 1px rgba(180, 180, 180, 0.2);
 }
 </style>

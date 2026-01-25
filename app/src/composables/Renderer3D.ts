@@ -24,11 +24,11 @@ export function useRenderer3D() {
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        renderer.setSize(1500, 1000);
         canvas.appendChild(renderer.domElement);
 
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1.0;
+        renderer.setSize(1920, 1080);
 
         const clock = new THREE.Clock();
 
@@ -43,7 +43,7 @@ export function useRenderer3D() {
         const controls = new OrbitControls(camera, renderer.domElement);
 
         controls.enabled = isCameraControlsEnabled;
-        
+
         scene.add(camera);
 
         function renderRaw(callback: CallableFunction = () => { }) {
@@ -52,7 +52,7 @@ export function useRenderer3D() {
                 callback(canvas.clientWidth, canvas.clientHeight, clock.getDelta());
             }
         }
-        
+
         function render(callback: CallableFunction = () => { }, redraw: boolean = true) {
             requestAnimationFrame(() => render(callback));
 
@@ -60,13 +60,13 @@ export function useRenderer3D() {
 
             if (!redraw) return;
 
-            renderer.render(scene, camera);
-
             if (canvas) {
                 const w = canvas.clientWidth;
                 const h = canvas.clientHeight;
                 camera.aspect = w / h;
                 camera.updateProjectionMatrix();
+                renderer.render(scene, camera);
+
             }
         }
 
