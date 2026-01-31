@@ -1,4 +1,3 @@
-import Colors from '@src/utils/boneColors';
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 
@@ -25,33 +24,7 @@ export default {
             transitionTime: CameraTransitionTime.ICON_TO_FULLSCREEN,
         },
     },
-    activeBones: [
-        {
-            materialColor: Colors.Spine1,
-            meshNames: [
-                'spine1',
-            ],
-        },
-        {
-            materialColor: Colors.Spine2,
-            meshNames: [
-                'spine2',
-            ],
-        },   
-        {
-            materialColor: Colors.Spine3,
-            meshNames: [
-                'spine3',
-            ],
-        },    
-        {
-            materialColor: Colors.Spine4,
-            meshNames: [
-                'spine4',
-            ],
-        }, 
-    ],
-    activePoints: [
+    hilightedBones: [
         {
             name: 'p-spine1',
             text: 'Kakla skriemeļi',

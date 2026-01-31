@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="list">
-            <div v-for="(point, i) in activePoints" class="list-item" :class="{ 'selected': selected == i }" :key="i"
+            <div v-for="(point, i) in hilightedBones" class="list-item" :class="{ 'selected': selected == i }" :key="i"
                 @click="selectItem(i)">
                 {{ point.text }}
             </div>
@@ -32,7 +32,7 @@ function selectItem(index: number) {
 }
 
 const props = defineProps({
-    activePoints: {
+    hilightedBones: {
         type: Array as PropType<{ name: string, text: string }[]>,
         required: true
     },

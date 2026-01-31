@@ -1,4 +1,3 @@
-import Colors from '@src/utils/boneColors';
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 
@@ -25,21 +24,7 @@ export default {
             transitionTime: CameraTransitionTime.ICON_TO_FULLSCREEN,
         },
     },
-    activeBones: [
-        {
-            materialColor: Colors.Skull1,
-            meshNames: [
-                'skull1',
-            ],
-        },
-        {
-            materialColor: Colors.Skull2,
-            meshNames: [
-                'skull2',
-            ],
-        },                     
-    ],
-    activePoints: [
+    hilightedBones: [
         {
             name: 'p-skull1',
             text: 'Smadzeņu nodalījums',

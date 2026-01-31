@@ -1,4 +1,3 @@
-import Colors from '@src/utils/boneColors';
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 
@@ -25,21 +24,7 @@ export default {
             transitionTime: CameraTransitionTime.ICON_TO_FULLSCREEN,
         },
     },
-    activeBones: [
-        {
-            materialColor: Colors.Ribs1,
-            meshNames: [
-                'ribs1',
-            ],
-        },
-        {
-            materialColor: Colors.Ribs2,
-            meshNames: [
-                'ribs2',
-            ],
-        },
-    ],
-    activePoints: [
+    hilightedBones: [
         {
             name: 'p-ribs1',
             text: 'Ribas',

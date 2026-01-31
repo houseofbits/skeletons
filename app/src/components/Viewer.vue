@@ -1,7 +1,7 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera"></div>
 
-  <Sidebar v-if="showActivePoints" :selected="selectedActivePoint" :active-points="props.config.activePoints"
+  <Sidebar v-if="showActivePoints" :selected="selectedActivePoint" :hilighted-bones="props.config.hilightedBones"
     @select="(i) => (selectedActivePoint = i)" />
 </template>
 
@@ -69,7 +69,7 @@ watch(() => props.iconCameraConfigType, (value) => {
 });
 
 function hilightBoneMeshes() {
-  if (props.config.activePoints.length === 0) {
+  if (props.config.hilightedBones.length === 0) {
     return;
   }
 
@@ -78,7 +78,7 @@ function hilightBoneMeshes() {
   }
 
   let i = 0;
-  for (const activePoint of props.config.activePoints) {
+  for (const activePoint of props.config.hilightedBones) {
     const color =
       selectedActivePoint.value === i
         ? hilightedBoneMaterialColor
@@ -92,7 +92,7 @@ function hilightBoneMeshes() {
 }
 
 function resetHilightedBoneMeshes() {
-  for (const activePoint of props.config.activePoints) {
+  for (const activePoint of props.config.hilightedBones) {
     for (const meshName of activePoint.meshes) {
       const mesh = render3d.scene.getObjectByName(meshName);
       tweenColor(mesh, originalBoneMaterialColor, 0.7);
@@ -101,7 +101,7 @@ function resetHilightedBoneMeshes() {
 }
 
 function resetHilightedBoneMeshesInstant() {
-  for (const activePoint of props.config.activePoints) {
+  for (const activePoint of props.config.hilightedBones) {
     for (const meshName of activePoint.meshes) {
       const mesh = render3d.scene.getObjectByName(meshName);
       mesh?.material.color.set(originalBoneMaterialColor);
@@ -154,16 +154,16 @@ watch(
 );
 
 function getActivePointText(i) {
-  return props.config.activePoints[i]?.text ?? "undefined";
+  return props.config.hilightedBones[i]?.text ?? "undefined";
 }
 
 function prepareActivePoints() {
   activePointPositions.value = [];
-  if (props.config.activePoints.length === 0) {
+  if (props.config.hilightedBones.length === 0) {
     return;
   }
 
-  for (const activePoint of props.config.activePoints) {
+  for (const activePoint of props.config.hilightedBones) {
     const pointGroup = render3d.scene.getObjectByName(activePoint.name);
     if (pointGroup) {
       const point = toScreenPosition(
@@ -177,9 +177,9 @@ function prepareActivePoints() {
 }
 
 function prepareMeshMaterials() {
-  if (props.config.activeBones.length > 0) {
-    for (const boneConfig of props.config.activeBones) {
-      for (const meshName of boneConfig.meshNames) {
+  if (props.config.hilightedBones?.length > 0) {
+    for (const activePoint of props.config.hilightedBones) {
+      for (const meshName of activePoint.meshes) {
         const mesh = render3d.scene.getObjectByName(meshName);
         if (mesh && mesh.material) {
           const material = mesh.material.clone();

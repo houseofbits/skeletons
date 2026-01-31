@@ -25,38 +25,6 @@ export default {
             transitionTime: CameraTransitionTime.ICON_TO_FULLSCREEN,
         },
     },
-    activeBones: [
-        {
-            materialColor: Colors.Spine1,
-            meshNames: [
-                'spine1',
-            ],
-        },
-        {
-            materialColor: Colors.Spine2,
-            meshNames: [
-                'spine2',
-            ],
-        },
-        {
-            materialColor: Colors.Spine3,
-            meshNames: [
-                'spine3',
-            ],
-        },
-        {
-            materialColor: Colors.Spine4,
-            meshNames: [
-                'spine4',
-            ],
-        },
-        {
-            materialColor: Colors.Spine5,
-            meshNames: [
-                'spine5',
-            ],
-        },
-    ],
     activePoints: [
         {
             name: 'p-spine1',

@@ -1,4 +1,3 @@
-import Colors from '@src/utils/boneColors';
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 
@@ -25,75 +24,7 @@ export default {
             transitionTime: CameraTransitionTime.ICON_TO_FULLSCREEN,
         },
     },
-    activeBones: [
-        {
-            materialColor: Colors.Limbs1,
-            meshNames: [
-                'limbs1',
-            ],
-        },
-        {
-            materialColor: Colors.Limbs2,
-            meshNames: [
-                'limbs2',
-            ],
-        },
-        {
-            materialColor: Colors.Limbs3,
-            meshNames: [
-                'limbs3',
-            ],
-        },
-        {
-            materialColor: Colors.Limbs4,
-            meshNames: [
-                'limbs4',
-            ],
-        },
-        {
-            materialColor: Colors.Limbs5,
-            meshNames: [
-                'limbs5',
-            ],
-        },
-        {
-            materialColor: Colors.Limbs6,
-            meshNames: [
-                'limbs6',
-            ],
-        },
-        {
-            materialColor: Colors.Limbs7,
-            meshNames: [
-                'limbs7',
-            ],
-        },
-        {
-            materialColor: Colors.Limbs8,
-            meshNames: [
-                'limbs8',
-            ],
-        },
-        {
-            materialColor: Colors.Limbs9,
-            meshNames: [
-                'limbs9',
-            ],
-        },
-        {
-            materialColor: Colors.Limbs10,
-            meshNames: [
-                'limbs10',
-            ],
-        },
-        {
-            materialColor: Colors.Limbs11,
-            meshNames: [
-                'limbs11',
-            ],
-        },
-    ],
-    activePoints: [
+    hilightedBones: [
         {
             name: 'p-limbs1',
             text: 'Atslēgas kauls',

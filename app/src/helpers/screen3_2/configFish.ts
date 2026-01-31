@@ -1,4 +1,3 @@
-import Colors from '@src/utils/boneColors';
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 
@@ -25,27 +24,7 @@ export default {
             transitionTime: CameraTransitionTime.ICON_TO_FULLSCREEN,
         },
     },
-    activeBones: [
-        {
-            materialColor: Colors.Limbs1,
-            meshNames: [
-                'limbs1',
-            ],
-        },
-        {
-            materialColor: Colors.Limbs2,
-            meshNames: [
-                'limbs2',
-            ],
-        },
-        {
-            materialColor: Colors.Limbs2,
-            meshNames: [
-                'limbs3',
-            ],
-        },
-    ],
-    activePoints: [
+    hilightedBones: [
         {
             name: 'p-limbs1',
             text: 'Krūšu spura ar plecu joslu',
