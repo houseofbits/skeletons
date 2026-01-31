@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="list">
-            <div v-for="(point, i) in hilightedBones" class="list-item" :class="{ 'selected': selected == i }" :key="i"
+            <div v-for="(point, i) in config.hilightedBones" class="list-item" :class="{ 'selected': selected == i }" :key="i"
                 @click="selectItem(i)">
                 {{ point.text }}
             </div>
@@ -22,6 +22,7 @@
 
 <script setup lang="ts">
 import { ref, type PropType, nextTick } from "vue";
+import type Config from "@src/types/Config";
 
 const emit = defineEmits<{
     (e: 'select', index: number): void;
@@ -32,8 +33,8 @@ function selectItem(index: number) {
 }
 
 const props = defineProps({
-    hilightedBones: {
-        type: Array as PropType<{ name: string, text: string }[]>,
+    config: {
+        type: Object as PropType<Config>,
         required: true
     },
     selected: {

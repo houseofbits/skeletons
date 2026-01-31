@@ -1,5 +1,4 @@
 <template>
-
   <NavTile v-for="(tile, i) in tiles" :key="tile.asset" :is-active="isNavTileSelected(i + 1)" :title="tile.title"
     :width="tile.width" :height="tile.height" :left="tile.x" :top="tile.y" @click="setSelectedNavTile(i + 1)">
     <Viewer :asset="tile.asset" :is-active="isNavTileSelected(i + 1)" :config="config[i]"

@@ -1,7 +1,7 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera"></div>
 
-  <Sidebar v-if="showActivePoints" :selected="selectedActivePoint" :hilighted-bones="props.config.hilightedBones"
+  <Sidebar v-if="showActivePoints" :selected="selectedActivePoint" :config="props.config"
     @select="(i) => (selectedActivePoint = i)" />
 </template>
 
