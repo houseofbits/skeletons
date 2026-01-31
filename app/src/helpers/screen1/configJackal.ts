@@ -1,4 +1,3 @@
-import Colors from '@src/utils/boneColors';
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 
@@ -25,7 +24,7 @@ export default {
             transitionTime: CameraTransitionTime.ICON_TO_FULLSCREEN,
         },
     },
-    activePoints: [
+    c: [
         {
             name: 'p-spine1',
             text: 'Kakla skriemeļi',
