@@ -1,10 +1,11 @@
-import TimeoutService from "@src/services/TimeoutService";
+// import TimeoutService from "@src/services/TimeoutService";
 
 export default function useTimeoutInterval(callback: CallableFunction, interval: number) {
     let intervalTimerId: number | null = null;
 
-    TimeoutService.registerCallback((timeout: boolean) => handleInterval(timeout));
+    // TimeoutService.registerCallback((timeout: boolean) => handleInterval(timeout));
 
+    handleInterval(true);
 
     function handleInterval(isTimeout: boolean) {
         if (isTimeout && !intervalTimerId) {

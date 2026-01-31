@@ -184,7 +184,6 @@ function prepareMeshMaterials() {
         if (mesh && mesh.material) {
           const material = mesh.material.clone();
           mesh.material = material;
-          console.log(material);
         }
       }
     }
@@ -215,7 +214,7 @@ function initPivot() {
 }
 
 onMounted(() => {
-  render3d = initRenderer3D(container.value);
+  render3d = initRenderer3D(container.value, false);
 
   const assetScene = ScenePreloadService.getAsset(props.asset);
   if (assetScene) {

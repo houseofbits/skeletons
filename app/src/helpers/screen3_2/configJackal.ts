@@ -5,13 +5,13 @@ import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 export default {
     cameraConfig: {
         [CameraConfigTypes.CAMERA_ICON_RECT]: {
-            position: { x: 17.20012114654354, y: 2.2383054268641924, z: -21.44446195767277 },
-            target: { x: -1.4693456865106096, y: 6.662826255109336, z: 1.1576586388869692 },
+            position: { x: 20.66204541890679, y: 5.148240420110619, z: -15.839605399718959 },
+            target: { x: 0.23810959750523408, y: 4.331541900055225, z: 10.09265077293789 },
             transitionTime: CameraTransitionTime.ICON_RESIZE,
         },
         [CameraConfigTypes.CAMERA_ICON_VERT]: {
-            position: { x: 17.20012114654354, y: 2.2383054268641924, z: -21.44446195767277 },
-            target: { x: -1.4693456865106096, y: 6.662826255109336, z: 1.1576586388869692 },
+            position: { x: 25.33418984533853, y: 2.0940403570796358, z: -21.87008397196763 },
+            target: { x: 3.221375586370553, y: 7.334608185545818, z: 4.900712381232665 },
             transitionTime: CameraTransitionTime.ICON_RESIZE,
         },
         [CameraConfigTypes.CAMERA_ICON_HORIZ]: {

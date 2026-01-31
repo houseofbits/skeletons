@@ -29,7 +29,7 @@ const props = defineProps({
 });
 
 // const { translate } = useLanguage();
-const { setSelectedNavTile, 
+const { setSelectedNavTile, areNavTilesView,
   isNavTileSelected } = useNavigationState();
 
 const service = new TileOccupancyService();
@@ -127,7 +127,9 @@ function getCameraConfig(index: number) {
 
 if (props.animate) {
   useTimeoutInterval(() => {
-    service.resolveTiles(updateTiles);
+    if (areNavTilesView()) {
+      service.resolveTiles(updateTiles);
+    }
   }, 2000);
 }
 

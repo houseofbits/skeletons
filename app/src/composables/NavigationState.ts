@@ -28,6 +28,13 @@ export function useNavigationState() {
         title.value = null;
     }
 
+    function areNavTilesView() {
+        if (shouldShowNavGroup.value && !selectedNavGroup.value) {
+            return false;
+        }
+        return !selectedNavTile.value;
+    }
+        
     return {
         selectedNavTile,
         setSelectedNavTile,
@@ -36,6 +43,7 @@ export function useNavigationState() {
         selectedNavGroup,
         setTitle,
         getTitle,
-        resetNavigationState
+        resetNavigationState,
+        areNavTilesView
     };
 };

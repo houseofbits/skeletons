@@ -9,7 +9,7 @@
       configLizard,
       configBird,
       configJackal,
-    ]" :animate="false" />
+    ]" :animate="true" />
   </div>
 </template>
 

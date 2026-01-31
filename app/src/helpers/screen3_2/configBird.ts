@@ -5,18 +5,18 @@ import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 export default {
     cameraConfig: {
         [CameraConfigTypes.CAMERA_ICON_RECT]: {
-            position: { x: 49.8422110032161, y: 11.445319322164002, z: -9.686040979363051 },
-            target: { x: 10.159875602881684, y: 11.051847741748865, z: 1.3100008656010445 },
+            position: { x: 40.25164172256652, y: 9.64762241442891, z: -10.557422271059089 },
+            target: { x: 9.548492238744624, y: 9.340022170816233, z: -0.8837419587655696 },
             transitionTime: CameraTransitionTime.ICON_RESIZE,
         },
         [CameraConfigTypes.CAMERA_ICON_VERT]: {
-            position: { x: 49.8422110032161, y: 11.445319322164002, z: -9.686040979363051 },
-            target: { x: 10.159875602881684, y: 11.051847741748865, z: 1.3100008656010445 },
+            position: { x: 49.321289896341554, y: 14.261439414975783, z: -9.860266955897629 },
+            target: { x: 9.579966394883794, y: 12.207686168894137, z: -0.5720873504004019 },
             transitionTime: CameraTransitionTime.ICON_RESIZE,
         },
         [CameraConfigTypes.CAMERA_ICON_HORIZ]: {
-            position: { x: 49.8422110032161, y: 11.445319322164002, z: -9.686040979363051 },
-            target: { x: 10.159875602881684, y: 11.051847741748865, z: 1.3100008656010445 },
+            position: { x: 21.502192756792248, y: 50.291324029054785, z: -31.897429943520898 },
+            target: { x: 11.88607894742827, y: 39.85596340009585, z: 16.763210870439657 },
             transitionTime: CameraTransitionTime.ICON_RESIZE,
         },
         [CameraConfigTypes.CAMERA_FULL]: {

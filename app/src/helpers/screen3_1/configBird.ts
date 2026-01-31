@@ -10,13 +10,13 @@ export default {
             transitionTime: CameraTransitionTime.ICON_RESIZE,
         },
         [CameraConfigTypes.CAMERA_ICON_VERT]: {
-            position: { x: 42.93675911601698, y: 20.990570572675985, z: -15.499838768879151 },
-            target: { x: 2.577962120678914, y: 22.10639688314709, z: 2.0387348518151276 },
+            position: { x: 39.361435347890264, y: 26.05159241045628, z: -13.584099964816064 },
+            target: { x: -3.4705224199583635, y: 24.350942914441287, z: -3.5735898389784957 },
             transitionTime: CameraTransitionTime.ICON_RESIZE,
         },
         [CameraConfigTypes.CAMERA_ICON_HORIZ]: {
-            position: { x: 42.93675911601698, y: 20.990570572675985, z: -15.499838768879151 },
-            target: { x: 2.577962120678914, y: 22.10639688314709, z: 2.0387348518151276 },
+            position: { x: 6.376767725816275, y: 41.38567817899029, z: -13.333424581285962 },
+            target: { x: -1.9362702843900579, y: 23.127676317244177, z: -1.24324029108471 },
             transitionTime: CameraTransitionTime.ICON_RESIZE,
         },
         [CameraConfigTypes.CAMERA_FULL]: {
