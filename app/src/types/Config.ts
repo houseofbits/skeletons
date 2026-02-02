@@ -6,4 +6,5 @@ export default interface Config {
     pivot: Vector;
     hilightedBones: Object[];
     animationComponent: Component | null;
+    animationTitle: string | null;
 };

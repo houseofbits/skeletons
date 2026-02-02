@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <div class="back-button" v-if="selectedNavTile" @click="selectedNavTile = null">
+    <div class="back-button" v-if="selectedNavTile" @click="closeTile">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12.0002 16.6673L7.3335 12.0007L12.0002 7.33398" stroke="white" stroke-width="1.33333"
           stroke-linecap="round" stroke-linejoin="round" />
@@ -52,7 +52,7 @@
 import { computed } from "vue";
 import { useNavigationState } from "@src/composables/NavigationState";
 
-const { selectedNavTile, shouldShowNavGroup, selectedNavGroup, getTitle } = useNavigationState();
+const { selectedNavTile, shouldShowNavGroup, selectedNavGroup, getTitle, isAnimationActive, resetAnimationActive } = useNavigationState();
 
 const hintText = computed(() => {
   if (selectedNavTile.value === null) {
@@ -65,7 +65,17 @@ const hintText = computed(() => {
 function reset() {
   selectedNavTile.value = null;
   selectedNavGroup.value = null;
+  isAnimationActive.value = false;
 }
+
+function closeTile() {
+  if (selectedNavTile.value !== null && isAnimationActive.value) {
+    resetAnimationActive();
+  } else {
+    selectedNavTile.value = null;
+  }
+}
+
 </script>
 
 <style lang="scss" scoped>

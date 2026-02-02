@@ -3,6 +3,10 @@
 
   <Sidebar v-if="showActivePoints" :selected="selectedActivePoint" :config="props.config"
     @select="(i) => (selectedActivePoint = i)" />
+
+  <Animation v-show="isActive" v-if="props.config.animationComponent" :title="props.config.animationTitle">
+    <component :is="props.config.animationComponent" />
+  </Animation>
 </template>
 
 <script setup>
@@ -17,6 +21,8 @@ import Sidebar from "@src/components/Sidebar.vue";
 import { tweenColor, transitionCamera } from "@src/utils/transitions";
 import { toScreenPosition } from "@src/utils/utils3d";
 import usePivotRotation from "@src/composables/PivotRotation";
+import Animation from "@src/components/Animation.vue";
+import { useNavigationState } from "@src/composables/NavigationState";
 
 const props = defineProps({
   asset: { type: String, required: true },
@@ -42,6 +48,8 @@ const selectedActivePoint = ref(-1);
 let showActivePointsTimeout = null;
 let pivot = null;
 let pivotRotation = null;
+
+const { resetAnimationActive } = useNavigationState();
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -69,7 +77,7 @@ watch(() => props.iconCameraConfigType, (value) => {
 });
 
 function hilightBoneMeshes() {
-  if (props.config.hilightedBones.length === 0) {
+  if (!props.config.hilightedBones?.length) {
     return;
   }
 
@@ -92,6 +100,10 @@ function hilightBoneMeshes() {
 }
 
 function resetHilightedBoneMeshes() {
+  if (!props.config.hilightedBones?.length) {
+    return;
+  }
+
   for (const activePoint of props.config.hilightedBones) {
     for (const meshName of activePoint.meshes) {
       const mesh = render3d.scene.getObjectByName(meshName);
@@ -101,6 +113,10 @@ function resetHilightedBoneMeshes() {
 }
 
 function resetHilightedBoneMeshesInstant() {
+  if (!props.config.hilightedBones?.length) {
+    return;
+  }
+
   for (const activePoint of props.config.hilightedBones) {
     for (const meshName of activePoint.meshes) {
       const mesh = render3d.scene.getObjectByName(meshName);
@@ -138,6 +154,7 @@ watch(
       }
       showActivePoints.value = false;
       selectedActivePoint.value = -1;
+      resetAnimationActive();
     }
   }
 );

@@ -1,5 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
+import ViewerDog from '@/src/components/ViewerDog.vue';
 
 export default {
     cameraConfig: {
@@ -24,7 +25,7 @@ export default {
             transitionTime: CameraTransitionTime.ICON_TO_FULLSCREEN,
         },
     },
-    c: [
+    hilightedBones: [
         {
             name: 'p-spine1',
             text: 'Kakla skriemeļi',
@@ -51,4 +52,6 @@ export default {
             meshes: ['spine5'],
         },
     ],
+    animationComponent: ViewerDog,
+    animationTitle: 'Suņa elpošana',
 } as const;

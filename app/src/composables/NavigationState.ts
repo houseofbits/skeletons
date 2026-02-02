@@ -4,6 +4,8 @@ const selectedNavTile = ref<number | null>(null);
 const shouldShowNavGroup = ref<boolean>(false);
 const selectedNavGroup = ref<number | null>(null);
 const title = ref<string | null>(null);
+const isAnimationActive = ref<boolean>(false);
+const animationTitle = ref<string | null>(null);
 
 export function useNavigationState() {
     function setSelectedNavTile(index: number | null) {
@@ -19,6 +21,10 @@ export function useNavigationState() {
     }
 
     function getTitle() {
+        if (isAnimationActive.value && animationTitle.value) {
+            return animationTitle.value;
+        }
+
         return title;
     }
 
@@ -26,6 +32,8 @@ export function useNavigationState() {
         selectedNavTile.value = null;
         selectedNavGroup.value = null;
         title.value = null;
+        isAnimationActive.value = false;
+        animationTitle.value = null;
     }
 
     function areNavTilesView() {
@@ -34,7 +42,17 @@ export function useNavigationState() {
         }
         return !selectedNavTile.value;
     }
-        
+
+    function setAnimationActive(animTitle: string) {
+        isAnimationActive.value = true;
+        animationTitle.value = animTitle;
+    }
+
+    function resetAnimationActive() {
+        isAnimationActive.value = false;    
+        animationTitle.value = null;
+    }
+
     return {
         selectedNavTile,
         setSelectedNavTile,
@@ -44,6 +62,10 @@ export function useNavigationState() {
         setTitle,
         getTitle,
         resetNavigationState,
-        areNavTilesView
+        areNavTilesView,
+        isAnimationActive,
+        animationTitle,
+        setAnimationActive,
+        resetAnimationActive,
     };
 };
