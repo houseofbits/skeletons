@@ -2,9 +2,6 @@
   <div>
     <div ref="container" class="fbx-viewer" @click="logCamera"></div>
     <PlayButton class="btn-play" @click="playPauseAnimation" :is-playing="isAnimationPlaying" />
-    <!-- <div class="btn btn-primary btn-next" @click="stepForwardAnimation">
-      Step forward
-    </div> -->
     <div class="divider-border"></div>
   </div>
 </template>
@@ -238,7 +235,10 @@ onMounted(() => {
     if (animation.mixer) {
       animation.mixer.update(delta);
     }
-    
+
+    width = 1920;
+    height = 1080;
+
     render3d.renderer.setScissorTest(true);
 
     const divider = 0.35;
