@@ -2,13 +2,14 @@
     <div class="animation" :class="{ 'active': isAnimationActive }">
         <slot></slot>
         <div class="overlay" @click="toggleActive">
-            <PlayButton :is-playing="false"/>
+            <div class="play-button" :class="{ 'active': isAnimationActive }">
+                <span class="icon" />
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import PlayButton from './PlayButton.vue';
 import { useNavigationState } from "@src/composables/NavigationState";
 
 const props = defineProps<{
@@ -64,5 +65,44 @@ function toggleActive() {
             pointer-events: none;
         }
     }
+}
+
+.play-button {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(70px);
+  -webkit-backdrop-filter: blur(70px);
+
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 1;
+
+  transition: all 0.15s ease;
+
+  &.active {
+    opacity: 0;
+  }
+}
+
+.icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.play-button .icon {
+  width: 0;
+  height: 0;
+  margin-left: 4px;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 18px solid #fff;
 }
 </style>

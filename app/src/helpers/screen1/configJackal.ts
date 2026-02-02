@@ -1,6 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
-import ViewerDog from '@/src/components/ViewerDog.vue';
+import ViewerCat from '@/src/components/ViewerCat.vue';
 
 export default {
     cameraConfig: {
@@ -52,6 +52,6 @@ export default {
             meshes: ['spine5'],
         },
     ],
-    animationComponent: ViewerDog,
-    animationTitle: 'Suņa elpošana',
+    animationComponent: ViewerCat,
+    animationTitle: 'Kaķa mugurkaula lokanība',    
 } as const;

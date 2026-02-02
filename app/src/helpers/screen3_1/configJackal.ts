@@ -1,5 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
+import ViewerDog from '@/src/components/ViewerDog.vue';
 
 export default {
     cameraConfig: {
@@ -36,4 +37,6 @@ export default {
             meshes: ['ribs2'],
         },
     ],
+    animationComponent: ViewerDog,
+    animationTitle: 'Suņa elpošana',
 } as const;
