@@ -68,6 +68,10 @@ watch(() => props.cameraConfig, (cameraConf) => {
   );
 });
 
+watch(() => props.config, (config, prevConfig) => {
+  resetHilightedBoneMeshesInstantFromConfig(prevConfig);
+});
+
 watch(() => props.iconCameraConfigType, (value) => {
   if (props.isActive) {
     return;
@@ -113,11 +117,15 @@ function resetHilightedBoneMeshes() {
 }
 
 function resetHilightedBoneMeshesInstant() {
-  if (!props.config.hilightedBones?.length) {
+  resetHilightedBoneMeshesInstantFromConfig(props.config);
+}
+
+function resetHilightedBoneMeshesInstantFromConfig(config) {
+  if (!config.hilightedBones?.length) {
     return;
   }
 
-  for (const activePoint of props.config.hilightedBones) {
+  for (const activePoint of config.hilightedBones) {
     for (const meshName of activePoint.meshes) {
       const mesh = render3d.scene.getObjectByName(meshName);
       mesh?.material.color.set(originalBoneMaterialColor);
@@ -129,6 +137,7 @@ watch(
   () => props.isActive,
   (newVal) => {
     pivotRotation.setEnabled(newVal);
+
     if (newVal) {
       if (showActivePointsTimeout) {
         clearTimeout(showActivePointsTimeout);
@@ -155,6 +164,7 @@ watch(
       showActivePoints.value = false;
       selectedActivePoint.value = -1;
       resetAnimationActive();
+      resetHilightedBoneMeshesInstant();
     }
   }
 );
