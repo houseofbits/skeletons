@@ -1,6 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
-import ViewerCat from '@/src/components/ViewerCat.vue';
+import ViewerCat from '@/src/components/Animations/ViewerCat.vue';
 
 export default {
     cameraConfig: {

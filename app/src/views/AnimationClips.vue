@@ -4,17 +4,20 @@
   </template>
 
   <ul class="animation-list">
-    <li @click="selectedCompIndex = 0">Cat fall</li>
-    <li @click="selectedCompIndex = 1">Dog panting</li>
+    <li @click="selectedCompIndex = 0">Bird breastbones</li>
+    <li @click="selectedCompIndex = 1">Cat fall</li>
+    <li @click="selectedCompIndex = 2">Dog panting</li>
   </ul>
 </template>
 
 <script setup lang="ts">
-import ViewerCat from "@src/components/ViewerCat.vue";
-import ViewerDog from "@src/components/ViewerDog.vue";
+import ViewerCat from "@src/components/Animations/ViewerCat.vue";
+import ViewerDog from "@src/components/Animations/ViewerDog.vue";
+import ViewerBirds from "@src/components/Animations/ViewerBirds.vue";
 import { ref } from "vue";
 
 const comps = [
+  ViewerBirds,
   ViewerCat,
   ViewerDog,
 ];
