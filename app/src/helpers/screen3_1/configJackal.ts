@@ -1,6 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
-import ViewerDog from '@/src/components/ViewerDog.vue';
+import ViewerDog from '@/src/components/Animations/ViewerDog.vue';
 
 export default {
     cameraConfig: {
