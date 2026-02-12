@@ -1,7 +1,7 @@
 <template>
   <div>
     <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-    <div ref="dragContainer1" class="birds-text divider-border-birds-1">
+    <div @click="logrot" ref="dragContainer1" class="birds-text divider-border-birds-1">
       <span>Pūce</span>
     </div>
     <div ref="dragContainer2" class="birds-text divider-border-birds-2">
@@ -22,8 +22,11 @@ import usePivotRotation from "@src/composables/PivotRotation";
 import { boneMaterial, boneHilightMaterial } from "@src/helpers/Materials";
 import { use3DCamera } from "@src/composables/CameraController";
 import { transitionCamera, tweenColor } from "@src/utils/transitions";
+import gsap from "gsap";
 
 const { initRenderer3D } = useRenderer3D();
+
+let logrot = () => { };
 
 const props = defineProps({
   isActive: { type: Boolean, default: false },
@@ -39,6 +42,31 @@ let render3d, mixer;
 let camOwl = null;
 let camPenguin = null;
 let camOstritch = null;
+
+const targetAngles = [
+  0,
+  1.3320000000000003,
+  0.8400000000000003,
+  0.2160000000000003,
+  -0.3209999999999996,
+  -0.7259999999999996,
+  -0.8999999999999998,
+  1.4310000000000003,
+];
+
+function randomFromArray(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function rotateToRandomAngle(obj) {
+  const targetY = randomFromArray(targetAngles);
+
+  gsap.to(obj.rotation, {
+    y: targetY,
+    duration: 5,
+    ease: "power2.inOut"
+  });
+}
 
 const cameraSettings = [
   {
@@ -128,13 +156,15 @@ function zoomOutTransition(camera, index, model) {
     cameraSettings[index].normal.target,
     2
   );
-  
+
   const mesh = model.getObjectByName('ribs1');
   tweenColor(mesh, originalBoneMaterialColor, 1);
 
   const delay = 2000 + 10000 + Math.random() * 10000;
 
   setTimeout(() => zoomInTransition(camera, index, model), delay);
+
+  rotateToRandomAngle(model);
 }
 
 function zoomInTransition(camera, index, model) {
@@ -151,6 +181,8 @@ function zoomInTransition(camera, index, model) {
   const delay = 4000 + 10000 + Math.random() * 15000;
 
   setTimeout(() => zoomOutTransition(camera, index, model), delay);
+
+  rotateToRandomAngle(model);
 }
 
 function logCamera() {
@@ -194,13 +226,15 @@ onMounted(() => {
   ostritchPivotRotation.pivot.add(ostritch);
   render3d.scene.add(ostritchPivotRotation.pivot);
 
+  logrot = () => { console.log("Owl rotation: ", owlPivotRotation.pivot.rotation.y); console.log("Penguin rotation: ", penguinPivotRotation.pivot.rotation.y); console.log("Ostritch rotation: ", ostritchPivotRotation.pivot.rotation.y); };
+
   render3d.scene.traverse((child) => {
     if (child.isLight) {
       child.shadow.normalBias = 0.05;
       child.shadow.bias = -0.00002;
       child.shadow.mapSize.width = 2048;
       child.shadow.mapSize.height = 2048;
-      
+
       child.castShadow = true;
     }
     if (child.isMesh) {
@@ -274,9 +308,9 @@ onMounted(() => {
     render3d.renderer.render(render3d.scene, camOstritch.camera);
   });
 
-  zoomInTransition(camOwl, 0, owl);
-  zoomInTransition(camPenguin, 1, penguin);
-  zoomInTransition(camOstritch, 2, ostritch);
+  zoomInTransition(camOwl, 0, owlPivotRotation.pivot);
+  zoomInTransition(camPenguin, 1, penguinPivotRotation.pivot);
+  zoomInTransition(camOstritch, 2, ostritchPivotRotation.pivot);
 
   onBeforeUnmount(render3d.dispose);
 });
@@ -303,6 +337,7 @@ onMounted(() => {
   top: 0;
   left: 0;
 }
+
 .divider-border-birds-2 {
   position: absolute;
   height: 1080px;
@@ -312,6 +347,7 @@ onMounted(() => {
   border-left: solid 1px rgba(180, 180, 180, 0.2);
   border-right: solid 1px rgba(180, 180, 180, 0.2);
 }
+
 .divider-border-birds-3 {
   position: absolute;
   height: 1080px;
@@ -319,6 +355,7 @@ onMounted(() => {
   top: 0;
   left: 1280px;
 }
+
 .birds-text {
   display: flex;
   justify-content: left;
