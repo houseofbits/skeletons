@@ -1,5 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
+import ViewerBirds from '@/src/components/Animations/ViewerBirds.vue';
 
 export default {
     cameraConfig: {
@@ -36,4 +37,6 @@ export default {
             meshes:['ribs2'],
         },        
     ],
+    animationComponent: ViewerBirds,
+    animationTitle: 'Ķīļa kauls',
 } as const;
