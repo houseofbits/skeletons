@@ -1,7 +1,7 @@
 <template>
   <div>
     <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-    <div @click="logrot" ref="dragContainer1" class="birds-text divider-border-birds-1">
+    <div ref="dragContainer1" class="birds-text divider-border-birds-1">
       <span>Pūce</span>
     </div>
     <div ref="dragContainer2" class="birds-text divider-border-birds-2">
@@ -25,8 +25,6 @@ import { transitionCamera, tweenColor } from "@src/utils/transitions";
 import gsap from "gsap";
 
 const { initRenderer3D } = useRenderer3D();
-
-let logrot = () => { };
 
 const props = defineProps({
   isActive: { type: Boolean, default: false },
@@ -225,8 +223,6 @@ onMounted(() => {
   ostritchPivotRotation.pivot.position.set(10, 0, 0);
   ostritchPivotRotation.pivot.add(ostritch);
   render3d.scene.add(ostritchPivotRotation.pivot);
-
-  logrot = () => { console.log("Owl rotation: ", owlPivotRotation.pivot.rotation.y); console.log("Penguin rotation: ", penguinPivotRotation.pivot.rotation.y); console.log("Ostritch rotation: ", ostritchPivotRotation.pivot.rotation.y); };
 
   render3d.scene.traverse((child) => {
     if (child.isLight) {
