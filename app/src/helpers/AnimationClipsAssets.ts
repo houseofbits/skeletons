@@ -7,4 +7,6 @@ export default [
     ['owl', '/models/owl.glb'],
     ['penguin', '/models/penguin.glb'],
     ['ostritch', '/models/ostritch.glb'],
+    ['turtleScene', '/models/turtle-scene.glb'],
+    ['turtleModel', '/models/soronan-mud-turtle.glb'],
 ] as const;

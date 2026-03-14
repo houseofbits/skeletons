@@ -1,5 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
+import ViewerTurtle from '@/src/components/Animations/ViewerTurtle.vue';
 
 export default {
     cameraConfig: {
@@ -46,4 +47,6 @@ export default {
             meshes:['spine4'],
         },                       
     ],
+    animationComponent: ViewerTurtle,
+    animationTitle: 'Bruņurupuča kakla ievilkšana',    
 } as const;
