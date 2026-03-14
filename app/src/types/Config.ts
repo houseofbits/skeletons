@@ -8,6 +8,7 @@ export interface HilightedBones {
 }
 
 export default interface Config {
+    id: string;
     cameraConfig: Record<string, CameraConfig>;
     pivot: Vector;
     hilightedBones: HilightedBones[];

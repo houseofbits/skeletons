@@ -1,8 +1,9 @@
 <template>
     <div class="animation" :class="{ 'active': isAnimationActive }">
-        <slot></slot>
+        <component :is="props.config.animationComponent" :is-active="isCurrentAnimationActive" />
+
         <div class="overlay" @click="toggleActive">
-            <div class="play-button" :class="{ 'active': isAnimationActive }">
+            <div class="play-button" :class="{ 'active': isCurrentAnimationActive }">
                 <span class="icon" />
             </div>
         </div>
@@ -11,22 +12,28 @@
 
 <script setup lang="ts">
 import { useNavigationState } from "@src/composables/NavigationState";
+import type Config from "@src/types/Config";
+import { computed } from "vue";
 
 const props = defineProps<{
-    title: string;
+    config: Config,
 }>();
 
 const emit = defineEmits<{
     (e: 'toggle', val: boolean): void;
 }>();
 
-const { isAnimationActive, setAnimationActive } = useNavigationState();
+const { isAnimationActive, animationTitle, setAnimationActive } = useNavigationState();
 
 function toggleActive() {
     if (!isAnimationActive.value) {
-        setAnimationActive(props.title);
+        setAnimationActive(props.config.animationTitle as string);
     }
 }
+
+const isCurrentAnimationActive = computed(() => {
+    return isAnimationActive.value && animationTitle.value === props.config.animationTitle;
+});
 
 </script>
 
@@ -56,8 +63,8 @@ function toggleActive() {
     }
 
     &.active {
-        width: 100%;
-        height: 100%;
+        width: 1920px;
+        height: 1080px;
         border: none;
 
         & .overlay {
@@ -68,41 +75,41 @@ function toggleActive() {
 }
 
 .play-button {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: none;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
 
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(70px);
-  -webkit-backdrop-filter: blur(70px);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(70px);
+    -webkit-backdrop-filter: blur(70px);
 
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  opacity: 1;
+    opacity: 1;
 
-  transition: all 0.15s ease;
+    transition: all 0.15s ease;
 
-  &.active {
-    opacity: 0;
-  }
+    &.active {
+        opacity: 0;
+    }
 }
 
 .icon {
-  position: relative;
-  width: 24px;
-  height: 24px;
+    position: relative;
+    width: 24px;
+    height: 24px;
 }
 
 .play-button .icon {
-  width: 0;
-  height: 0;
-  margin-left: 4px;
-  border-top: 12px solid transparent;
-  border-bottom: 12px solid transparent;
-  border-left: 18px solid #fff;
+    width: 0;
+    height: 0;
+    margin-left: 4px;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 18px solid #fff;
 }
 </style>

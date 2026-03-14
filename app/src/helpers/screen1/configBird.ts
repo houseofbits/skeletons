@@ -2,6 +2,7 @@ import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 
 export default {
+    id: 'bird_1',
     cameraConfig: {
         [CameraConfigTypes.CAMERA_ICON_RECT]: {
             position: { x: 39.47612459459036, y: 17.519472292269857, z: 19.268208508638374 },

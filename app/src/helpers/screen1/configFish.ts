@@ -2,6 +2,7 @@ import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 
 export default {
+    id: 'fish_1',
     cameraConfig: {
         [CameraConfigTypes.CAMERA_ICON_RECT]: {
             position: { x: 18.75508848366129, y: 10.798153528102961, z: -34.3554328209584 },

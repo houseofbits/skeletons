@@ -3,6 +3,7 @@ import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 import ViewerTurtle from '@/src/components/Animations/ViewerTurtle.vue';
 
 export default {
+    id: 'lizard_1',
     cameraConfig: {
         [CameraConfigTypes.CAMERA_ICON_RECT]: {
             position: { x: 19.333239204169303, y: 24.22583003620996, z: 17.550501838298768 },

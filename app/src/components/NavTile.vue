@@ -53,6 +53,7 @@ const outerClass = computed(() => {
     border: 1px solid rgba($color: #b4b4b4, $alpha: 0.1);
     position: absolute;
     transition: all 0.3s ease-in-out;
+    overflow: hidden;
 
     & .title {
         position: absolute;

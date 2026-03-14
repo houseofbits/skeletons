@@ -3,6 +3,7 @@ import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 import ViewerCat from '@/src/components/Animations/ViewerCat.vue';
 
 export default {
+    id: 'jackal_1',
     cameraConfig: {
         [CameraConfigTypes.CAMERA_ICON_RECT]: {
             position: { x: -8.564473504694854, y: 30.389196810644602, z: -11.080561028224164 },

@@ -3,6 +3,7 @@ import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 import ViewerDog from '@/src/components/Animations/ViewerDog.vue';
 
 export default {
+    id: 'jackal_3_1',
     cameraConfig: {
         [CameraConfigTypes.CAMERA_ICON_RECT]: {
             position: { x: 18.63151142617179, y: 7.730873935987186, z: -10.093149331273214 },

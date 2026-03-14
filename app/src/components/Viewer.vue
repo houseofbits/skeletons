@@ -1,12 +1,8 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera"></div>
 
-  <Sidebar v-if="showActivePoints" :selected="selectedActivePoint" :config="props.config"
+  <Sidebar :is-active="isActive" :selected="selectedActivePoint" :config="props.config"
     @select="(i) => (selectedActivePoint = i)" />
-
-  <Animation v-show="isActive" v-if="props.config.animationComponent" :title="props.config.animationTitle">
-    <component :is="props.config.animationComponent" />
-  </Animation>
 </template>
 
 <script setup>
@@ -21,7 +17,6 @@ import Sidebar from "@src/components/Sidebar.vue";
 import { tweenColor, transitionCamera } from "@src/utils/transitions";
 import { toScreenPosition } from "@src/utils/utils3d";
 import usePivotRotation from "@src/composables/PivotRotation";
-import Animation from "@src/components/Animation.vue";
 import { useNavigationState } from "@src/composables/NavigationState";
 
 const props = defineProps({

@@ -142,6 +142,7 @@ const shellMaterial = new THREE.MeshPhongMaterial({
 });
 
 onMounted(() => {
+  console.log("turtle mounted");
   render3d = initRenderer3D(container.value, false);
 
   render3d.camera.position.set(

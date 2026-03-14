@@ -3,6 +3,7 @@ import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
 import ViewerBirds from '@/src/components/Animations/ViewerBirds.vue';
 
 export default {
+    id: 'bird_3_1',
     cameraConfig: {
         [CameraConfigTypes.CAMERA_ICON_RECT]: {
             position: { x: 42.93675911601698, y: 20.990570572675985, z: -15.499838768879151 },
@@ -24,7 +25,7 @@ export default {
             target: { x: -8.12043376773865, y: 26.615913872522086, z: -2.6606930689925816 },
             transitionTime: CameraTransitionTime.ICON_TO_FULLSCREEN,
         },
-    },    
+    },
     hilightedBones: [
         {
             name: 'p-ribs1',

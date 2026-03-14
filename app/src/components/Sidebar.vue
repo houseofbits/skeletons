@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar" ref="sidebar">
+    <div class="sidebar" ref="sidebar" :class="{ visible: isActive }">
         <div class="header">
             <svg width="40" height="40" viewBox="0 0 22 27" fill="none">
                 <path
@@ -12,17 +12,20 @@
             </div>
         </div>
         <div class="list">
-            <div v-for="(point, i) in config.hilightedBones" class="list-item" :class="{ 'selected': selected == i }" :key="i"
-                @click="selectItem(i)">
+            <div v-for="(point, i) in config.hilightedBones" class="list-item" :class="{ 'selected': selected == i }"
+                :key="i" @click="selectItem(i)">
                 {{ point.text }}
             </div>
         </div>
+
+        <Animation v-if="props.config.animationComponent" :config="props.config" />
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, type PropType, nextTick } from "vue";
+import { type PropType } from "vue";
 import type Config from "@src/types/Config";
+import Animation from "@src/components/Animation.vue";
 
 const emit = defineEmits<{
     (e: 'select', index: number): void;
@@ -33,6 +36,10 @@ function selectItem(index: number) {
 }
 
 const props = defineProps({
+    isActive: {
+        type: Boolean,
+        default: false
+    },
     config: {
         type: Object as PropType<Config>,
         required: true
@@ -42,16 +49,6 @@ const props = defineProps({
         default: -1
     },
 });
-
-const sidebar = ref(null);
-
-nextTick(() => {
-  requestAnimationFrame(() => {
-    if (sidebar.value) {
-      (sidebar.value as HTMLDivElement).classList.add('visible');
-    }
-  })
-})
 
 </script>
 
@@ -67,10 +64,12 @@ nextTick(() => {
     transition: all 250ms ease-out;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(10px);
-    
+    transition-delay: 0ms;
+
     &.visible {
-        right:0;
+        right: 0;
         transition: all 250ms ease-in;
+        transition-delay: 300ms;
     }
 
     & .header {
