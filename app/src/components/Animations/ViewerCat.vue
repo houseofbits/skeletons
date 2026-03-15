@@ -42,6 +42,47 @@ const isAnimationPlaying = ref(false);
 let cam1 = null;
 let cam2 = null;
 
+function playAnimation(reset = false) {
+  if (animation.action === null) return;
+
+  if (animation.hasFinished || reset) {
+    // Restart
+    animation.action.reset();
+    animation.gsapTimeline.restart();
+    animation.hasFinished = false;
+    pivot.position.set(0, 20, 0);
+  }
+  // Play
+  animation.action.paused = false;
+  animation.action.play();
+  animation.gsapTimeline.play();
+  isAnimationPlaying.value = true;
+}
+
+function pauseAnimation() {
+  if (animation.action === null) return;
+  // Pause
+  animation.action.paused = true;
+  animation.gsapTimeline.pause();
+  isAnimationPlaying.value = false;
+}
+
+function playPauseAnimation() {
+  if (isAnimationPlaying.value) {
+    pauseAnimation();
+  } else {
+    playAnimation();
+  }
+}
+
+watch(() => props.isActive, (newVal) => {
+  if (newVal) {
+    playAnimation(true);
+  } else {
+    pauseAnimation();
+  }
+}, { immediate: true });
+
 function logCamera() {
   // console.log("Camera position: ", render3d.camera.position);
   // console.log("Camera target: ", render3d.controls.target);
@@ -67,7 +108,6 @@ function initAnimation() {
     animation.action.setLoop(THREE.LoopOnce);
     animation.action.paused = true;
     animation.action.clampWhenFinished = true;
-    animation.action.play();
     animation.mixer.addEventListener("finished", (event) => {
       if (event.action === animation.action) {
         isAnimationPlaying.value = false;
@@ -104,48 +144,10 @@ function initAnimation() {
         0
       );
   }
-
-  playPauseAnimation();
-}
-
-function playPauseAnimation() {
-  if (isAnimationPlaying.value) {
-    // Pause
-    animation.action.paused = true;
-    animation.gsapTimeline.pause();
-    isAnimationPlaying.value = false;
-  } else {
-    if (animation.hasFinished) {
-      // Restart
-      animation.action.reset();
-      animation.gsapTimeline.restart();
-      animation.hasFinished = false;
-      pivot.position.set(0, 20, 0);
-    }
-    // Play
-    animation.action.paused = false;
-    animation.action.play();
-    animation.gsapTimeline.play();
-    isAnimationPlaying.value = true;
-  }
 }
 
 onMounted(() => {
   render3d = initRenderer3D(container.value, false);
-
-  // render3d.camera.position.set(
-  //   153.62562089378935,
-  //   -7.07344970129659,
-  //   -50.81826781490016
-  // );
-  // render3d.controls.target.set(
-  //   -3.843766682705013,
-  //   7.8974697941971685,
-  //   -0.31677150604446797
-  // );
-
-  // render3d.camera.fov = 25;
-  // render3d.controls.update();
 
   const catFallScene = ScenePreloadService.getAsset("catScene").clone();
   render3d.scene.add(catFallScene);

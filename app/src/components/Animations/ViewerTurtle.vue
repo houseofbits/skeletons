@@ -1,11 +1,7 @@
 <template>
   <div>
     <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-    <PlayButton
-      class="btn-play"
-      @click="playPauseAnimation"
-      :is-playing="isAnimationPlaying"
-    />
+    <PlayButton class="btn-play" @click="playPauseAnimation" :is-playing="isAnimationPlaying" />
   </div>
 </template>
 
@@ -19,11 +15,12 @@ import usePivotRotation from "@src/composables/PivotRotation";
 import { boneMaterial, boneHilightMaterial } from "@src/helpers/Materials";
 import gsap from "gsap";
 import PlayButton from "@src/components/PlayButton.vue";
+import { mx_bilerp_0 } from "three/src/nodes/materialx/lib/mx_noise.js";
 
 const { initRenderer3D } = useRenderer3D();
 
 const props = defineProps({
-  isActive: { type: Boolean, default: false },
+  isActive: { type: Boolean, default: true },
 });
 
 const animation = {
@@ -31,11 +28,44 @@ const animation = {
   action: null,
   gsapTimeline: null,
   hasFinished: false,
+  animatedSpeed: 0,
 };
 
 const container = ref(null);
 const isAnimationPlaying = ref(false);
 let render3d, mixer;
+
+function playAnimation(reset = false) {
+  if (animation.action === null) return;
+
+  if (animation.hasFinished || reset) {
+    // Restart
+    animation.action.reset();
+    animation.gsapTimeline.restart();
+    animation.hasFinished = false;
+  }
+  // Play
+  animation.action.paused = false;
+  animation.action.play();
+  animation.gsapTimeline.play();
+  isAnimationPlaying.value = true;
+}
+
+function pauseAnimation() {
+  if (animation.action === null) return;
+  // Pause
+  animation.action.paused = true;
+  animation.gsapTimeline.pause();
+  isAnimationPlaying.value = false;
+}
+
+watch(() => props.isActive, (newVal) => {
+  if (newVal) {
+    playAnimation(true);
+  } else {
+    pauseAnimation();
+  }
+}, { immediate: true });
 
 function logCamera() {
   // console.log("Camera position: ", render3d.camera.position);
@@ -45,22 +75,9 @@ function logCamera() {
 
 function playPauseAnimation() {
   if (isAnimationPlaying.value) {
-    // Pause
-    animation.action.paused = true;
-    animation.gsapTimeline.pause();
-    isAnimationPlaying.value = false;
+    pauseAnimation();
   } else {
-    if (animation.hasFinished) {
-      // Restart
-      animation.action.reset();
-      animation.gsapTimeline.restart();
-      animation.hasFinished = false;
-    }
-    // Play
-    animation.action.paused = false;
-    animation.action.play();
-    animation.gsapTimeline.play();
-    isAnimationPlaying.value = true;
+    playAnimation();
   }
 }
 
@@ -69,67 +86,76 @@ function initAnimation() {
   if (animatedModel && animatedModel.animations?.length > 0) {
     const clips = animatedModel.animations;
     animation.mixer = new THREE.AnimationMixer(animatedModel);
-    animation.mixer.timeScale = 0;
-
     animation.action = animation.mixer.clipAction(clips[0]);
     animation.action.setLoop(THREE.LoopOnce);
     animation.action.paused = true;
     animation.action.clampWhenFinished = false;
+    animation.action.time = 0;
 
     animation.gsapTimeline = gsap.timeline({
       paused: true,
       onComplete: () => {
-        animation.mixer.timeScale = 0;
         animation.action.paused = true;
         isAnimationPlaying.value = false;
         animation.hasFinished = true;
       },
     });
 
+
     animation.gsapTimeline
       // forward
-      .to(animation.mixer, {
-        timeScale: 0.5,
+      .to({ speed: 0 }, {
+        speed: 0.5,
         duration: 6.5,
         ease: "power1.inOut",
-      })  
+        onUpdate() {
+          animation.animatedSpeed = this.targets()[0].speed;
+        },
+      })
       .to(shellMaterial, {
         opacity: 0.5,
         duration: 1,
         delay: 5.5,
         ease: "power1.inOut",
-      }, "<")    
-      .to(animation.mixer, {
-        timeScale: 0,
+      }, "<")
+      .to({ speed: 0.5 }, {
+        speed: 0,
         duration: 4,
         ease: "power1.out",
+        onUpdate() {
+          animation.animatedSpeed = this.targets()[0].speed;
+        },
       })
       .to(shellMaterial, {
         opacity: 0,
         duration: 1,
         ease: "power1.out",
-      }, "<")          
+      }, "<")
       // reverse
-      .to(animation.mixer, {
-        timeScale: -0.5,
+      .to({ speed: 0 }, {
+        speed: -0.5,
         duration: 6,
         ease: "power1.inOut",
+        onUpdate() {
+          animation.animatedSpeed = this.targets()[0].speed;
+        },
       })
       .to(shellMaterial, {
         opacity: 1,
         duration: 2,
         ease: "power1.out",
-        delay:4,
-      }, "<")     
+        delay: 4,
+      }, "<")
       // slow to stop
-      .to(animation.mixer, {
-        timeScale: 0,
+      .to({ speed: -0.5 }, {
+        speed: 0,
         duration: 4,
         ease: "power1.out",
+        onUpdate() {
+          animation.animatedSpeed = this.targets()[0].speed;
+        },
       });
   }
-
-  playPauseAnimation();
 }
 
 const shellMaterial = new THREE.MeshPhongMaterial({
@@ -142,7 +168,6 @@ const shellMaterial = new THREE.MeshPhongMaterial({
 });
 
 onMounted(() => {
-  console.log("turtle mounted");
   render3d = initRenderer3D(container.value, false);
 
   render3d.camera.position.set(
@@ -205,14 +230,14 @@ onMounted(() => {
       child.castShadow = true;
       child.receiveShadow = true;
       child.frustumCulled = false;
-      
+
       if (child.name === "caparaceHalf_L") {
         child.material = shellMaterial;
-        child.material.transparent= true;
-        child.material.opacity= 1;
+        child.material.transparent = true;
+        child.material.opacity = 1;
         child.castShadow = false;
         child.receiveShadow = true;
-        
+
       }
 
     }
@@ -223,8 +248,13 @@ onMounted(() => {
   render3d.scene.add(light);
 
   render3d.render((delta) => {
-    if (animation.mixer) {
-      animation.mixer.update(delta);
+    if (animation.mixer && animation.action.paused === false) {
+      if (animation.animatedSpeed !== 0) {
+        const dt = delta * animation.animatedSpeed;
+        animation.action.time += dt;
+        animation.action.time = Math.max(0, Math.min(animation.action.time, animation.action.getClip().duration));
+      }
+      animation.mixer.update(0);
     }
   });
 
