@@ -70,7 +70,6 @@ watch(() => props.isActive, (newVal) => {
 function logCamera() {
   // console.log("Camera position: ", render3d.camera.position);
   // console.log("Camera target: ", render3d.controls.target);
-  // console.log(render3d.camera);
 }
 
 function playPauseAnimation() {

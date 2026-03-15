@@ -59,10 +59,10 @@ const props = defineProps({
     bottom: 0;
     right: -400px;
     width: 400px;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(25, 24, 5, 0.95) 100%);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 124, 124, 0.2) 100%);
     border-left: solid 1px rgba(255, 255, 255, 0.1);
     transition: all 250ms ease-out;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     transition-delay: 0ms;
 
