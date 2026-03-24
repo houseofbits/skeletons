@@ -13,7 +13,7 @@ const boneHilightMaterial = new THREE.MeshPhongMaterial({
     color: new THREE.Color("#d98602"),
     shininess: 32,
     // specular: new THREE.Color(0.06743726399864605, 0.06743726399864605, 0.06743726399864605),
-    specular: new THREE.Color(0.2, 0.2, 0.2),
+    specular: new THREE.Color(0.05, 0.05, 0.0),
     reflectivity: 1,
     name: 'hilightedMaterial',
 });

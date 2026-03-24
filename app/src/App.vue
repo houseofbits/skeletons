@@ -1,46 +1,64 @@
 <template>
   <div v-if="ScenePreloadService.ready.value" class="relative content-1080p">
-    <!-- <RouterView /> -->
+    <!-- <RouterView />  -->
     <component v-if="currentComponent" :is="currentComponent" />
     <NavBar />
   </div>
   <div v-else class="relative content-1080p">
-    <p class="loader-title">Skeletal Anatomy ({{ currentRouteName }}) {{ pkg.version }}</p>
+    <p class="loader-title">
+      Skeletal Anatomy ({{ currentRouteName }}) {{ pkg.version }}
+    </p>
 
     <p class="loader-progress">{{ ScenePreloadService.progress }}%</p>
 
-    <div class="log-window">
-      <div v-for="(line, i) in ScenePreloadService.logs.value" :key="i">{{ line }}</div>
+    <div class="log-window" ref="terminal">
+      <div v-for="(line, i) in ScenePreloadService.logs.value" :key="i">
+        {{ line }}
+      </div>
     </div>
   </div>
   <div class="relative rows">
-
     <div>
       <a href="index.html?screen1" class="btn btn-primary mr">Mugurkauls</a>
       <a href="index.html?screen2" class="btn btn-primary mr">Galvaskauss</a>
-      <a href="index.html?screen3" class="btn btn-primary mr">Ribas un ekstremitātes</a>
+      <a href="index.html?screen3" class="btn btn-primary mr"
+        >Ribas un ekstremitātes</a
+      >
       <!-- <a href="animation" class="btn btn-primary mr">Animation test</a> -->
 
-      <div class="btn btn-secondary mr" @click="language.selectLanguage(Language.LV)">LV</div>
-      <div class="btn btn-secondary mr" @click="language.selectLanguage(Language.EN)">EN</div>
+      <div
+        class="btn btn-secondary mr"
+        @click="language.selectLanguage(Language.LV)"
+      >
+        LV
+      </div>
+      <div
+        class="btn btn-secondary mr"
+        @click="language.selectLanguage(Language.EN)"
+      >
+        EN
+      </div>
     </div>
     <!-- <div v-if="isDev"> -->
     <div>
-      <a href="index.html?animation" class="btn btn-primary mr">Model preview</a>
+      <a href="index.html?animation" class="btn btn-primary mr"
+        >Model preview</a
+      >
       <a href="index.html?clips" class="btn btn-primary mr">Animation clips</a>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-
 import TimeoutService from "@src/services/TimeoutService";
-import { onMounted, type Component, ref, markRaw } from "vue";
+import { onMounted, type Component, ref, markRaw, watch, nextTick } from "vue";
 import { useLanguage } from "@src/composables/Language";
 import { Language } from "@src/services/TranslationsService";
 import NavBar from "@src/components/NavBar.vue";
-import ScenePreloadService, { type Models } from "@src/services/ScenePreloadService";
-import pkg from '../../package.json'
+import ScenePreloadService, {
+  type Models,
+} from "@src/services/ScenePreloadService";
+import pkg from "../../package.json";
 import { useNavigationState } from "@src/composables/NavigationState";
 import Screen1Assets from "@src/helpers/Screen1Assets";
 import Screen2Assets from "@src/helpers/Screen2Assets";
@@ -60,43 +78,44 @@ const { resetNavigationState } = useNavigationState();
 const language = useLanguage();
 const currentComponent = ref<Component | null>(null);
 const currentRouteName = ref<string | null>(null);
+const terminal = ref<null | HTMLElement>(null);
 
 interface ViewDef {
-  name: string
+  name: string;
   assets: Models;
   view: Component;
-};
+}
 
 const routeAssets: Record<string, ViewDef> = {
-  'screen1': {
+  screen1: {
     name: "Mugurkauls",
     assets: Screen1Assets,
     view: Screen1,
   },
-  'screen2': {
+  screen2: {
     name: "Galvaskauss",
     assets: Screen2Assets,
     view: Screen2,
   },
-  'screen3': {
+  screen3: {
     name: "Ribas un ekstremitātes",
     assets: Screen3Assets,
     view: Screen3,
   },
-  'animation': {
+  animation: {
     name: "Animation",
     assets: AnimationTestAssets,
     view: AnimationTest,
-  } ,
-  'clips': {
+  },
+  clips: {
     name: "Clips",
     assets: AnimationClipsAssets,
     view: AnimationClips,
-  }    
+  },
 };
 
 const getViewDef = (url: string) => {
-  const name = Object.keys(routeAssets).find(key => url.includes(key));
+  const name = Object.keys(routeAssets).find((key) => url.includes(key));
   return name ? routeAssets[name] : undefined;
 };
 
@@ -116,14 +135,26 @@ onMounted(async () => {
     }
   });
 
-  language.loadTranslations([
-    'translations/common.json',
-  ]).then(() => {
-    console.log('Translations loaded');
-  }).catch((e: Error) => {
-    console.error('Failed to load translations:', e.message);
-  });
+  language
+    .loadTranslations(["translations/common.json"])
+    .then(() => {
+      console.log("Translations loaded");
+    })
+    .catch((e: Error) => {
+      console.error("Failed to load translations:", e.message);
+    });
 });
+
+watch(
+  () => ScenePreloadService.logs.value,
+  async () => {
+    await nextTick();
+    if (terminal.value) {
+      terminal.value.scrollTop = terminal.value.scrollHeight;
+    }
+  },
+  { deep: true }
+);
 </script>
 
 <style scoped>
@@ -151,6 +182,11 @@ onMounted(async () => {
 }
 
 .log-window {
+  position: absolute;
+  top: 120px;
+  bottom: 0;
+  left: 0;
+  right: 0;
   overflow-y: auto;
   color: rgb(255, 255, 255);
   padding: 8px;

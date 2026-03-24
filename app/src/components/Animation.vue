@@ -1,6 +1,6 @@
 <template>
     <div class="animation" :class="{ 'active': isAnimationActive }">
-        <component :is="props.config.animationComponent" :is-active="isCurrentAnimationActive" />
+        <component :is="props.config.animationComponent" :is-active="isCurrentAnimationActive" v-bind="props.config.animationProps ?? {}" />
 
         <div class="overlay" @click="toggleActive">
             <div class="play-button" :class="{ 'active': isCurrentAnimationActive }">
@@ -60,6 +60,7 @@ const isCurrentAnimationActive = computed(() => {
         justify-content: center;
         align-items: center;
         transition: all 0.4s ease;
+        z-index: 500;
     }
 
     &.active {

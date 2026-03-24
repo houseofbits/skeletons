@@ -1,5 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
+import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
 
 export default {
     id: 'bird_3_2',
@@ -82,4 +83,9 @@ export default {
             meshes: ['limbs11'],
         },
     ],
+    animationComponent: ViewerLimbs,
+    animationTitle: 'Bruņurupuča kakla ievilkšana',
+    animationProps: {
+        initiallyActive: 5,
+    },
 } as const;

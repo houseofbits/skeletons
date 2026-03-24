@@ -1,5 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
+import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
 
 export default {
     id: 'jackal_3_2',
@@ -76,5 +77,10 @@ export default {
             text: 'Pēdas kauli',
             meshes:['limbs9'],
         },
-    ]
+    ],
+    animationComponent: ViewerLimbs,
+    animationTitle: 'Bruņurupuča kakla ievilkšana',
+    animationProps: {
+        initiallyActive: 3,
+    },
 } as const;

@@ -14,4 +14,5 @@ export default interface Config {
     hilightedBones: HilightedBones[];
     animationComponent: Component | null;
     animationTitle: string | null;
+    animationProps: Record<string, any> | null;
 };

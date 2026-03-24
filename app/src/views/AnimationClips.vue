@@ -4,25 +4,28 @@
   </template>
 
   <ul class="animation-list">
-    <li @click="selectedCompIndex = 0">Turtle neck</li>
-    <li @click="selectedCompIndex = 1">Bird breastbones</li>
-    <li @click="selectedCompIndex = 2">Cat fall</li>
-    <li @click="selectedCompIndex = 3">Dog panting</li>
+    <li @click="selectedCompIndex = 0">Limbs</li>
+    <!-- <li @click="selectedCompIndex = 1">Turtle neck</li>
+    <li @click="selectedCompIndex = 2">Bird breastbones</li>
+    <li @click="selectedCompIndex = 3">Cat fall</li>
+    <li @click="selectedCompIndex = 4">Dog panting</li> -->
   </ul>
 </template>
 
 <script setup lang="ts">
-import ViewerCat from "@src/components/Animations/ViewerCat.vue";
-import ViewerDog from "@src/components/Animations/ViewerDog.vue";
-import ViewerBirds from "@src/components/Animations/ViewerBirds.vue";
-import ViewerTurtle from "@src/components/Animations/ViewerTurtle.vue";
+import ViewerLimbs from "@src/components/Animations/ViewerLimbs.vue";
+// import ViewerCat from "@src/components/Animations/ViewerCat.vue";
+// import ViewerDog from "@src/components/Animations/ViewerDog.vue";
+// import ViewerBirds from "@src/components/Animations/ViewerBirds.vue";
+// import ViewerTurtle from "@src/components/Animations/ViewerTurtle.vue";
 import { ref } from "vue";
 
 const comps = [
-  ViewerTurtle,
-  ViewerBirds,
-  ViewerCat,
-  ViewerDog,
+  ViewerLimbs,
+  // ViewerTurtle,
+  // ViewerBirds,
+  // ViewerCat,
+  // ViewerDog,
 ];
 
 const selectedCompIndex = ref(0);

@@ -35,3 +35,27 @@ export function transitionCamera(cameraControl: OrbitControls, toPos: THREE.Vect
         onComplete: onComplete
     });
 }   
+
+export function transitionMaterial(material: THREE.MeshPhongMaterial, targetMaterial: THREE.MeshPhongMaterial, duration = 1, ease = "power2.inOut", properties: Object) {
+    const timeline = gsap.timeline(properties);
+
+    timeline.to( material, {
+        shininess: targetMaterial.shininess,
+        duration,
+        ease,
+    }).
+    to(material.color, {
+        r: targetMaterial.color.r,
+        g: targetMaterial.color.g,
+        b: targetMaterial.color.b,
+        duration,
+        ease,
+    }, "<").
+    to(material.specular, {
+        r: targetMaterial.specular.r,
+        g: targetMaterial.specular.g,
+        b: targetMaterial.specular.b,
+        duration,
+        ease,
+    }, "<");
+}
