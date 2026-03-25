@@ -10,4 +10,11 @@ export default [
     ['owl', '/models/owl.glb'],
     ['penguin', '/models/penguin.glb'],
     ['ostritch', '/models/ostritch.glb'],    
+    
+    ['batLimbsScene', '/models/limbs/bat-scene.glb'],
+    ['whaleLimbsScene', '/models/limbs/whale-scene.glb'],
+    ['horseLimbsScene', '/models/limbs/horse-scene.glb'],
+    ['frogLimbsScene', '/models/limbs/frog-scene.glb'],
+    ['owlLimbsScene', '/models/limbs/owl-scene.glb'],
+    ['lionLimbsScene', '/models/limbs/lion-scene.glb'],
 ] as const;

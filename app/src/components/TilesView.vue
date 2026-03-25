@@ -1,7 +1,7 @@
 <template>
   <NavTile v-for="(tile, i) in tiles" :key="tile.asset" :is-active="isNavTileSelected(i + 1)" :title="tile.title"
     :width="tile.width" :height="tile.height" :left="tile.x" :top="tile.y" @click="setSelectedNavTile(i + 1)">
-    <Viewer :asset="tile.asset" :is-active="isNavTileSelected(i + 1)" :config="config[i]"
+    <Viewer :remove-context="removeContext" :asset="tile.asset" :is-active="isNavTileSelected(i + 1)" :config="config[i]"
       :camera-config="getCameraConfig(i)" />
   </NavTile>
 </template>
@@ -11,7 +11,7 @@
 import Viewer from "@src/components/Viewer.vue";
 import NavTile from "@src/components/NavTile.vue";
 import { useNavigationState } from "../composables/NavigationState";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import TileOccupancyService from '@src/services/TileOccupancyService';
 import useTimeoutInterval from "../composables/TimeoutInterval";
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
@@ -30,6 +30,8 @@ const props = defineProps({
 // const { translate } = useLanguage();
 const { setSelectedNavTile, areNavTilesView,
   isNavTileSelected } = useNavigationState();
+
+const removeContext = ref(false);
 
 const service = new TileOccupancyService();
 

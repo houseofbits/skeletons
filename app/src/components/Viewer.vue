@@ -1,8 +1,12 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera"></div>
 
-  <Sidebar :is-active="isActive" :selected="selectedActivePoint" :config="props.config"
-    @select="(i) => (selectedActivePoint = i)" />
+  <Sidebar
+    :is-active="isActive"
+    :selected="selectedActivePoint"
+    :config="props.config"
+    @select="(i) => (selectedActivePoint = i)"
+  />
 </template>
 
 <script setup>
@@ -29,6 +33,10 @@ const props = defineProps({
   cameraConfig: {
     type: Object,
     required: true,
+  },
+  removeContext: {
+    type:Boolean,
+    required: true,
   }
 });
 
@@ -53,27 +61,36 @@ function logCamera() {
   // console.log("Camera target: ", render3d.controls.target);
 }
 
-watch(() => props.cameraConfig, (cameraConf) => {
-  transitionCamera(
-    render3d.controls,
-    cameraConf.position,
-    cameraConf.target,
-    cameraConf.transitionTime,
-    "power2.inOut",
-  );
-});
-
-watch(() => props.config, (config, prevConfig) => {
-  resetHilightedBoneMeshesInstantFromConfig(prevConfig);
-});
-
-watch(() => props.iconCameraConfigType, (value) => {
-  if (props.isActive) {
-    return;
+watch(
+  () => props.cameraConfig,
+  (cameraConf) => {
+    transitionCamera(
+      render3d.controls,
+      cameraConf.position,
+      cameraConf.target,
+      cameraConf.transitionTime,
+      "power2.inOut"
+    );
   }
+);
 
-  setIconCameraPosition();
-});
+watch(
+  () => props.config,
+  (config, prevConfig) => {
+    resetHilightedBoneMeshesInstantFromConfig(prevConfig);
+  }
+);
+
+watch(
+  () => props.iconCameraConfigType,
+  (value) => {
+    if (props.isActive) {
+      return;
+    }
+
+    setIconCameraPosition();
+  }
+);
 
 function hilightBoneMeshes() {
   if (!props.config.hilightedBones?.length) {
@@ -218,7 +235,7 @@ function initCamera() {
     props.cameraConfig.position,
     props.cameraConfig.target,
     props.cameraConfig.transitionTime,
-    "power2.inOut",
+    "power2.inOut"
   );
 }
 
@@ -264,7 +281,11 @@ onMounted(() => {
   if (backgroundModel) {
     const c = backgroundModel.material.emissive;
     const scale = 2;
-    backgroundModel.material.emissive.set(c.r * scale, c.g * scale, c.b * scale);
+    backgroundModel.material.emissive.set(
+      c.r * scale,
+      c.g * scale,
+      c.b * scale
+    );
   }
 
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
@@ -279,6 +300,33 @@ onMounted(() => {
   render3d.render();
 
   onBeforeUnmount(render3d.dispose);
+
+  const options = {
+    root: document.body,
+    threshold: [0, 1],
+  };
+
+  // const observer = new IntersectionObserver(
+  //   (entries) => {
+  //     console.log('vis change', props.asset);
+  //     entries.forEach((entry) => {
+  //       // if (entry.isIntersecting && entry.intersectionRatio > 0) {
+  //       //   console.log('visible', props.asset);
+  //       //   // Canvas is visible
+  //       //   // activateCanvas(entry.target);
+  //       // } else {
+  //       //   // Canvas is fully hidden or occluded
+  //       //   // deactivateCanvas(entry.target);
+  //       //   console.log('hidden', props.asset);
+  //       // }
+  //     });
+  //   },
+  //   {
+  //     threshold: [0, 0.5, 1],
+  //   }
+  // );
+
+  // observer.observe(container.value);
 });
 </script>
 
