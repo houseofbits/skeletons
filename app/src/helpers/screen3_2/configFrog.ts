@@ -73,9 +73,9 @@ export default {
             meshes:['limbs9'],
         },                                
     ],
-    animationComponent: ViewerLimbs,
-    animationTitle: 'Bruņurupuča kakla ievilkšana',
-    animationProps: {
-        initiallyActive: 4,
-    },
+    // animationComponent: ViewerLimbs,
+    // animationTitle: 'Bruņurupuča kakla ievilkšana',
+    // animationProps: {
+    //     initiallyActive: 4,
+    // },
 } as const;

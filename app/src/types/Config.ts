@@ -15,4 +15,5 @@ export default interface Config {
     animationComponent: Component | null;
     animationTitle: string | null;
     animationProps: Record<string, any> | null;
+    animationPlaceholderUrl: string | null;
 };

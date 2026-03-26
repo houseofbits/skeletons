@@ -38,6 +38,6 @@ export default {
             meshes:['ribs2'],
         },        
     ],
-    animationComponent: ViewerBirds,
-    animationTitle: 'Ķīļa kauls',
+    // animationComponent: ViewerBirds,
+    // animationTitle: 'Ķīļa kauls',
 } as const;

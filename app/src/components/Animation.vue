@@ -1,7 +1,8 @@
 <template>
     <div class="animation" :class="{ 'active': isAnimationActive }">
-        <component :is="props.config.animationComponent" :is-active="isCurrentAnimationActive" v-bind="props.config.animationProps ?? {}" />
-
+        <component :is="props.config.animationComponent" :is-active="isCurrentAnimationActive"
+            :is-visible="isCurrentAnimationActive" v-bind="props.config.animationProps ?? {}" />
+        <img class="animation-placeholder-image" :class="{visible: !isCurrentAnimationActive}" :src="config.animationPlaceholderUrl ?? ''" />
         <div class="overlay" @click="toggleActive">
             <div class="play-button" :class="{ 'active': isCurrentAnimationActive }">
                 <span class="icon" />
@@ -13,7 +14,7 @@
 <script setup lang="ts">
 import { useNavigationState } from "@src/composables/NavigationState";
 import type Config from "@src/types/Config";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 
 const props = defineProps<{
     config: Config,
@@ -46,6 +47,22 @@ const isCurrentAnimationActive = computed(() => {
     height: 220px;
     border-top: solid 1px rgba(255, 255, 255, 0.1);
     transition: all 0.4s ease;
+
+    & .animation-placeholder-image{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+
+        &.visible {
+            opacity: 1;
+        }
+    }
 
     & .overlay {
         position: absolute;

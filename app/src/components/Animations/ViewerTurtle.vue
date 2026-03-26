@@ -16,11 +16,13 @@ import { boneMaterial, boneHilightMaterial } from "@src/helpers/Materials";
 import gsap from "gsap";
 import PlayButton from "@src/components/PlayButton.vue";
 import { mx_bilerp_0 } from "three/src/nodes/materialx/lib/mx_noise.js";
+import { useCameraController } from "@src/composables/CameraController";
 
 const { initRenderer3D } = useRenderer3D();
 
 const props = defineProps({
   isActive: { type: Boolean, default: true },
+  isVisible: { type: Boolean, default: true },
 });
 
 const animation = {
@@ -33,7 +35,7 @@ const animation = {
 
 const container = ref(null);
 const isAnimationPlaying = ref(false);
-let render3d, mixer;
+let render3d, mixer, cameraController;
 
 function playAnimation(reset = false) {
   if (animation.action === null) return;
@@ -58,6 +60,17 @@ function pauseAnimation() {
   animation.gsapTimeline.pause();
   isAnimationPlaying.value = false;
 }
+
+watch(
+  () => props.isVisible,
+  (val) => {
+    if (val) {
+      render3d.startRendering(container.value, cameraController);
+    } else {
+      render3d.stopRendering();
+    }
+  },
+);
 
 watch(() => props.isActive, (newVal) => {
   if (newVal) {
@@ -167,21 +180,26 @@ const shellMaterial = new THREE.MeshPhongMaterial({
 });
 
 onMounted(() => {
-  render3d = initRenderer3D(container.value, false);
+  cameraController = useCameraController('turtle-camera', container.value, false);
+  render3d = initRenderer3D();
+  if (props.isVisible) {
+    render3d.startRendering(container.value, cameraController);
+  }
 
-  render3d.camera.position.set(
+
+  cameraController.camera.position.set(
     26.967259163778515,
     15.695219592134237,
     14.726310588584106
   );
-  render3d.controls.target.set(
+  cameraController.controls.target.set(
     7.636261956105356,
     5.826977764423226,
     4.74801146578979
   );
 
-  render3d.camera.fov = 25;
-  render3d.controls.update();
+  cameraController.camera.fov = 25;
+  cameraController.controls.update();
 
   const catFallScene = ScenePreloadService.getAsset("turtleScene").clone();
   render3d.scene.add(catFallScene);
@@ -189,7 +207,7 @@ onMounted(() => {
   const model = ScenePreloadService.getAsset("turtleModel");
   model.name = "Group";
 
-  const pivotRotation = usePivotRotation(render3d.renderer.domElement);
+  const pivotRotation = usePivotRotation(container.value);
   pivotRotation.setEnabled(true);
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);
@@ -246,7 +264,7 @@ onMounted(() => {
   light.intensity = 2;
   render3d.scene.add(light);
 
-  render3d.render((delta) => {
+  render3d.registerRenderCallback((delta) => {
     if (animation.mixer && animation.action.paused === false) {
       if (animation.animatedSpeed !== 0) {
         const dt = delta * animation.animatedSpeed;
@@ -263,7 +281,7 @@ onMounted(() => {
 });
 </script>
 
-<style>
+<style scoped lang="scss">
 .fbx-viewer {
   width: 100%;
   height: 100%;

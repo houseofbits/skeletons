@@ -9,6 +9,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import ScenePreloadService from "../services/ScenePreloadService";
 import { useRenderer3D } from "../composables/Renderer3D";
 import { transitionCamera } from "@src/utils/transitions";
+import { useCameraController } from "@src/composables/CameraController";
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -17,13 +18,14 @@ const props = defineProps({
   cameraPosition: { type: Object, default: () => ({ x: 10, y: 0, z: 0 }) },
   cameraTarget: { type: Object, default: () => ({ x: 0, y: 0, z: 0 }) },
   activate: { type: Boolean, default: true },
+  isVisible: { type: Boolean, default: true },
 });
 
 
 const redraw = ref(true);
 const originalBoneMaterialColor = 14997948;
 const container = ref(null);
-let render3d, mixer;
+let render3d, mixer, cameraController;
 
 function logCamera() {
   // console.log("Camera position: ", render3d.camera.position);
@@ -31,21 +33,30 @@ function logCamera() {
 //   console.log(render3d.camera);
 }
 
-function initCamera() {
-  redraw.value = true;
+watch(
+  () => props.isVisible,
+  (val) => {
+    if (val) {
+      render3d.startRendering(container.value, cameraController);
+    } else {
+      render3d.stopRendering();
+    }
+  },
+);
 
+function initCamera() {
   let pos = new THREE.Vector3(props.cameraPosition.x, props.cameraPosition.y, props.cameraPosition.z);
   const target = new THREE.Vector3(props.cameraTarget.x, props.cameraTarget.y, props.cameraTarget.z);
 
   pos = pos.lerp(target, 0.3);
 
-  render3d.camera.position.set(pos.x, pos.y, pos.z);
-  render3d.controls.target.set(props.cameraTarget.x, props.cameraTarget.y, props.cameraTarget.z);
-  render3d.controls.update();
+  cameraController.camera.position.set(pos.x, pos.y, pos.z);
+  cameraController.controls.target.set(props.cameraTarget.x, props.cameraTarget.y, props.cameraTarget.z);
+  cameraController.controls.update();
 
   const duration = 0.9;
   transitionCamera(
-    render3d.controls,
+    cameraController.controls,
     props.cameraPosition,
     props.cameraTarget,
     duration,
@@ -66,7 +77,11 @@ watch(
 );
 
 onMounted(() => {
-  render3d = initRenderer3D(container.value);
+  cameraController = useCameraController('turtle-camera', container.value, false);
+  render3d = initRenderer3D();
+  if (props.isVisible) {
+    render3d.startRendering(container.value, cameraController);
+  }
 
   const asset = ScenePreloadService.getAsset(props.asset);
   if (asset) {
@@ -90,8 +105,6 @@ onMounted(() => {
 
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
   render3d.scene.add(ambientLight);
-
-  render3d.render(() => { }, redraw.value);
 
   onBeforeUnmount(render3d.dispose);
 });

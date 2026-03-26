@@ -3,13 +3,14 @@
     <slot />
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 import { onMounted, onBeforeUnmount, ref, watch } from "vue";
 import * as THREE from "three";
 import ScenePreloadService from "@src/services/ScenePreloadService";
 import { useRenderer3D } from "@src/composables/Renderer3D";
 import usePivotRotation from "@src/composables/PivotRotation";
+import { useCameraController } from "@src/composables/CameraController";
 import { boneMaterial, boneHilightMaterial } from "@src/helpers/Materials";
 import gsap from "gsap";
 import { transitionMaterial } from "@src/utils/transitions.ts";
@@ -21,12 +22,24 @@ const hilightBoneNames = ["part1", "part2", "part3", "part4", "part5", "part6"];
 let pivot = null;
 
 const props = defineProps({
+  isVisible: { type: Boolean, default: true },
   isActive: { type: Boolean, default: false },
   scene: { type: String, required: true },
   cameraPos: { type: Object, required: true },
   cameraTarget: { type: Object, required: true },
   hilightBoneIndex: { type: Number, default: null },
 });
+
+watch(
+  () => props.isVisible,
+  (val) => {
+    if (val) {
+      render3d.startRendering(container.value, cameraController);
+    } else {
+      render3d.stopRendering();
+    }
+  },
+);
 
 watch(
   () => props.hilightBoneIndex,
@@ -48,13 +61,13 @@ watch(
 );
 
 const container = ref(null);
-let render3d, mixer;
+let render3d, mixer, cameraController;
 let pivotRotation = null;
 
 function logCamera() {
-  // console.log("Camera position: ", render3d.camera.position);
-  // console.log("Camera target: ", render3d.controls.target);
-  // console.log(render3d.camera);
+  // console.log("Camera position: ", cameraController.camera.position);
+  // console.log("Camera target: ", cameraController.controls.target);
+  // console.log(cameraController.camera);
 }
 
 function initModelMaterials(model) {
@@ -90,14 +103,14 @@ watch(
     // render3d.camera.position.set(pos.x, pos.y, pos.z);
     // render3d.controls.update();
 
-    gsap.to(render3d.camera.position, {
+    gsap.to(cameraController.camera.position, {
       x: pos.x,
       y: pos.y,
       z: pos.z,
       duration: 1,
       ease: "power2.out",
       onUpdate: () => {
-        render3d.controls.update();
+        cameraController.controls.update();
       },
     });
   }
@@ -108,28 +121,26 @@ watch(
   (pos) => {
     // render3d.controls.target.set(pos.x, pos.y, pos.z);
 
-    gsap.to(render3d.controls.target, {
+    gsap.to(cameraController.controls.target, {
       x: pos.x,
       y: pos.y,
       z: pos.z,
       duration: 1,
       ease: "power2.out",
       onUpdate: () => {
-        render3d.controls.update();
+        cameraController.controls.update();
       },
     });
   }
 );
 
 function initPivot() {
-  // console.log(props.scene, render3d.scene);
-
   const model = render3d.scene.getObjectByName("model");
   if (model == undefined) {
     return;
   }
 
-  pivotRotation = usePivotRotation(render3d.renderer.domElement);
+  pivotRotation = usePivotRotation(container.value);
 
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);
@@ -139,21 +150,25 @@ function initPivot() {
 }
 
 onMounted(() => {
-  render3d = initRenderer3D(container.value, false);
+  cameraController = useCameraController('limbs-part-viewer-camera', container.value, false);
+  render3d = initRenderer3D();
+  if (props.isVisible) {
+    render3d.startRendering(container.value, cameraController);
+  }
 
-  render3d.camera.position.set(
+  cameraController.camera.position.set(
     props.cameraPos.x,
     props.cameraPos.y,
     props.cameraPos.z
   );
-  render3d.controls.target.set(
+  cameraController.controls.target.set(
     props.cameraTarget.x,
     props.cameraTarget.y,
     props.cameraTarget.z
   );
 
-  render3d.camera.fov = 25;
-  render3d.controls.update();
+  cameraController.camera.fov = 25;
+  cameraController.controls.update();
 
   const scene = ScenePreloadService.getAsset(props.scene)?.clone();
   if (scene === null) {
@@ -184,7 +199,7 @@ onMounted(() => {
   light.intensity = 2;
   render3d.scene.add(light);
 
-  render3d.render((delta) => {
+  render3d.registerRenderCallback((delta) => {
     if (mixer) {
       mixer.update(delta);
     }
@@ -193,8 +208,8 @@ onMounted(() => {
   onBeforeUnmount(render3d.dispose);
 });
 </script>
-  
-  <style lang="scss">
+
+<style lang="scss">
 .limbs-parts-viewer {
   display: block;
   background: #000;
@@ -206,4 +221,3 @@ onMounted(() => {
   display: block;
 }
 </style>
-  

@@ -12,7 +12,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import ScenePreloadService from "@src/services/ScenePreloadService";
 import { useRenderer3D } from "@src/composables/Renderer3D";
-import { use3DCamera } from "@src/composables/CameraController";
+import { useCameraController } from "@src/composables/CameraController";
 import usePivotRotation from "@src/composables/PivotRotation";
 import { boneMaterial, boneHilightMaterial } from "@src/helpers/Materials";
 import gsap from "gsap";
@@ -22,11 +22,12 @@ const { initRenderer3D } = useRenderer3D();
 
 const props = defineProps({
   isActive: { type: Boolean, default: false },
+  isVisible: { type: Boolean, default: true },
 });
 
 const originalBoneMaterialColor = 14997948;
 const container = ref(null);
-let render3d, mixer;
+let render3d, mixer, cameraController;
 
 const animation = {
   mixer: null,
@@ -75,6 +76,17 @@ function playPauseAnimation() {
   }
 }
 
+watch(
+  () => props.isVisible,
+  (val) => {
+    if (val) {
+      render3d.startRendering(container.value, cameraController);
+    } else {
+      render3d.stopRendering();
+    }
+  },
+);
+
 watch(() => props.isActive, (newVal) => {
   if (newVal) {
     playAnimation(true);
@@ -87,14 +99,14 @@ function logCamera() {
   // console.log("Camera position: ", render3d.camera.position);
   // console.log("Camera target: ", render3d.controls.target);
 
-  if (cam1 == null || cam2 == null) {
-    return;
-  }
+  // if (cam1 == null || cam2 == null) {
+  //   return;
+  // }
 
-  console.log("Camera1 position: ", cam1.camera.position);
-  console.log("Camera1 target: ", cam1.controls.target);
-  console.log("Camera2 position: ", cam2.camera.position);
-  console.log("Camera2 target: ", cam2.controls.target);
+  // console.log("Camera1 position: ", cam1.camera.position);
+  // console.log("Camera1 target: ", cam1.controls.target);
+  // console.log("Camera2 position: ", cam2.camera.position);
+  // console.log("Camera2 target: ", cam2.controls.target);
 }
 
 function initAnimation() {
@@ -147,14 +159,18 @@ function initAnimation() {
 }
 
 onMounted(() => {
-  render3d = initRenderer3D(container.value, false);
+  cameraController = useCameraController('turtle-camera', container.value, false);
+  render3d = initRenderer3D();
+  if (props.isVisible) {
+    render3d.startRendering(container.value, cameraController);
+  }
 
   const catFallScene = ScenePreloadService.getAsset("catScene").clone();
   render3d.scene.add(catFallScene);
 
   const model = ScenePreloadService.getAsset("catFall");
   model.name = "Group";
-  const pivotRotation = usePivotRotation(render3d.renderer.domElement);
+  const pivotRotation = usePivotRotation(container.value);
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);
   pivot = pivotRotation.pivot;
@@ -188,8 +204,8 @@ onMounted(() => {
   light.intensity = 1;
   render3d.scene.add(light);
 
-  cam1 = use3DCamera("MainCam1", render3d.renderer, false);
-  cam2 = use3DCamera("MainCam2", render3d.renderer, false);
+  cam1 = useCameraController("MainCam1", container.value, false);
+  cam2 = useCameraController("MainCam2", container.value, false);
 
   render3d.scene.add(cam1.camera);
   render3d.scene.add(cam2.camera);
@@ -207,14 +223,7 @@ onMounted(() => {
   cam2.camera.fov = 25;
   cam2.controls.update();
 
-
-  // render3d.render((delta) => {
-  //   if (animation.mixer) {
-  //     animation.mixer.update(delta);
-  //   }
-  // });
-
-  render3d.renderRaw((width, height, delta) => {
+  render3d.registerManualRenderFunction((renderer, width, height, delta) => {
     if (animation.mixer) {
       animation.mixer.update(delta);
     }
@@ -222,32 +231,32 @@ onMounted(() => {
     width = 1920;
     height = 1080;
 
-    render3d.renderer.setScissorTest(true);
+    renderer.setScissorTest(true);
 
     const divider = 0.35;
 
     cam2.camera.position.y = cam2InitPos.y + pivot.position.y;
     cam2.controls.target.y = cam2InitTarget.y + pivot.position.y;
 
-    render3d.renderer.setViewport(0, 0, width * divider, height);
-    render3d.renderer.setScissor(0, 0, width * divider, height);
+    renderer.setViewport(0, 0, width * divider, height);
+    renderer.setScissor(0, 0, width * divider, height);
     cam1.update(width * divider, height);
-    render3d.renderer.render(render3d.scene, cam1.camera);
+    renderer.render(render3d.scene, cam1.camera);
 
-    render3d.renderer.setViewport(
+    renderer.setViewport(
       width * divider,
       0,
       width * (1.0 - divider),
       height
     );
-    render3d.renderer.setScissor(
+    renderer.setScissor(
       width * divider,
       0,
       width * (1.0 - divider),
       height
     );
     cam2.update(width * (1.0 - divider), height);
-    render3d.renderer.render(render3d.scene, cam2.camera);
+    renderer.render(render3d.scene, cam2.camera);
   });
 
   onBeforeUnmount(render3d.dispose);
@@ -256,7 +265,7 @@ onMounted(() => {
 });
 </script>
 
-<style>
+<style scoped lang="scss">
 .fbx-viewer {
   width: 100%;
   height: 100%;

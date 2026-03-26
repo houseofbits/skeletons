@@ -1,12 +1,9 @@
 <template>
-  <div ref="container" class="fbx-viewer" @click="logCamera"></div>
+  <div ref="container" class="fbx-viewer" @click="logCamera">
+  </div>
 
-  <Sidebar
-    :is-active="isActive"
-    :selected="selectedActivePoint"
-    :config="props.config"
-    @select="(i) => (selectedActivePoint = i)"
-  />
+  <Sidebar :is-active="isActive" :selected="selectedActivePoint" :config="props.config"
+    @select="(i) => (selectedActivePoint = i)" />
 </template>
 
 <script setup>
@@ -22,6 +19,7 @@ import { tweenColor, transitionCamera } from "@src/utils/transitions";
 import { toScreenPosition } from "@src/utils/utils3d";
 import usePivotRotation from "@src/composables/PivotRotation";
 import { useNavigationState } from "@src/composables/NavigationState";
+import { useCameraController } from "@src/composables/CameraController";
 
 const props = defineProps({
   asset: { type: String, required: true },
@@ -34,8 +32,8 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  removeContext: {
-    type:Boolean,
+  isVisible: {
+    type: Boolean,
     required: true,
   }
 });
@@ -44,7 +42,7 @@ const originalBoneMaterialColor = 14997948;
 const hilightedBoneMaterialColor = "#d98602";
 
 const container = ref(null);
-let render3d;
+let render3d, cameraController;
 const activePointPositions = ref([]);
 const showActivePoints = ref(false);
 const selectedActivePoint = ref(-1);
@@ -62,15 +60,28 @@ function logCamera() {
 }
 
 watch(
+  () => props.isVisible,
+  (newVal) => {
+    if (newVal) {
+      render3d.startRendering(container.value, cameraController);
+    } else {
+      render3d.stopRendering();
+    }
+  }
+);
+
+watch(
   () => props.cameraConfig,
   (cameraConf) => {
-    transitionCamera(
-      render3d.controls,
-      cameraConf.position,
-      cameraConf.target,
-      cameraConf.transitionTime,
-      "power2.inOut"
-    );
+    if (cameraController.controls) {
+      transitionCamera(
+        cameraController.controls,
+        cameraConf.position,
+        cameraConf.target,
+        cameraConf.transitionTime,
+        "power2.inOut"
+      );
+    }
   }
 );
 
@@ -231,7 +242,7 @@ function prepareMeshMaterials() {
 
 function initCamera() {
   transitionCamera(
-    render3d.controls,
+    cameraController.controls,
     props.cameraConfig.position,
     props.cameraConfig.target,
     props.cameraConfig.transitionTime,
@@ -245,7 +256,7 @@ function initPivot() {
     return;
   }
 
-  pivotRotation = usePivotRotation(render3d.renderer.domElement);
+  pivotRotation = usePivotRotation(container.value);
 
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);
@@ -253,7 +264,11 @@ function initPivot() {
 }
 
 onMounted(() => {
-  render3d = initRenderer3D(container.value, false);
+  cameraController = useCameraController("MainCamera", container.value, false);
+  render3d = initRenderer3D();
+  if (props.isVisible) {
+    render3d.startRendering(container.value, cameraController);
+  }
 
   const assetScene = ScenePreloadService.getAsset(props.asset);
   if (assetScene) {
@@ -297,36 +312,12 @@ onMounted(() => {
 
   initCamera();
 
-  render3d.render();
-
   onBeforeUnmount(render3d.dispose);
 
   const options = {
     root: document.body,
     threshold: [0, 1],
   };
-
-  // const observer = new IntersectionObserver(
-  //   (entries) => {
-  //     console.log('vis change', props.asset);
-  //     entries.forEach((entry) => {
-  //       // if (entry.isIntersecting && entry.intersectionRatio > 0) {
-  //       //   console.log('visible', props.asset);
-  //       //   // Canvas is visible
-  //       //   // activateCanvas(entry.target);
-  //       // } else {
-  //       //   // Canvas is fully hidden or occluded
-  //       //   // deactivateCanvas(entry.target);
-  //       //   console.log('hidden', props.asset);
-  //       // }
-  //     });
-  //   },
-  //   {
-  //     threshold: [0, 0.5, 1],
-  //   }
-  // );
-
-  // observer.observe(container.value);
 });
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-  <!-- <div class="btn btn-primary btn-play" @click="play">Play</div> -->
+  <div class="btn btn-primary btn-play" @click="play">Acquire render context</div>
 </template>
 
 <script setup>
@@ -9,6 +9,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import ScenePreloadService from "../services/ScenePreloadService";
 import { useRenderer3D } from "../composables/Renderer3D";
+import { useCameraController } from "../composables/CameraController";
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -18,22 +19,22 @@ const props = defineProps({
 
 const originalBoneMaterialColor = 14997948;
 const container = ref(null);
-let render3d, mixer;
+let render3d, mixer, cameraController;
 
 function logCamera() {
-  console.log("Camera position: ", render3d.camera.position);
-  console.log("Camera target: ", render3d.controls.target);
+  console.log("Camera position: ", cameraController.camera.position);
+  console.log("Camera target: ", cameraController.controls.target);
   // console.log(render3d.camera);
 }
 
 onMounted(() => {
-  render3d = initRenderer3D(container.value, true);
-  
-  render3d.camera.position.set(128.68624793019552, 27.206282993959626, 14.222991132157553);
-  render3d.controls.target.set(0, 0, 0);
+  cameraController = useCameraController("MainCamera", container.value, true);
+  render3d = initRenderer3D();
 
-  render3d.camera.fov = 25;
-  render3d.controls.update();
+  cameraController.camera.position.set(128.68624793019552, 27.206282993959626, 14.222991132157553);
+  cameraController.controls.target.set(0, 0, 0);
+  cameraController.camera.fov = 25;
+  cameraController.controls.update();
 
   const catFallScene = ScenePreloadService.getAsset('animation-preview-scene');
   render3d.scene.add(catFallScene.clone());
@@ -50,7 +51,7 @@ onMounted(() => {
   model.name = 'Group';
   render3d.scene.add(model);
 
-  const material = new THREE.MeshStandardMaterial({color: 0xff0000});
+  const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
   material.color = new THREE.Color(originalBoneMaterialColor);
 
   render3d.scene.traverse((child) => {
@@ -80,25 +81,32 @@ onMounted(() => {
     action.play();
   }
 
-  render3d.render((delta) => {
+  render3d.registerRenderCallback(() => {
     if (mixer) {
       mixer.update(delta);
     }
   });
 
+
   onBeforeUnmount(render3d.dispose);
 });
 
 function play() {
-  const animatedModel = render3d.scene.getObjectByName('Group');
-  if (animatedModel && animatedModel.animations?.length > 0) {
-    const clips = animatedModel.animations;
-    mixer = new THREE.AnimationMixer(animatedModel)
-    mixer.timeScale = 1.0;
+  // const animatedModel = render3d.scene.getObjectByName('Group');
+  // if (animatedModel && animatedModel.animations?.length > 0) {
+  //   const clips = animatedModel.animations;
+  //   mixer = new THREE.AnimationMixer(animatedModel)
+  //   mixer.timeScale = 1.0;
 
-    const action = mixer.clipAction(clips[0]);
-    action.time = 0;//200 / 30;
-    action.play();
+  //   const action = mixer.clipAction(clips[0]);
+  //   action.time = 0;//200 / 30;
+  //   action.play();
+  // }
+
+  if (render3d.getRenderer()) {
+    render3d.stopRendering();
+  } else {
+    render3d.startRendering(container.value, cameraController);
   }
 }
 
@@ -120,7 +128,7 @@ function play() {
 
 .btn-play {
   position: absolute;
-  top: 120px;
+  top: 420px;
   left: 20px;
 }
 </style>

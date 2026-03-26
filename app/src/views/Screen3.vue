@@ -1,15 +1,24 @@
 <template>
   <div v-show="selectedNavGroup === null">
-    <GroupView />
+    <GroupView :is-visible="selectedNavGroup === null" />
   </div>
-  <div v-show="selectedNavGroup !== null">
+  <div class="multi-tiles" v-show="selectedNavGroup === 1">
     <TilesView :config="[
-      configFish,
-      configFrog,
-      configLizard,
-      configBird,
-      configJackal,
-    ]" :animate="true" />
+      configFish1,
+      configFrog1,
+      configLizard1,
+      configBird1,
+      configJackal1,
+    ]" :animate="true" :is-visible="selectedNavGroup === 1" />
+  </div>
+  <div class="multi-tiles" v-show="selectedNavGroup === 2">
+    <TilesView :config="[
+      configFish2,
+      configFrog2,
+      configLizard2,
+      configBird2,
+      configJackal2,
+    ]" :animate="true" :is-visible="selectedNavGroup === 2" />
   </div>
 </template>
 
@@ -27,19 +36,20 @@ import configFrog2 from "@/src/helpers/screen3_2/configFrog";
 import configLizard2 from "@/src/helpers/screen3_2/configLizard";
 import configBird2 from "@/src/helpers/screen3_2/configBird";
 import configJackal2 from "@/src/helpers/screen3_2/configJackal";
-import { computed } from "vue";
 
 const { shouldShowNavGroup, selectedNavGroup } = useNavigationState();
 
 shouldShowNavGroup.value = true;
 selectedNavGroup.value = null;
 
-const configFrog = computed(() => (selectedNavGroup.value === 1) ? configFrog1 : configFrog2);
-const configJackal = computed(() => (selectedNavGroup.value === 1) ? configJackal1 : configJackal2);
-const configFish = computed(() => (selectedNavGroup.value === 1) ? configFish1 : configFish2);
-const configBird = computed(() => (selectedNavGroup.value === 1) ? configBird1 : configBird2);
-const configLizard = computed(() => (selectedNavGroup.value === 1) ? configLizard1 : configLizard2);
-
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.multi-tiles {
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  top: 0;
+  left: 0;
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
   <NavTile v-for="(tile, i) in tiles" :key="tile.asset" :is-active="isNavTileSelected(i + 1)" :title="tile.title"
     :width="tile.width" :height="tile.height" :left="tile.x" :top="tile.y" @click="setSelectedNavTile(i + 1)">
-    <Viewer :remove-context="removeContext" :asset="tile.asset" :is-active="isNavTileSelected(i + 1)" :config="config[i]"
+    <Viewer :is-visible="isVisible(i+1)" :asset="tile.asset" :is-active="isNavTileSelected(i + 1)" :config="config[i]"
       :camera-config="getCameraConfig(i)" />
   </NavTile>
 </template>
@@ -11,10 +11,14 @@
 import Viewer from "@src/components/Viewer.vue";
 import NavTile from "@src/components/NavTile.vue";
 import { useNavigationState } from "../composables/NavigationState";
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
 import TileOccupancyService from '@src/services/TileOccupancyService';
 import useTimeoutInterval from "../composables/TimeoutInterval";
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
+
+// const { translate } = useLanguage();
+const { selectedNavTile, setSelectedNavTile, areNavTilesView,
+  isNavTileSelected } = useNavigationState();
 
 const props = defineProps({
   config: {
@@ -25,13 +29,20 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  isVisible: { type: Boolean, default: true },
 });
 
-// const { translate } = useLanguage();
-const { setSelectedNavTile, areNavTilesView,
-  isNavTileSelected } = useNavigationState();
+function isVisible(id: number) {
+  if (!props.isVisible) {
+    return false;
+  } 
+  
+  if (selectedNavTile.value === null) {
+    return true; 
+  }
 
-const removeContext = ref(false);
+  return selectedNavTile.value === id;
+}
 
 const service = new TileOccupancyService();
 

@@ -1,103 +1,142 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import RendererManager from "@src/services/RendererManager";
+import RendererInstance from "@src/services/RendererInstance";
+import type { CameraController } from "./CameraController";
 
 export interface Renderer3D {
-    scene: THREE.Scene;
-    renderer: THREE.WebGLRenderer;
+    scene: THREE.Scene | null;
     clock: THREE.Clock;
-    camera: THREE.PerspectiveCamera;
-    controls: OrbitControls;
-    canvas: HTMLCanvasElement;
 
     render(callback: CallableFunction, redraw: boolean): void;
     renderRaw(callback: CallableFunction): void;
     dispose(): void;
+    startRendering(parent: HTMLCanvasElement, cameraController: CameraController): void;
+    stopRendering(): void;
+    getRenderer(): THREE.WebGLRenderer | null;
+    registerRenderCallback(callback: CallableFunction): void;
+    registerManualRenderFunction(func: CallableFunction): void;
 }
 
 export function useRenderer3D() {
-    function initRenderer3D(canvas: HTMLCanvasElement, isCameraControlsEnabled: boolean = false): Renderer3D {
+    let renderCallback: CallableFunction = () => { };
+    let manualRenderFunc: CallableFunction | null = null;
+    let scene: THREE.Scene | null = null;
+    let clock: THREE.Clock = new THREE.Clock();
+    let renderInstance: RendererInstance | null = null;
+
+    function registerRenderCallback(callback: CallableFunction) {
+        renderCallback = callback;
+    }
+
+    function registerManualRenderFunction(func: CallableFunction) {
+        manualRenderFunc = func;
+    }    
+
+    function startRendering(parent: HTMLElement, cameraController: CameraController): void {
+        if (scene === null) {
+            return;
+        }
+        
+        renderInstance = RendererManager.acquireInstance(parent, scene, cameraController.camera);
+        if (renderInstance !== null) {
+            renderInstance.registerRenderCallback(renderCallback);
+            if (manualRenderFunc) {
+                renderInstance.registerManualRenderFunction(manualRenderFunc);
+            }
+        }
+    }
+
+    function stopRendering() {
+        if (renderInstance !== null) {
+            renderInstance.release();
+            renderInstance = null;
+        }
+    }
+
+    function getRenderer(): THREE.WebGLRenderer | null {
+        return renderInstance?.renderer || null;
+    }
+
+    function initRenderer3D(): Renderer3D {
         // Scene
-        const scene = new THREE.Scene();
+        scene = new THREE.Scene();
         scene.background = new THREE.Color(0, 0, 0);
 
-        // Renderer
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        canvas.appendChild(renderer.domElement);
+        // createCamera(parent, isCameraControlsEnabled);
 
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.0;
-        renderer.setSize(1920, 1080);
-
-        const clock = new THREE.Clock();
-
-        const camera = new THREE.PerspectiveCamera(
-            33,
-            canvas.clientWidth / canvas.clientHeight,
-            0.01,
-            1500
-        );
-        camera.name = 'MainCamera';
-        camera.position.set(0, 2, 5);
-        const controls = new OrbitControls(camera, renderer.domElement);
-
-        controls.enabled = isCameraControlsEnabled;
-
-        scene.add(camera);
+        // if (shouldCreateRenderer) {
+        //     createRenderer(parent);
+        // }
 
         function renderRaw(callback: CallableFunction = () => { }) {
-            requestAnimationFrame(() => renderRaw(callback));
-            if (canvas) {
-                callback(canvas.clientWidth, canvas.clientHeight, clock.getDelta());
-            }
+            // if (renderer === null) {
+            //     return;
+            // }
+            // requestAnimationFrame(() => renderRaw(callback));
+            // if (parent) {
+            //     callback(parent.clientWidth, parent.clientHeight, clock.getDelta());
+            // }
         }
 
         function render(callback: CallableFunction = () => { }, redraw: boolean = true) {
-            requestAnimationFrame(() => render(callback));
+            // if (renderer === null) {
+            //     return;
+            // }
 
-            callback(clock.getDelta());
+            // requestAnimationFrame(() => render(callback));
 
-            if (!redraw) return;
+            // renderCallback(clock.getDelta());
 
-            if (canvas) {
-                const w = canvas.clientWidth;
-                const h = canvas.clientHeight;
-                camera.aspect = w / h;
-                camera.updateProjectionMatrix();
-                renderer.render(scene, camera);
+            // if (!redraw) return;
 
-            }
+            // if (parent && camera && scene) {
+            //     const w = parent.clientWidth;
+            //     const h = parent.clientHeight;
+
+            //     if (w === 0 || h === 0) {
+            //         console.log("Canvas size is zero!");
+            //         return;
+            //     }
+
+            //     camera.aspect = w / h;
+            //     camera.updateProjectionMatrix();
+            //     renderer.render(scene, camera);
+            // }
         }
 
         function dispose() {
-            renderer.dispose();
-            controls.dispose();
-            scene.traverse((obj) => {
-                if (
-                    obj instanceof THREE.Mesh ||
-                    obj instanceof THREE.Line ||
-                    obj instanceof THREE.Points
-                ) {
-                    obj.geometry.dispose();
-                }
-                if (
-                    obj instanceof THREE.Mesh ||
-                    obj instanceof THREE.Line ||
-                    obj instanceof THREE.Points
-                ) {
-                    const material = obj.material;
+            stopRendering();
 
-                    if (Array.isArray(material)) {
-                        material.forEach(m => m.dispose());
-                    } else {
-                        material.dispose();
+            if (scene) {
+                scene.traverse((obj) => {
+                    if (
+                        obj instanceof THREE.Mesh ||
+                        obj instanceof THREE.Line ||
+                        obj instanceof THREE.Points
+                    ) {
+                        obj.geometry.dispose();
                     }
-                }
-            });
+                    if (
+                        obj instanceof THREE.Mesh ||
+                        obj instanceof THREE.Line ||
+                        obj instanceof THREE.Points
+                    ) {
+                        const material = obj.material;
+
+                        if (Array.isArray(material)) {
+                            material.forEach(m => m.dispose());
+                        } else {
+                            material.dispose();
+                        }
+                    }
+                });
+            }
         }
 
-        return { scene, renderer, clock, camera, controls, renderRaw, render, dispose, canvas };
+        return {
+            scene, clock, renderRaw, render, dispose, startRendering,
+            stopRendering, getRenderer, registerRenderCallback, registerManualRenderFunction,
+        };
     }
 
     return {

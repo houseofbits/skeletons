@@ -50,4 +50,5 @@ export default {
     ],
     animationComponent: ViewerTurtle,
     animationTitle: 'Bruņurupuča kakla ievilkšana',    
+    animationPlaceholderUrl: '/img/turtle-animation-thumb.png',
 } as const;

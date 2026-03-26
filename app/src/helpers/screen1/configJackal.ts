@@ -55,4 +55,5 @@ export default {
     ],
     animationComponent: ViewerCat,
     animationTitle: 'Kaķa mugurkaula lokanība',    
+    animationPlaceholderUrl: '/img/cat-animation-thumb.png',
 } as const;

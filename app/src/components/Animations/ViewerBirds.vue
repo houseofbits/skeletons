@@ -20,7 +20,7 @@ import ScenePreloadService from "@src/services/ScenePreloadService";
 import { useRenderer3D } from "@src/composables/Renderer3D";
 import usePivotRotation from "@src/composables/PivotRotation";
 import { boneMaterial, boneHilightMaterial } from "@src/helpers/Materials";
-import { use3DCamera } from "@src/composables/CameraController";
+import { useCameraController } from "@src/composables/CameraController";
 import { transitionCamera, tweenColor } from "@src/utils/transitions";
 import gsap from "gsap";
 
@@ -28,6 +28,7 @@ const { initRenderer3D } = useRenderer3D();
 
 const props = defineProps({
   isActive: { type: Boolean, default: false },
+  isVisible: { type: Boolean, default: true },
 });
 
 const originalBoneMaterialColor = 14997948;
@@ -36,7 +37,7 @@ const container = ref(null);
 const dragContainer1 = ref(null);
 const dragContainer2 = ref(null);
 const dragContainer3 = ref(null);
-let render3d, mixer;
+let render3d, mixer, cameraController;
 let camOwl = null;
 let camPenguin = null;
 let camOstritch = null;
@@ -51,6 +52,7 @@ const targetAngles = [
   -0.8999999999999998,
   1.4310000000000003,
 ];
+
 
 function randomFromArray(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -147,6 +149,17 @@ const cameraSettings = [
   },
 ];
 
+watch(
+  () => props.isVisible,
+  (val) => {
+    if (val) {
+      render3d.startRendering(container.value, cameraController);
+    } else {
+      render3d.stopRendering();
+    }
+  },
+);
+
 function zoomOutTransition(camera, index, model) {
   transitionCamera(
     camera.controls,
@@ -184,20 +197,25 @@ function zoomInTransition(camera, index, model) {
 }
 
 function logCamera() {
-  if (camOwl == null || camPenguin == null || camOstritch == null) {
-    return;
-  }
+  // if (camOwl == null || camPenguin == null || camOstritch == null) {
+  //   return;
+  // }
 
-  console.log("Camera1 position: ", camOwl.camera.position);
-  console.log("Camera1 target: ", camOwl.controls.target);
-  console.log("Camera2 position: ", camPenguin.camera.position);
-  console.log("Camera2 target: ", camPenguin.controls.target);
-  console.log("Camera3 position: ", camOstritch.camera.position);
-  console.log("Camera3 target: ", camOstritch.controls.target);
+  // console.log("Camera1 position: ", camOwl.camera.position);
+  // console.log("Camera1 target: ", camOwl.controls.target);
+  // console.log("Camera2 position: ", camPenguin.camera.position);
+  // console.log("Camera2 target: ", camPenguin.controls.target);
+  // console.log("Camera3 position: ", camOstritch.camera.position);
+  // console.log("Camera3 target: ", camOstritch.controls.target);
 }
 
 onMounted(() => {
-  render3d = initRenderer3D(container.value, true);
+  cameraController = useCameraController('turtle-camera', container.value, false);
+  render3d = initRenderer3D();
+  if (props.isVisible) {
+    render3d.startRendering(container.value, cameraController);
+  }
+
 
   const catFallScene = ScenePreloadService.getAsset("birdsScene").clone();
   render3d.scene.add(catFallScene);
@@ -256,9 +274,9 @@ onMounted(() => {
   light.intensity = 2;
   render3d.scene.add(light);
 
-  camOwl = use3DCamera("CamOwl", render3d.renderer, false);
-  camPenguin = use3DCamera("CamPenguin", render3d.renderer, false);
-  camOstritch = use3DCamera("CamOstritch", render3d.renderer, false);
+  camOwl = useCameraController("CamOwl", container.value, false);
+  camPenguin = useCameraController("CamPenguin", container.value, false);
+  camOstritch = useCameraController("CamOstritch", container.value, false);
 
   render3d.scene.add(camOwl.camera);
   render3d.scene.add(camPenguin.camera);
@@ -279,29 +297,28 @@ onMounted(() => {
   camOstritch.camera.fov = 25;
   camOstritch.controls.update();
 
-  // render3d.render();
-  render3d.renderRaw((width, height, delta) => {
-    render3d.renderer.setScissorTest(true);
+  render3d.registerManualRenderFunction((renderer, width, height, delta) => {
+    renderer.setScissorTest(true);
 
     width = 1920;
     height = 1080;
 
     const sectioWidth = width / 3;
 
-    render3d.renderer.setViewport(0, 0, sectioWidth, height);
-    render3d.renderer.setScissor(0, 0, sectioWidth, height);
+    renderer.setViewport(0, 0, sectioWidth, height);
+    renderer.setScissor(0, 0, sectioWidth, height);
     camOwl.update(sectioWidth, height);
-    render3d.renderer.render(render3d.scene, camOwl.camera);
+    renderer.render(render3d.scene, camOwl.camera);
 
-    render3d.renderer.setViewport(sectioWidth, 0, sectioWidth, height);
-    render3d.renderer.setScissor(sectioWidth, 0, sectioWidth, height);
+    renderer.setViewport(sectioWidth, 0, sectioWidth, height);
+    renderer.setScissor(sectioWidth, 0, sectioWidth, height);
     camPenguin.update(sectioWidth, height);
-    render3d.renderer.render(render3d.scene, camPenguin.camera);
+    renderer.render(render3d.scene, camPenguin.camera);
 
-    render3d.renderer.setViewport(sectioWidth * 2, 0, sectioWidth, height);
-    render3d.renderer.setScissor(sectioWidth * 2, 0, sectioWidth, height);
+    renderer.setViewport(sectioWidth * 2, 0, sectioWidth, height);
+    renderer.setScissor(sectioWidth * 2, 0, sectioWidth, height);
     camOstritch.update(sectioWidth, height);
-    render3d.renderer.render(render3d.scene, camOstritch.camera);
+    renderer.render(render3d.scene, camOstritch.camera);
   });
 
   zoomInTransition(camOwl, 0, owlPivotRotation.pivot);

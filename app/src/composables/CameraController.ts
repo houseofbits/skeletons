@@ -1,7 +1,13 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-export function use3DCamera(name: string, renderer: THREE.WebGLRenderer, isCameraControlsEnabled: boolean) {
+export interface CameraController {
+    camera: THREE.PerspectiveCamera;
+    controls: OrbitControls;
+    update(width: number, height: number): void;
+}
+
+export function useCameraController(name: string, parent: HTMLElement, isCameraControlsEnabled: boolean): CameraController {
     const camera = new THREE.PerspectiveCamera(
         33,
         1 / 1,
@@ -11,12 +17,12 @@ export function use3DCamera(name: string, renderer: THREE.WebGLRenderer, isCamer
     camera.name = name;
     camera.position.set(0, 2, 5);
 
-    const controls = new OrbitControls(camera, renderer.domElement);
+    const controls = new OrbitControls(camera, parent);
     controls.enabled = isCameraControlsEnabled;
 
     function update(width: number, height: number) {
         camera.aspect = width / height;
-        camera.updateProjectionMatrix();      
+        camera.updateProjectionMatrix();
     }
 
     return {camera, controls, update};

@@ -2,6 +2,7 @@
   <div>
     <ViewerLimbsPart
       v-for="(c, id) in config"
+      :is-visible="getIsVisible(id)"
       class="limbs-tile border-right"
       :class="getClass(id)"
       :scene="c?.scene"
@@ -34,6 +35,7 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  isVisible: { type: Boolean, default: true },
 });
 
 const currentItems = ref([0, 1, 2, 3]);
@@ -63,6 +65,14 @@ watch(
     }
   }
 );
+
+function getIsVisible(id: number) {
+  if (!props.isVisible) {
+    return false;
+  }
+
+  return currentItems.value.includes(id);
+}
 
 function getClass(id: number) {
   const classes = [];

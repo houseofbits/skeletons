@@ -12,31 +12,49 @@ import ScenePreloadService from "@src/services/ScenePreloadService";
 import { useRenderer3D } from "@src/composables/Renderer3D";
 import usePivotRotation from "@src/composables/PivotRotation";
 import { boneMaterial, boneHilightMaterial } from "@src/helpers/Materials";
+import { useCameraController } from "@src/composables/CameraController";
 
 const { initRenderer3D } = useRenderer3D();
 
 const props = defineProps({
   isActive: { type: Boolean, default: false },
+  isVisible: { type: Boolean, default: true },
 });
 
 const originalBoneMaterialColor = 14997948;
 const container = ref(null);
-let render3d, mixer;
+let render3d, mixer, cameraController;
 
 function logCamera() {
-  console.log("Camera position: ", render3d.camera.position);
-  console.log("Camera target: ", render3d.controls.target);
+  // console.log("Camera position: ", cameraController.camera.position);
+  // console.log("Camera target: ", cameraController.controls.target);
   // console.log(render3d.camera);
 }
 
+
+watch(
+  () => props.isVisible,
+  (val) => {
+    if (val) {
+      render3d.startRendering(container.value, cameraController);
+    } else {
+      render3d.stopRendering();
+    }
+  },
+);
+
 onMounted(() => {
-  render3d = initRenderer3D(container.value, false);
+  cameraController = useCameraController('turtle-camera', container.value, false);
+  render3d = initRenderer3D();
+  if (props.isVisible) {
+    render3d.startRendering(container.value, cameraController);
+  }
 
-  render3d.camera.position.set(132.28744347022547, 43.75250025911629, 29.583064531225613);
-  render3d.controls.target.set(5.577133749862201, 25.537154586642675, 8.071380222071216);
+  cameraController.camera.position.set(132.28744347022547, 43.75250025911629, 29.583064531225613);
+  cameraController.controls.target.set(5.577133749862201, 25.537154586642675, 8.071380222071216);
 
-  render3d.camera.fov = 25;
-  render3d.controls.update();
+  cameraController.camera.fov = 25;
+  cameraController.controls.update();
 
   const catFallScene = ScenePreloadService.getAsset('dogScene').clone();
   render3d.scene.add(catFallScene);
@@ -44,7 +62,7 @@ onMounted(() => {
   const model = ScenePreloadService.getAsset('dogBreathing');
   model.name = 'Group';
 
-  const pivotRotation = usePivotRotation(render3d.renderer.domElement);
+  const pivotRotation = usePivotRotation(container.value);
   pivotRotation.setEnabled(true);
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);
@@ -89,7 +107,7 @@ onMounted(() => {
     action.play();
   }
 
-  render3d.render((delta) => {
+  render3d.registerRenderCallback((delta) => {
     if (mixer) {
       mixer.update(delta);
     }

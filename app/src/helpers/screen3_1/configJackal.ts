@@ -38,6 +38,6 @@ export default {
             meshes: ['ribs2'],
         },
     ],
-    animationComponent: ViewerDog,
-    animationTitle: 'Suņa elpošana',
+    // animationComponent: ViewerDog,
+    // animationTitle: 'Suņa elpošana',
 } as const;
