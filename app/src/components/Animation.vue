@@ -2,7 +2,7 @@
     <div class="animation" :class="{ 'active': isAnimationActive }">
         <component :is="props.config.animationComponent" :is-active="isCurrentAnimationActive"
             :is-visible="isCurrentAnimationActive" v-bind="props.config.animationProps ?? {}" />
-        <img class="animation-placeholder-image" :class="{visible: !isCurrentAnimationActive}" :src="config.animationPlaceholderUrl ?? ''" />
+        <img class="animation-placeholder-image" :class="{hidden: isCurrentAnimationActive}" :src="props.config.animationPlaceholderUrl ?? ''" />
         <div class="overlay" @click="toggleActive">
             <div class="play-button" :class="{ 'active': isCurrentAnimationActive }">
                 <span class="icon" />
@@ -16,9 +16,16 @@ import { useNavigationState } from "@src/composables/NavigationState";
 import type Config from "@src/types/Config";
 import { computed, watch } from "vue";
 
-const props = defineProps<{
-    config: Config,
-}>();
+const props = defineProps({
+  config: {
+    type: Object as () => Config,
+    required: true,
+  },
+  isVisible: {
+    type: Boolean,
+    required: true,
+  }
+});
 
 const emit = defineEmits<{
     (e: 'toggle', val: boolean): void;
@@ -33,7 +40,7 @@ function toggleActive() {
 }
 
 const isCurrentAnimationActive = computed(() => {
-    return isAnimationActive.value && animationTitle.value === props.config.animationTitle;
+    return props.isVisible && isAnimationActive.value && animationTitle.value === props.config.animationTitle;
 });
 
 </script>
@@ -55,12 +62,13 @@ const isCurrentAnimationActive = computed(() => {
         width: 100%;
         height: 100%;
         background-color: black;
-        opacity: 0;
+        opacity: 1;
         transition: opacity 0.4s ease;
         pointer-events: none;
+        z-index: 400;
 
-        &.visible {
-            opacity: 1;
+        &.hidden {
+            opacity: 0;
         }
     }
 

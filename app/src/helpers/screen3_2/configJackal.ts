@@ -78,9 +78,10 @@ export default {
             meshes:['limbs9'],
         },
     ],
-    // animationComponent: ViewerLimbs,
-    // animationTitle: 'Bruņurupuča kakla ievilkšana',
-    // animationProps: {
-    //     initiallyActive: 3,
-    // },
+    animationComponent: ViewerLimbs,
+    animationTitle: 'Ekstremitāšu veidi',
+    animationProps: {
+        initiallyActive: 5,
+    },
+    animationPlaceholderUrl: '/img/3_2_lion.png',
 } as const;

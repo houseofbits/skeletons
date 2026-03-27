@@ -20,10 +20,29 @@ class RendererManager {
 
             return instance;
         } else {
-            console.log("No available renderer instances!");
+            console.log("No available renderer instances!", this.renderers);
         }
 
         return null;
+    }
+
+    releaseAllInstances() {
+        //Has some bugs
+        // console.log("Releasing all renderer instances.");
+        // this.renderers.forEach(renderer => {
+        //     if (renderer.isActive) {
+        //         renderer.release();
+        //     }
+        // });
+    }
+
+    releaseAllExcept(instanceToKeep: RendererInstance) {
+        // console.log(`Releasing all renderer instances except ${instanceToKeep.id}.`);
+        this.renderers.forEach(renderer => {
+            if (renderer.id !== instanceToKeep.id && renderer.isActive) {
+                renderer.release();
+            }
+        });
     }
 
     private createRenderer(id: number): RendererInstance {

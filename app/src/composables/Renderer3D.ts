@@ -15,6 +15,7 @@ export interface Renderer3D {
     getRenderer(): THREE.WebGLRenderer | null;
     registerRenderCallback(callback: CallableFunction): void;
     registerManualRenderFunction(func: CallableFunction): void;
+    releaseAllRenderersExceptCurrent(): void;
 }
 
 export function useRenderer3D() {
@@ -32,9 +33,15 @@ export function useRenderer3D() {
         manualRenderFunc = func;
     }    
 
-    function startRendering(parent: HTMLElement, cameraController: CameraController): void {
+    function releaseAllRenderersExceptCurrent() {
+        if (renderInstance) {
+            RendererManager.releaseAllExcept(renderInstance);
+        }
+    }
+
+    function startRendering(parent: HTMLElement, cameraController: CameraController): RendererInstance | null {
         if (scene === null) {
-            return;
+            return null;
         }
         
         renderInstance = RendererManager.acquireInstance(parent, scene, cameraController.camera);
@@ -44,6 +51,8 @@ export function useRenderer3D() {
                 renderInstance.registerManualRenderFunction(manualRenderFunc);
             }
         }
+
+        return renderInstance;
     }
 
     function stopRendering() {
@@ -135,7 +144,7 @@ export function useRenderer3D() {
 
         return {
             scene, clock, renderRaw, render, dispose, startRendering,
-            stopRendering, getRenderer, registerRenderCallback, registerManualRenderFunction,
+            stopRendering, getRenderer, registerRenderCallback, registerManualRenderFunction, releaseAllRenderersExceptCurrent,
         };
     }
 

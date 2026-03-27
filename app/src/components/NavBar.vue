@@ -36,9 +36,9 @@
 
     <div class="overlay">
       <div v-if="shouldShowNavGroup && selectedNavGroup !== null && selectedNavTile === null" class="buttons">
-        <div class="button" :class="{ 'active': selectedNavGroup == 2 }" @click="selectedNavGroup = 2">
+        <div class="button" :class="{ 'active': selectedNavGroup == 2 }" @click="selectNavGroup(2)">
           Ekstremitātes un to joslas</div>
-        <div class="button" :class="{ 'active': selectedNavGroup == 1 }" @click="selectedNavGroup = 1">
+        <div class="button" :class="{ 'active': selectedNavGroup == 1 }" @click="selectNavGroup(1)">
           Ribas un krūšu kauls</div>
       </div>
       <div class="nav-title" v-if="getTitle() !== null">
@@ -51,6 +51,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useNavigationState } from "@src/composables/NavigationState";
+import RendererManager from "../services/RendererManager";
 
 const { selectedNavTile, shouldShowNavGroup, selectedNavGroup, getTitle, isAnimationActive, resetAnimationActive } = useNavigationState();
 
@@ -75,6 +76,12 @@ function closeTile() {
     selectedNavTile.value = null;
   }
 }
+
+function selectNavGroup(group: number) {
+  RendererManager.releaseAllInstances();
+  selectedNavGroup.value = group;
+}
+
 
 </script>
 

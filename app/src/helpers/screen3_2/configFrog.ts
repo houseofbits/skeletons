@@ -73,9 +73,10 @@ export default {
             meshes:['limbs9'],
         },                                
     ],
-    // animationComponent: ViewerLimbs,
-    // animationTitle: 'Bruņurupuča kakla ievilkšana',
-    // animationProps: {
-    //     initiallyActive: 4,
-    // },
+    animationComponent: ViewerLimbs,
+    animationTitle: 'Ekstremitāšu veidi',
+    animationProps: {
+        initiallyActive: 3,
+    },
+    animationPlaceholderUrl: '/img/3_2_frog.png',
 } as const;

@@ -3,7 +3,7 @@
   </div>
 
   <Sidebar :is-active="isActive" :selected="selectedActivePoint" :config="props.config"
-    @select="(i) => (selectedActivePoint = i)" />
+    @select="(i) => (selectedActivePoint = i)" :is-visible="isActive && isVisible" />
 </template>
 
 <script setup>
@@ -20,6 +20,7 @@ import { toScreenPosition } from "@src/utils/utils3d";
 import usePivotRotation from "@src/composables/PivotRotation";
 import { useNavigationState } from "@src/composables/NavigationState";
 import { useCameraController } from "@src/composables/CameraController";
+import RendererManager from "../services/RendererManager";
 
 const props = defineProps({
   asset: { type: String, required: true },
@@ -162,6 +163,8 @@ watch(
     pivotRotation.setEnabled(newVal);
 
     if (newVal) {
+      render3d.releaseAllRenderersExceptCurrent();
+      
       if (showActivePointsTimeout) {
         clearTimeout(showActivePointsTimeout);
         showActivePointsTimeout = null;

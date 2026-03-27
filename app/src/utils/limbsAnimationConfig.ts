@@ -1,5 +1,5 @@
 export default [
-    {
+    {   //0
         scene: "batLimbsScene",
         title: "Sikspārnis",
         iconCameraPos: {
@@ -19,7 +19,7 @@ export default [
             x: 2.1760799718473964, y: 10.169472399422865, z: 8.65660332607343
         },
     },
-    {
+    {   //1
         scene: "whaleLimbsScene",
         title: "Valis",
         iconCameraPos: {
@@ -35,7 +35,7 @@ export default [
             x: 1.8260259597982058, y: 13.05469121129619, z: 5.669615904189616
         },
     },
-    {
+    {   //2
         scene: "horseLimbsScene",
         title: "Zirgs",
         iconCameraPos: {
@@ -51,7 +51,7 @@ export default [
             x: -5.301548356666437, y: 3.4738792275614037, z: 7.846927087083888
         },
     },
-    {
+    {   //3
         scene: "frogLimbsScene",
         title: "Varde",
         iconCameraPos: {
@@ -67,7 +67,7 @@ export default [
             x: 3.9411623526918493, y: 6.080740576873838, z: 0.0051782267791179865
         },
     },
-    {
+    {   //4
         scene: "owlLimbsScene",
         title: "Pūce",
         iconCameraPos: {
@@ -83,7 +83,7 @@ export default [
             x: 0.5730188121899309, y: 2.9390619316926365, z: 0.9275662249774574
         }
     },
-    {
+    {   //5
         scene: "lionLimbsScene",
         title: "Lauva",
         iconCameraPos: {

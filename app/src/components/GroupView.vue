@@ -25,8 +25,8 @@
         <BasicViewer asset="pigeon" :class="getLClass(2)" class="absolute" :is-visible="isVisible"
             :camera-position="{ x: 27.619932349375823, y: 33.71093331991348, z: -22.290164942360967 }"
             :camera-target="{ x: 8.88389381095182, y: 12.378028387594796, z: -3.770871584460137 }"
-            :activate="groupActive" />            
-            
+            :activate="groupActive" />
+
     </NavGroupTile>
 </template>
 
@@ -35,16 +35,18 @@ import BasicViewer from "@src/components/BasicViewer.vue";
 import { useNavigationState } from "@src/composables/NavigationState";
 import { computed, ref } from "vue";
 import NavGroupTile from "@src/components/NavGroupTile.vue";
+import RendererManager from "../services/RendererManager";
 
 const { setSelectedNavTile, shouldShowNavGroup, selectedNavGroup } = useNavigationState();
 
 const props = defineProps({
-  isVisible: { type: Boolean, default: true },
+    isVisible: { type: Boolean, default: true },
 });
 
 function selectGroup(group: number) {
-      selectedNavGroup.value = group;
-      setSelectedNavTile(null);
+    RendererManager.releaseAllInstances();
+    selectedNavGroup.value = group;
+    setSelectedNavTile(null);
 }
 
 shouldShowNavGroup.value = true;
@@ -87,7 +89,7 @@ function getRClass(index: number) {
 
 function transitionR() {
     const prev = activeIndexR.value;
-    while(prev == activeIndexR.value) {
+    while (prev == activeIndexR.value) {
         activeIndexR.value = randomInt(0, 2);
     }
     prevActiveIndexR.value = prev;
@@ -95,7 +97,7 @@ function transitionR() {
 
 function transitionL() {
     const prev = activeIndexL.value;
-    while(prev == activeIndexL.value) {
+    while (prev == activeIndexL.value) {
         activeIndexL.value = randomInt(0, 2);
     }
     prevActiveIndexL.value = prev;

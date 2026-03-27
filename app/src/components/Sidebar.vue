@@ -12,24 +12,33 @@
             </div>
         </div>
         <div class="list">
-            <div v-for="(point, i) in config.hilightedBones" class="list-item" :class="{ 'selected': selected == i }"
-                :key="i" @click="selectItem(i)">
-                {{ point.text }}
+            <div class="scrollable" ref="scrollable" @scroll="scroll">
+                <div v-for="(point, i) in config.hilightedBones" class="list-item"
+                    :class="{ 'selected': selected == i }" :key="i" @click="selectItem(i)">
+                    {{ point.text }}
+                </div>
             </div>
+
+            <div class="scroll-overlay-top" :class="{ 'opacity-1': hasTop }" />
+            <div class="scroll-overlay-bottom" :class="{ 'opacity-1': hasBottom }" />
         </div>
 
-        <Animation v-if="props.config.animationComponent" :config="props.config" />
+        <div class="animation-flex-dummy" />
+
+        <Animation v-if="props.config.animationComponent" :config="props.config" :is-visible="isVisible" />
     </div>
 </template>
 
 <script setup lang="ts">
-import { type PropType } from "vue";
+import { onMounted, type PropType, ref } from "vue";
 import type Config from "@src/types/Config";
 import Animation from "@src/components/Animation.vue";
 
 const emit = defineEmits<{
     (e: 'select', index: number): void;
 }>();
+
+const scrollable = ref<HTMLDivElement | null>(null);
 
 function selectItem(index: number) {
     emit('select', index);
@@ -48,6 +57,34 @@ const props = defineProps({
         type: Number,
         default: -1
     },
+    isVisible: {
+        type: Boolean,
+        required: true,
+    }
+});
+
+const hasTop = ref(false);
+const hasBottom = ref(false);
+
+function scroll() {
+    if (!scrollable.value) {
+        return;
+    }
+
+    const scrollTop = scrollable.value.scrollTop;
+    const maxScroll = scrollable.value.scrollHeight - scrollable.value.clientHeight;
+
+    hasTop.value = scrollTop > 0;
+    hasBottom.value = scrollTop < maxScroll;
+}
+
+onMounted(() => {
+    if (scrollable.value) {
+        scrollable.value.scrollTop = 0;
+    }
+    if (props.config.animationComponent) {
+        scroll();
+    }
 });
 
 </script>
@@ -65,6 +102,9 @@ const props = defineProps({
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     transition-delay: 0ms;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     &.visible {
         right: 0;
@@ -80,6 +120,7 @@ const props = defineProps({
         flex-direction: column;
         align-items: center;
         padding-bottom: 24px;
+        flex: 0 0 auto;
 
         & svg {
             margin-bottom: 16px;
@@ -103,28 +144,76 @@ const props = defineProps({
     }
 
     & .list {
+        position: relative;
         display: flex;
         flex-direction: column;
+        flex: 1 1 auto;
+        min-width: 0;
 
-        & .list-item {
-            padding-left: 32px;
-            height: 64px;
+        & .scroll-overlay-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 42px;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 124, 124, 0) 100%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        & .scroll-overlay-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 32px;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 124, 124, 0) 100%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .opacity-1 {
+            opacity: 1;
+        }
+
+        & .scrollable {
+            position: absolute;
+            height: 100%;
             width: 100%;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: start;
-            align-items: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 18px;
-            font-weight: regular;
-            transition: all 0.4s ease;
+            overflow: hidden;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
 
-            &.selected {
-                background: rgba(255, 255, 255, 0.1);
-                color: rgba(255, 255, 255, 0.9);
+
+            & .list-item {
+                padding-left: 32px;
+                height: 64px;
+                min-height: 64px;
+                width: 100%;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                display: flex;
+                justify-content: start;
+                align-items: center;
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 18px;
+                font-weight: regular;
                 transition: all 0.4s ease;
+
+                &.selected {
+                    background: rgba(255, 255, 255, 0.1);
+                    color: rgba(255, 255, 255, 0.9);
+                    transition: all 0.4s ease;
+                }
             }
         }
+    }
+
+    & .animation-flex-dummy {
+        width: 100%;
+        height: 220px;
+        flex: 0 0 auto;
     }
 }
 </style>

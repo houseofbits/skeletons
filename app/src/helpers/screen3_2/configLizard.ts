@@ -83,9 +83,10 @@ export default {
             meshes:['limbs11'],
         },                                                
     ],
-    // animationComponent: ViewerLimbs,
-    // animationTitle: 'Bruņurupuča kakla ievilkšana',
-    // animationProps: {
-    //     initiallyActive: 5,
-    // },
+    animationComponent: ViewerLimbs,
+    animationTitle: 'Ekstremitāšu veidi',
+    animationProps: {
+        initiallyActive: 0,
+    },
+    animationPlaceholderUrl: '/img/3_2_bat.png',
 } as const;
