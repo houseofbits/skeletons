@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { useNavigationState } from "@src/composables/NavigationState";
 import type Config from "@src/types/Config";
-import { computed, watch } from "vue";
+import { computed } from "vue";
 
 const props = defineProps({
   config: {

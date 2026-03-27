@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import ViewerLimbsPart from "@src/components/Animations/components/ViewerLimbsPart.vue";
 import config from "@src/utils/limbsAnimationConfig";
 
@@ -118,7 +118,7 @@ function selectItem(id: number) {
   }
 }
 
-function swapMissing(id) {
+function swapMissing(id: number) {
   const backIndex = backItems.value.indexOf(id);
 
   if (backIndex === -1) {
@@ -178,6 +178,12 @@ onMounted(() => {
 
   if (props.initiallyActive !== null) {
     selectItem(props.initiallyActive);
+  }
+});
+
+onUnmounted(() => {
+  if (selectedBoneTimer) {
+    clearInterval(selectedBoneTimer);
   }
 });
 </script>

@@ -71,48 +71,6 @@ export function useRenderer3D() {
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0, 0, 0);
 
-        // createCamera(parent, isCameraControlsEnabled);
-
-        // if (shouldCreateRenderer) {
-        //     createRenderer(parent);
-        // }
-
-        function renderRaw(callback: CallableFunction = () => { }) {
-            // if (renderer === null) {
-            //     return;
-            // }
-            // requestAnimationFrame(() => renderRaw(callback));
-            // if (parent) {
-            //     callback(parent.clientWidth, parent.clientHeight, clock.getDelta());
-            // }
-        }
-
-        function render(callback: CallableFunction = () => { }, redraw: boolean = true) {
-            // if (renderer === null) {
-            //     return;
-            // }
-
-            // requestAnimationFrame(() => render(callback));
-
-            // renderCallback(clock.getDelta());
-
-            // if (!redraw) return;
-
-            // if (parent && camera && scene) {
-            //     const w = parent.clientWidth;
-            //     const h = parent.clientHeight;
-
-            //     if (w === 0 || h === 0) {
-            //         console.log("Canvas size is zero!");
-            //         return;
-            //     }
-
-            //     camera.aspect = w / h;
-            //     camera.updateProjectionMatrix();
-            //     renderer.render(scene, camera);
-            // }
-        }
-
         function dispose() {
             stopRendering();
 
