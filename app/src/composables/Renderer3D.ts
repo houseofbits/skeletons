@@ -7,8 +7,6 @@ export interface Renderer3D {
     scene: THREE.Scene | null;
     clock: THREE.Clock;
 
-    render(callback: CallableFunction, redraw: boolean): void;
-    renderRaw(callback: CallableFunction): void;
     dispose(): void;
     startRendering(parent: HTMLCanvasElement, cameraController: CameraController): void;
     stopRendering(): void;
@@ -101,7 +99,7 @@ export function useRenderer3D() {
         }
 
         return {
-            scene, clock, renderRaw, render, dispose, startRendering,
+            scene, clock, dispose, startRendering,
             stopRendering, getRenderer, registerRenderCallback, registerManualRenderFunction, releaseAllRenderersExceptCurrent,
         };
     }
