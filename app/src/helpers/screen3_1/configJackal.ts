@@ -38,6 +38,7 @@ export default {
             meshes: ['ribs2'],
         },
     ],
-    // animationComponent: ViewerDog,
-    // animationTitle: 'Suņa elpošana',
+    animationComponent: ViewerDog,
+    animationTitle: 'Suņa elpošana',
+    animationPlaceholderUrl: '/img/3_1_dog.png',
 } as const;

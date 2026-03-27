@@ -38,6 +38,7 @@ export default {
             meshes:['ribs2'],
         },        
     ],
-    // animationComponent: ViewerBirds,
-    // animationTitle: 'Ķīļa kauls',
+    animationComponent: ViewerBirds,
+    animationTitle: 'Ķīļa kauls',
+    animationPlaceholderUrl: '/img/3_1_birds.png',
 } as const;
