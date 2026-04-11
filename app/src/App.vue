@@ -21,29 +21,19 @@
     <div>
       <a href="index.html?screen1" class="btn btn-primary mr">Mugurkauls</a>
       <a href="index.html?screen2" class="btn btn-primary mr">Galvaskauss</a>
-      <a href="index.html?screen3" class="btn btn-primary mr"
-        >Ribas un ekstremitātes</a
-      >
+      <a href="index.html?screen3" class="btn btn-primary mr">Ribas un ekstremitātes</a>
       <!-- <a href="animation" class="btn btn-primary mr">Animation test</a> -->
 
-      <div
-        class="btn btn-secondary mr"
-        @click="language.selectLanguage(Language.LV)"
-      >
+      <div class="btn btn-secondary mr" @click="language.selectLanguage(Language.LV)">
         LV
       </div>
-      <div
-        class="btn btn-secondary mr"
-        @click="language.selectLanguage(Language.EN)"
-      >
+      <div class="btn btn-secondary mr" @click="language.selectLanguage(Language.EN)">
         EN
       </div>
     </div>
     <!-- <div v-if="isDev"> -->
     <div>
-      <a href="index.html?animation" class="btn btn-primary mr"
-        >Model preview</a
-      >
+      <a href="index.html?animation" class="btn btn-primary mr">Model preview</a>
       <a href="index.html?clips" class="btn btn-primary mr">Animation clips</a>
     </div>
   </div>
@@ -136,7 +126,12 @@ onMounted(async () => {
   });
 
   language
-    .loadTranslations(["translations/common.json"])
+    .loadTranslations([
+      "translations/common.json",
+      "translations/screen1.json",
+      "translations/screen2.json",
+      "translations/screen3.json",
+    ])
     .then(() => {
       console.log("Translations loaded");
     })

@@ -1,14 +1,22 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera">
+    <div v-if="config.activePoints && showActivePoints" v-for="(point, i) in config.activePoints" :key="point.name"
+      class="active-point" :style="getActivePointPositionStyle(i)"
+      @click="selectedActivePoint = point">
+      {{ point.name }}
+    </div>
   </div>
 
-  <Sidebar :is-active="isActive" :selected="selectedActivePoint" :config="props.config"
-    @select="(i) => (selectedActivePoint = i)" :is-visible="isActive && isVisible" />
+  <Sidebar :is-active="isActive" :selected="hilightedBone" :config="props.config"
+    @select="(i) => (hilightedBone = i)" :is-visible="isActive && isVisible" />
+
+
+  <ActivePointInfo v-if="selectedActivePoint" :point="selectedActivePoint" @close="selectedActivePoint = null"/>
 </template>
 
 <script setup>
 import gsap from "gsap";
-import { onMounted, onBeforeUnmount, ref, watch } from "vue";
+import { onMounted, onBeforeUnmount, ref, watch, reactive } from "vue";
 import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -16,11 +24,12 @@ import ScenePreloadService from "@src/services/ScenePreloadService";
 import { useRenderer3D } from "@src/composables/Renderer3D";
 import Sidebar from "@src/components/Sidebar.vue";
 import { tweenColor, transitionCamera } from "@src/utils/transitions";
-import { toScreenPosition } from "@src/utils/utils3d";
+import { vectorToScreenPosition } from "@src/utils/utils3d";
 import usePivotRotation from "@src/composables/PivotRotation";
 import { useNavigationState } from "@src/composables/NavigationState";
 import { useCameraController } from "@src/composables/CameraController";
 import RendererManager from "../services/RendererManager";
+import ActivePointInfo from "@src/components/ActivePointInfo.vue";
 
 const props = defineProps({
   asset: { type: String, required: true },
@@ -44,12 +53,13 @@ const hilightedBoneMaterialColor = "#d98602";
 
 const container = ref(null);
 let render3d, cameraController;
-const activePointPositions = ref([]);
 const showActivePoints = ref(false);
-const selectedActivePoint = ref(-1);
+const hilightedBone = ref(-1);
 let showActivePointsTimeout = null;
 let pivot = null;
 let pivotRotation = null;
+const activePointPositions = reactive([]);
+const selectedActivePoint = ref(null);
 
 const { resetAnimationActive } = useNavigationState();
 
@@ -109,14 +119,14 @@ function hilightBoneMeshes() {
     return;
   }
 
-  if (selectedActivePoint.value < 0) {
+  if (hilightedBone.value < 0) {
     return;
   }
 
   let i = 0;
   for (const activePoint of props.config.hilightedBones) {
     const color =
-      selectedActivePoint.value === i
+      hilightedBone.value === i
         ? hilightedBoneMaterialColor
         : originalBoneMaterialColor;
     for (const meshName of activePoint.meshes) {
@@ -161,10 +171,11 @@ watch(
   () => props.isActive,
   (newVal) => {
     pivotRotation.setEnabled(newVal);
+    selectedActivePoint.value = null;
 
     if (newVal) {
       render3d.releaseAllRenderersExceptCurrent();
-      
+
       if (showActivePointsTimeout) {
         clearTimeout(showActivePointsTimeout);
         showActivePointsTimeout = null;
@@ -188,7 +199,7 @@ watch(
         showActivePointsTimeout = null;
       }
       showActivePoints.value = false;
-      selectedActivePoint.value = -1;
+      hilightedBone.value = -1;
       resetAnimationActive();
       resetHilightedBoneMeshesInstant();
     }
@@ -196,9 +207,9 @@ watch(
 );
 
 watch(
-  () => selectedActivePoint.value,
+  () => hilightedBone.value,
   () => {
-    if (selectedActivePoint.value >= 0) {
+    if (hilightedBone.value >= 0) {
       hilightBoneMeshes();
     } else {
       resetHilightedBoneMeshes();
@@ -266,9 +277,51 @@ function initPivot() {
   pivot = pivotRotation.pivot;
 }
 
+function getActivePointPositionStyle(i) {
+  if (activePointPositions[i] != undefined) {
+    return {
+      left: `${activePointPositions[i].x}px`,
+      top: `${activePointPositions[i].y}px`,
+    };
+  }
+
+  return null;
+}
+
+function calculateActivePointPositions() {
+  if (props.config.activePoints === undefined || !render3d.getRenderer() || cameraController.camera === undefined) {
+    return {};
+  }
+
+  for (const [i, point] of props.config.activePoints.entries()) {
+    // if (point.name === activePoint.name) {
+    //   const pointGroup = render3d.scene.getObjectByName(point.name);
+    //   if (!pointGroup) {
+    //     return {};
+    //   }
+
+    const screenPosition = vectorToScreenPosition(
+      point.position,
+      cameraController.camera,
+      render3d.getRenderer(),
+    );
+    // console.log(screenPosition);
+
+    activePointPositions[i] = screenPosition;
+  }
+}
+
 onMounted(() => {
   cameraController = useCameraController("MainCamera", container.value, false);
   render3d = initRenderer3D();
+
+  render3d.registerRenderCallback((delta) => {
+    if (showActivePoints.value) {
+      calculateActivePointPositions();
+    }
+  });
+
+
   if (props.isVisible) {
     render3d.startRendering(container.value, cameraController);
   }
@@ -316,11 +369,6 @@ onMounted(() => {
   initCamera();
 
   onBeforeUnmount(render3d.dispose);
-
-  const options = {
-    root: document.body,
-    threshold: [0, 1],
-  };
 });
 </script>
 
@@ -343,5 +391,22 @@ onMounted(() => {
   z-index: 20;
   bottom: 10px;
   left: 10px;
+}
+
+.active-point {
+  position: absolute;
+  /* z-index: 20; */
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: rgba(255, 0, 191, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.8);;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  /* transition: top 0.1s linear, left 0.1s linear; */
 }
 </style>

@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import type { Vector } from "@src/types/CameraConfig";
 
 export function toScreenPosition(obj: { updateMatrixWorld: () => void; matrixWorld: THREE.Matrix4; }, camera: THREE.Camera, renderer: { domElement: { clientWidth: number; clientHeight: number; }; }) {
     const vector = new THREE.Vector3();
@@ -7,6 +8,23 @@ export function toScreenPosition(obj: { updateMatrixWorld: () => void; matrixWor
     obj.updateMatrixWorld();
     vector.setFromMatrixPosition(obj.matrixWorld);
 
+    // Project to NDC
+    vector.project(camera);
+
+    // Convert NDC to screen coordinates
+    const widthHalf  = renderer.domElement.clientWidth  / 2;
+    const heightHalf = renderer.domElement.clientHeight / 2;
+
+    return {
+        x: ( vector.x * widthHalf ) + widthHalf,
+        y: (-vector.y * heightHalf) + heightHalf
+    };
+}
+
+export function vectorToScreenPosition(vec: Vector, camera: THREE.Camera, renderer: { domElement: { clientWidth: number; clientHeight: number; }; }) {
+    const vector = new THREE.Vector3();
+    vector.set(vec.x, vec.y, vec.z);
+    
     // Project to NDC
     vector.project(camera);
 

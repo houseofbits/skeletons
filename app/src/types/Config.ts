@@ -7,6 +7,13 @@ export interface HilightedBones {
     meshes: string[];
 }
 
+export interface ActivePoint {
+    name: string;
+    text: string;
+    imageUrl: string | null;
+    position: Vector;
+}
+
 export default interface Config {
     id: string;
     cameraConfig: Record<string, CameraConfig>;
@@ -16,4 +23,5 @@ export default interface Config {
     animationTitle: string | null;
     animationProps: Record<string, any> | null;
     animationPlaceholderUrl: string | null;
+    activePoints: ActivePoint[];
 };

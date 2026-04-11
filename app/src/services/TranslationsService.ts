@@ -45,6 +45,10 @@ export default class TranslationsService {
         return key;
     }
 
+    hasTranslation(key: string, language: Language): boolean {
+        return !!(this.translations[key] && this.translations[key][language]);
+    }
+
     private mergeTranslations(newData: unknown) {
         if (typeof newData !== 'object' || newData === null) {
             throw new Error("Invalid translation data format");

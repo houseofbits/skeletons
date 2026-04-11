@@ -47,4 +47,11 @@ export default {
             meshes: ['spine4'],
         },
     ],
+    activePoints: [
+        {
+            name: '1',
+            text: 'bird.activePoint1.text',
+            position: { x: 0, y: 10, z: 0 },
+        },
+    ],
 } as const;
