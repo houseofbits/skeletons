@@ -37,4 +37,11 @@ export default {
             meshes:['limbs2', 'limbs3'],
         },
     ],
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'fish.activePoints.limbs1',
+            modelNodeName: 'p-limbs1',
+        },              
+    ],
 } as const;

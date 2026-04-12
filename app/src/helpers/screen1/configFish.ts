@@ -37,4 +37,16 @@ export default {
             meshes:['spine2'],
         },
     ],
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'fish.activePoints.spine1',
+            modelNodeName: 'p-spine1',
+        },
+        {
+            name: '2',
+            translationKey: 'fish.activePoints.spine2',
+            modelNodeName: 'p-spine2',
+        },
+    ],
 } as const;

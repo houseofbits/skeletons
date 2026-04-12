@@ -32,4 +32,11 @@ export default {
             meshes: ['ribs1'],
         },
     ],
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'fish.activePoints.ribs1',
+            modelNodeName: 'p-ribs1',
+        },              
+    ],
 } as const;
