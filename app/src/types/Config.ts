@@ -9,9 +9,8 @@ export interface HilightedBones {
 
 export interface ActivePoint {
     name: string;
-    text: string;
-    imageUrl: string | null;
-    position: Vector;
+    translationKey: string;
+    modelNodeName: string;
 }
 
 export default interface Config {

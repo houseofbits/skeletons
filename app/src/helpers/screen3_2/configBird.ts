@@ -89,4 +89,16 @@ export default {
         initiallyActive: 4,
     },
     animationPlaceholderUrl: '/img/3_2_bird.png',
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'bird.activePoints.limbs1',
+            modelNodeName: 'p-limbs1',
+        },
+        {
+            name: '2',
+            translationKey: 'bird.activePoints.limbs2',
+            modelNodeName: 'p-limbs2',
+        },        
+    ],
 } as const;

@@ -51,4 +51,11 @@ export default {
     animationComponent: ViewerTurtle,
     animationTitle: 'Bruņurupuča kakla ievilkšana',    
     animationPlaceholderUrl: '/img/turtle-animation-thumb.png',
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'lizard.activePoints.spine1',
+            modelNodeName: 'p-spine1',
+        },
+    ],
 } as const;

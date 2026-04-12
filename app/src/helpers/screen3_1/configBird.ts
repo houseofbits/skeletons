@@ -41,4 +41,16 @@ export default {
     animationComponent: ViewerBirds,
     animationTitle: 'Ķīļa kauls',
     animationPlaceholderUrl: '/img/3_1_birds.png',
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'bird.activePoints.ribs1',
+            modelNodeName: 'p-ribs1',
+        },
+        {
+            name: '2',
+            translationKey: 'bird.activePoints.ribs2',
+            modelNodeName: 'p-ribs2',
+        },        
+    ],
 } as const;

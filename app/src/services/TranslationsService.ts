@@ -18,6 +18,7 @@ export type TranslationData = {
 export default class TranslationsService {
     languages: Language[] = [];
     translations: TranslationData = {};
+    translationFiles: string[] = [];
 
     constructor(languages: Language[]) {
         this.languages = languages;
@@ -25,9 +26,15 @@ export default class TranslationsService {
     }
 
     async loadTranslations(files: string[]) {
-        const httpService = new HttpService();
+        this.translationFiles = files;
+        this.reloadTranslations();
+    }
 
-        files.forEach(async (file) => {
+    async reloadTranslations() {
+        const httpService = new HttpService();
+        this.translations = {};
+
+        this.translationFiles.forEach(async (file) => {
             try {
                 const data = await httpService.get(file);
                 this.mergeTranslations(data);

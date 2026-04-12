@@ -36,6 +36,9 @@
       <a href="index.html?animation" class="btn btn-primary mr">Model preview</a>
       <a href="index.html?clips" class="btn btn-primary mr">Animation clips</a>
     </div>
+    <div>
+      <div @click="reloadTranslations" class="btn btn-primary mr">Reload translations</div>
+    </div>    
   </div>
 </template>
 
@@ -108,6 +111,10 @@ const getViewDef = (url: string) => {
   const name = Object.keys(routeAssets).find((key) => url.includes(key));
   return name ? routeAssets[name] : undefined;
 };
+
+async function reloadTranslations() {
+  await language.reloadTranslations();
+}
 
 onMounted(async () => {
   const viewDef = getViewDef(window.location.href);

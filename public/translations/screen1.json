@@ -1,6 +1,6 @@
 {
-    "bird.activePoint1.text": {
-        "en": "Hello",
-        "lv": "Sveiki"
+    "lizard.activePoints.spine1.text": {
+        "en": "spine1",
+        "lv": "spine1"
     }
 }

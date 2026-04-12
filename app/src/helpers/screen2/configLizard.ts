@@ -37,4 +37,22 @@ export default {
             meshes:['skull2'],
         },              
     ],
+    animationPlaceholderUrl: '/img/turtle-animation-thumb.png',
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'lizard.activePoints.skull1',
+            modelNodeName: 'p-skull1',
+        },
+        {
+            name: '2',
+            translationKey: 'lizard.activePoints.skull2',
+            modelNodeName: 'p-skull2',
+        },
+        {
+            name: '3',
+            translationKey: 'lizard.activePoints.skull3',
+            modelNodeName: 'p-skull3',
+        },                
+    ],
 } as const;

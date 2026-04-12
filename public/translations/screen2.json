@@ -1,3 +1,18 @@
 {
-    
+    "bird.activePoints.skull1.text": {
+        "en": "skull1",
+        "lv": "skull1"
+    },
+    "lizard.activePoints.skull1.text": {
+        "en": "skull1",
+        "lv": "skull1"
+    },
+    "lizard.activePoints.skull2.text": {
+        "en": "skull2",
+        "lv": "skull2"
+    },
+    "lizard.activePoints.skull3.text": {
+        "en": "skull3",
+        "lv": "skull3"
+    }    
 }

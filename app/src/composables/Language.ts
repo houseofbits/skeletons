@@ -25,10 +25,15 @@ export function useLanguage() {
         return translationService.hasTranslation(key, selectedLanguage.value);
     } 
 
+    function reloadTranslations() {
+        return translationService.reloadTranslations();
+    }     
+
     return {
         selectedLanguage,
         selectLanguage,
         loadTranslations,
+        reloadTranslations,
         translate,
         hasTranslation
     }

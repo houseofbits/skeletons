@@ -1,3 +1,38 @@
 {
-    
+    "bird.activePoints.limbs1.text": {
+        "en": "limbs1",
+        "lv": "limbs1"
+    },
+    "bird.activePoints.limbs2.text": {
+        "en": "limbs2",
+        "lv": "limbs2"
+    },
+    "bird.activePoints.ribs1.text": {
+        "en": "ribs1",
+        "lv": "ribs1"
+    },
+    "bird.activePoints.ribs2.text": {
+        "en": "ribs2",
+        "lv": "ribs2"
+    },
+    "lizard.activePoints.ribs1.text": {
+        "en": "ribs1",
+        "lv": "ribs1"
+    },
+    "lizard.activePoints.ribs2.text": {
+        "en": "ribs2",
+        "lv": "ribs2"
+    },
+    "lizard.activePoints.limbs1.text": {
+        "en": "limbs1",
+        "lv": "limbs1"
+    },  
+    "lizard.activePoints.limbs2.text": {
+        "en": "limbs2",
+        "lv": "limbs2"
+    },  
+    "lizard.activePoints.limbs3.text": {
+        "en": "limbs3",
+        "lv": "limbs3"
+    }          
 }

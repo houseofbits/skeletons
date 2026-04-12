@@ -89,4 +89,21 @@ export default {
         initiallyActive: 0,
     },
     animationPlaceholderUrl: '/img/3_2_bat.png',
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'lizard.activePoints.limbs1',
+            modelNodeName: 'p-limbs1',
+        },
+        {
+            name: '2',
+            translationKey: 'lizard.activePoints.limbs2',
+            modelNodeName: 'p-limbs2',
+        },
+        {
+            name: '3',
+            translationKey: 'lizard.activePoints.limbs3',
+            modelNodeName: 'p-limbs3',
+        },                
+    ],
 } as const;

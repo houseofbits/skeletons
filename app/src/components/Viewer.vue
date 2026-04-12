@@ -1,17 +1,33 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera">
-    <div v-if="config.activePoints && showActivePoints" v-for="(point, i) in config.activePoints" :key="point.name"
-      class="active-point" :style="getActivePointPositionStyle(i)"
-      @click="selectedActivePoint = point">
-      {{ point.name }}
-    </div>
+    <template v-if="config.activePoints && showActivePoints">
+      <template v-for="(point, i) in config.activePoints">
+        <div
+          v-if="hasTranslation(point.translationKey + '.text')"
+          :key="point.name"
+          class="active-point"
+          :style="getActivePointPositionStyle(i)"
+          @click="selectedActivePoint = point"
+        >
+          {{ point.name }}
+        </div>
+      </template>
+    </template>
   </div>
 
-  <Sidebar :is-active="isActive" :selected="hilightedBone" :config="props.config"
-    @select="(i) => (hilightedBone = i)" :is-visible="isActive && isVisible" />
+  <Sidebar
+    :is-active="isActive"
+    :selected="hilightedBone"
+    :config="props.config"
+    @select="(i) => (hilightedBone = i)"
+    :is-visible="isActive && isVisible"
+  />
 
-
-  <ActivePointInfo v-if="selectedActivePoint" :point="selectedActivePoint" @close="selectedActivePoint = null"/>
+  <ActivePointInfo
+    v-if="selectedActivePoint"
+    :point="selectedActivePoint"
+    @close="selectedActivePoint = null"
+  />
 </template>
 
 <script setup>
@@ -24,12 +40,15 @@ import ScenePreloadService from "@src/services/ScenePreloadService";
 import { useRenderer3D } from "@src/composables/Renderer3D";
 import Sidebar from "@src/components/Sidebar.vue";
 import { tweenColor, transitionCamera } from "@src/utils/transitions";
-import { vectorToScreenPosition } from "@src/utils/utils3d";
+import { toScreenPosition } from "@src/utils/utils3d";
 import usePivotRotation from "@src/composables/PivotRotation";
 import { useNavigationState } from "@src/composables/NavigationState";
 import { useCameraController } from "@src/composables/CameraController";
 import RendererManager from "../services/RendererManager";
 import ActivePointInfo from "@src/components/ActivePointInfo.vue";
+import { useLanguage } from "@src/composables/Language";
+
+const { hasTranslation } = useLanguage();
 
 const props = defineProps({
   asset: { type: String, required: true },
@@ -45,7 +64,7 @@ const props = defineProps({
   isVisible: {
     type: Boolean,
     required: true,
-  }
+  },
 });
 
 const originalBoneMaterialColor = 14997948;
@@ -289,23 +308,25 @@ function getActivePointPositionStyle(i) {
 }
 
 function calculateActivePointPositions() {
-  if (props.config.activePoints === undefined || !render3d.getRenderer() || cameraController.camera === undefined) {
+  if (
+    props.config.activePoints === undefined ||
+    !render3d.getRenderer() ||
+    cameraController.camera === undefined
+  ) {
     return {};
   }
 
   for (const [i, point] of props.config.activePoints.entries()) {
-    // if (point.name === activePoint.name) {
-    //   const pointGroup = render3d.scene.getObjectByName(point.name);
-    //   if (!pointGroup) {
-    //     return {};
-    //   }
+    const pointNode = render3d.scene.getObjectByName(point.modelNodeName);
+    if (!pointNode) {
+      return {};
+    }
 
-    const screenPosition = vectorToScreenPosition(
-      point.position,
+    const screenPosition = toScreenPosition(
+      pointNode,
       cameraController.camera,
-      render3d.getRenderer(),
+      render3d.getRenderer()
     );
-    // console.log(screenPosition);
 
     activePointPositions[i] = screenPosition;
   }
@@ -320,7 +341,6 @@ onMounted(() => {
       calculateActivePointPositions();
     }
   });
-
 
   if (props.isVisible) {
     render3d.startRendering(container.value, cameraController);
@@ -396,11 +416,13 @@ onMounted(() => {
 .active-point {
   position: absolute;
   /* z-index: 20; */
+  margin-left: -17px;
+  margin-top: -17px;
   width: 35px;
   height: 35px;
   border-radius: 50%;
   background: rgba(255, 0, 191, 0.6);
-  border: 2px solid rgba(255, 255, 255, 0.8);;
+  border: 2px solid rgba(255, 255, 255, 0.8);
   color: rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;

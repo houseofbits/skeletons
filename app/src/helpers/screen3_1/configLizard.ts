@@ -37,4 +37,16 @@ export default {
             meshes: ['ribs2'],
         },
     ],
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'lizard.activePoints.ribs1',
+            modelNodeName: 'p-ribs1',
+        },
+        {
+            name: '2',
+            translationKey: 'lizard.activePoints.ribs2',
+            modelNodeName: 'p-ribs2',
+        },               
+    ],
 } as const;

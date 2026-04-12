@@ -82,6 +82,7 @@ Requires node version 22
     limbs2 - Vēdera spura ar iegurņa joslu
     limbs3 - Vēdera spura ar iegurņa joslu
 
+
 ### Krūšukurvis
     ribs1 - Ribas
 
@@ -109,13 +110,21 @@ Requires node version 22
     limbs10 - Mazais lielakauls
     limbs11 - Pēdas kauli
     
+    p-limbs1
+    p-limbs2
+
 ### Krūšukurvis
     ribs1 - Ribas
     ribs2 - Krūšu kauls
 
+    p-ribs1
+    p-ribs2
+
 ### Galvaskauss
     skull1 - Smadzeņu nodalījums
     skull2 - Sejas nodalījums
+    
+    p-skull1
 
 # Rāpuļi (lizard.FBX)
 ### Mugurkauls
@@ -123,6 +132,8 @@ Requires node version 22
     spine2 - Krūšu un jostas skriemeļi
     spine3 - Krustu skriemeļi
     spine4 - Astes skriemeļi
+
+    p-spine1
 
 ### Ekstremitātes
     limbs1 - Lāpstiņa
@@ -137,10 +148,16 @@ Requires node version 22
     limbs10 - Mazais lielakauls
     limbs11 - Pēdas kauli
 
+    p-limbs1, p-limbs2, p-limbs3
+
 ### Krūšukurvis
     ribs1 - Ribas
     ribs2 - Krūšu kauls
 
+    p-ribs1, p-ribs2
+
 ### Galvaskauss
     skull1 - Smadzeņu nodalījums
     skull2 - Sejas nodalījums
+
+    p-skull1, p-skull2, p-skull3

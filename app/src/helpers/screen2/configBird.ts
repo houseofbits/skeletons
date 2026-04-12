@@ -37,4 +37,11 @@ export default {
             meshes:['skull2'],
         },                
     ],
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'bird.activePoints.skull1',
+            modelNodeName: 'p-skull1',
+        },
+    ],
 } as const;
