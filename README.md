@@ -51,8 +51,6 @@ Requires node version 22
     spine4 - Krustu skriemeļi
     spine5 - Astes skriemeļi
 
-    p-spine1, p-spine2
-
 ### Ekstremitātes
     limbs1 - Iegurņa kauli
     limbs2 - Lāpstiņa
@@ -65,20 +63,14 @@ Requires node version 22
     limbs9 - Pēdas kauli
     limbs10 - Plaukstas kauli
 
-    p-limbs1, p-limbs2, p-limbs3, p-limbs4
-
 ### Krūšukurvis
     ribs1 - Ribas
     ribs2 - Krūšu kauls
-
-    p-ribs1
 
 ### Galvaskauss
     skull1 - Smadzeņu nodalījums
     skull2 - Sejas nodalījums
     skull3 - Sejas nodalījums
-
-    p-skull1, p-skull2, p-skull3
 
 # Zivis (fish.FBX)
 ### Mugurkauls
@@ -117,22 +109,14 @@ Requires node version 22
     limbs9 - Lielais lielakauls 
     limbs10 - Mazais lielakauls
     limbs11 - Pēdas kauli
-    
-    p-limbs1
-    p-limbs2
 
 ### Krūšukurvis
     ribs1 - Ribas
     ribs2 - Krūšu kauls
 
-    p-ribs1
-    p-ribs2
-
 ### Galvaskauss
     skull1 - Smadzeņu nodalījums
     skull2 - Sejas nodalījums
-    
-    p-skull1
 
 # Rāpuļi (lizard.FBX)
 ### Mugurkauls
@@ -140,8 +124,6 @@ Requires node version 22
     spine2 - Krūšu un jostas skriemeļi
     spine3 - Krustu skriemeļi
     spine4 - Astes skriemeļi
-
-    p-spine1
 
 ### Ekstremitātes
     limbs1 - Lāpstiņa
@@ -162,10 +144,60 @@ Requires node version 22
     ribs1 - Ribas
     ribs2 - Krūšu kauls
 
-    p-ribs1, p-ribs2
-
 ### Galvaskauss
     skull1 - Smadzeņu nodalījums
     skull2 - Sejas nodalījums
 
-    p-skull1, p-skull2, p-skull3
+
+
+# Translations
+
+### Active points
+
+Available keys
+* title
+* text
+* imageUrl
+
+screen1
+* fish.activePoints.spine1
+* fish.activePoints.spine2
+* jackal.activePoints.spine1
+* jackal.activePoints.spine2
+* lizard.activePoints.spine1
+
+screen2
+* bird.activePoints.skull1
+* fish.activePoints.skull1
+* fish.activePoints.skull2
+* fish.activePoints.skull3
+* fish.activePoints.skull4
+* frog.activePoints.skull1
+* jackal.activePoints.skull1
+* jackal.activePoints.skull2
+* jackal.activePoints.skull3
+* lizard.activePoints.skull1
+* lizard.activePoints.skull2
+* lizard.activePoints.skull3
+
+screen3_1
+* bird.activePoints.ribs1
+* bird.activePoints.ribs2
+* fish.activePoints.ribs1
+* jackal.activePoints.ribs1
+* lizard.activePoints.ribs1
+* lizard.activePoints.ribs2
+
+screen3_2
+* bird.activePoints.limbs1
+* bird.activePoints.limbs2
+* fish.activePoints.limbs1
+* frog.activePoints.limbs1
+* frog.activePoints.limbs2
+* jackal.activePoints.limbs1
+* jackal.activePoints.limbs2
+* jackal.activePoints.limbs3
+* jackal.activePoints.limbs4
+* lizard.activePoints.limbs1
+* lizard.activePoints.limbs2
+* lizard.activePoints.limbs3
