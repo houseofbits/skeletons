@@ -51,6 +51,8 @@ Requires node version 22
     spine4 - Krustu skriemeļi
     spine5 - Astes skriemeļi
 
+    p-spine1, p-spine2
+
 ### Ekstremitātes
     limbs1 - Iegurņa kauli
     limbs2 - Lāpstiņa
@@ -63,14 +65,20 @@ Requires node version 22
     limbs9 - Pēdas kauli
     limbs10 - Plaukstas kauli
 
+    p-limbs1, p-limbs2, p-limbs3, p-limbs4
+
 ### Krūšukurvis
     ribs1 - Ribas
     ribs2 - Krūšu kauls
+
+    p-ribs1
 
 ### Galvaskauss
     skull1 - Smadzeņu nodalījums
     skull2 - Sejas nodalījums
     skull3 - Sejas nodalījums
+
+    p-skull1, p-skull2, p-skull3
 
 # Zivis (fish.FBX)
 ### Mugurkauls

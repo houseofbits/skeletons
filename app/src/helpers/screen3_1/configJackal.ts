@@ -41,4 +41,11 @@ export default {
     animationComponent: ViewerDog,
     animationTitle: 'Suņa elpošana',
     animationPlaceholderUrl: '/img/3_1_dog.png',
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'jackal.activePoints.ribs1',
+            modelNodeName: 'p-ribs1',
+        },              
+    ],
 } as const;

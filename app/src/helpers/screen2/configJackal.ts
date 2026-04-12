@@ -37,4 +37,21 @@ export default {
             meshes:['skull2'],
         },                
     ],
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'jackal.activePoints.skull1',
+            modelNodeName: 'p-skull1',
+        },
+        {
+            name: '2',
+            translationKey: 'jackal.activePoints.skull2',
+            modelNodeName: 'p-skull2',
+        },
+        {
+            name: '3',
+            translationKey: 'jackal.activePoints.skull3',
+            modelNodeName: 'p-skull3',
+        },                
+    ],
 } as const;

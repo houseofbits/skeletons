@@ -56,4 +56,16 @@ export default {
     animationComponent: ViewerCat,
     animationTitle: 'Kaķa mugurkaula lokanība',    
     animationPlaceholderUrl: '/img/cat-animation-thumb.png',
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'jackal.activePoints.spine1',
+            modelNodeName: 'p-spine1',
+        },
+        {
+            name: '2',
+            translationKey: 'jackal.activePoints.spine2',
+            modelNodeName: 'p-spine2',
+        },        
+    ],
 } as const;

@@ -79,4 +79,16 @@ export default {
         initiallyActive: 3,
     },
     animationPlaceholderUrl: '/img/3_2_frog.png',
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'frog.activePoints.limbs1',
+            modelNodeName: 'p-limbs1',
+        },
+        {
+            name: '2',
+            translationKey: 'frog.activePoints.limbs2',
+            modelNodeName: 'p-limbs2',
+        },                      
+    ],
 } as const;

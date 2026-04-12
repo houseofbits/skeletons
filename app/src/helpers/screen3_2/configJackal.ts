@@ -84,4 +84,26 @@ export default {
         initiallyActive: 5,
     },
     animationPlaceholderUrl: '/img/3_2_lion.png',
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'jackal.activePoints.limbs1',
+            modelNodeName: 'p-limbs1',
+        },
+        {
+            name: '2',
+            translationKey: 'jackal.activePoints.limbs2',
+            modelNodeName: 'p-limbs2',
+        },
+        {
+            name: '3',
+            translationKey: 'jackal.activePoints.limbs3',
+            modelNodeName: 'p-limbs3',
+        },   
+        {
+            name: '3',
+            translationKey: 'jackal.activePoints.limbs4',
+            modelNodeName: 'p-limbs4',
+        },                        
+    ],
 } as const;
