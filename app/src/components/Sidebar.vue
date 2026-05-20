@@ -14,7 +14,7 @@
             <div class="scrollable" ref="scrollable" @scroll="scroll">
                 <div v-for="(point, i) in config.hilightedBones" class="list-item"
                     :class="{ 'selected': selected == i }" :key="i" @click="selectItem(i)">
-                    {{ point.text }}
+                    {{ translate(point.text) }}
                 </div>
             </div>
 

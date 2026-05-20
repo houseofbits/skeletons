@@ -29,27 +29,27 @@ export default {
     hilightedBones: [
         {
             name: 'p-spine1',
-            text: 'Kakla skriemeļi',
+            text: 'lizard.spine1',
             meshes:['spine1'],
         },
         {
             name: 'p-spine2',
-            text: 'Krūšu un jostas skriemeļi',
+            text: 'lizard.spine2',
             meshes:['spine2'],
         },
         {
             name: 'p-spine3',
-            text: 'Krustu skriemeļi',
+            text: 'lizard.spine3',
             meshes:['spine3'],
         },
         {
             name: 'p-spine4',
-            text: 'Astes skriemeļi',
+            text: 'lizard.spine4',
             meshes:['spine4'],
         },                       
     ],
     animationComponent: ViewerTurtle,
-    animationTitle: 'Bruņurupuča kakla ievilkšana',    
+    animationTitle: 'jackal.turtle_animation_title',    
     animationPlaceholderUrl: '/img/turtle-animation-thumb.png',
     activePoints: [
         {

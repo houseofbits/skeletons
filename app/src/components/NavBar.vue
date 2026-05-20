@@ -81,7 +81,7 @@
         <div class="button" :class="{ 'active': selectedNavGroup == 1 }" @click="selectNavGroup(1)">{{ translate('common.ribs_group') }}</div>
       </div>
       <div class="nav-title" v-if="getTitle() !== null">
-        {{ getTitle() }}
+        {{ translate(getTitle() as string) }}
       </div>
     </div>
   </nav>

@@ -28,22 +28,22 @@ export default {
     hilightedBones: [
         {
             name: 'p-spine1',
-            text: 'Kakla skriemelis',
+            text: 'bird.spine1',
             meshes: ['spine1'],
         },
         {
             name: 'p-spine2',
-            text: 'Krūšu skriemeļi',
+            text: 'bird.spine2',
             meshes: ['spine2'],
         },
         {
             name: 'p-spine3',
-            text: 'Saliktais krustu kauls',
+            text: 'bird.spine3',
             meshes: ['spine3'],
         },
         {
             name: 'p-spine4',
-            text: 'Astes skriemeļi',
+            text: 'bird.spine4',
             meshes: ['spine4'],
         },
     ],

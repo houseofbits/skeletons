@@ -29,32 +29,32 @@ export default {
     hilightedBones: [
         {
             name: 'p-spine1',
-            text: 'Kakla skriemeļi',
+            text: 'jackal.spine1',
             meshes: ['spine1'],
         },
         {
             name: 'p-spine2',
-            text: 'Krūšu skriemeļi',
+            text: 'jackal.spine2',
             meshes: ['spine2'],
         },
         {
             name: 'p-spine3',
-            text: 'Jostas skriemeļi',
+            text: 'jackal.spine3',
             meshes: ['spine3'],
         },
         {
             name: 'p-spine4',
-            text: 'Krustu skriemeļi',
+            text: 'jackal.spine4',
             meshes: ['spine4'],
         },
         {
             name: 'p-spine5',
-            text: 'Astes skriemeļi',
+            text: 'jackal.spine5',
             meshes: ['spine5'],
         },
     ],
     animationComponent: ViewerCat,
-    animationTitle: 'Kaķa mugurkaula lokanība',    
+    animationTitle: 'jackal.spine_animation_title',    
     animationPlaceholderUrl: '/img/cat-animation-thumb.png',
     activePoints: [
         {

@@ -1,6 +1,69 @@
 {
     "lizard.activePoints.spine1.text": {
-        "en": "spine1",
-        "lv": "spine1"
+        "en": "",
+        "lv": ""
+    },
+    "bird.spine1": {
+        "lv": "Kakla skriemelis"
+    },   
+    "bird.spine2": {
+        "lv": "Krūšu skriemeļi"
+    },
+    "bird.spine3": {
+        "lv": "Saliktais krustu kauls"
+    },  
+    "bird.spine4": {
+        "lv": "Astes skriemeļi"
+    },
+    "fish.spine1": {
+        "lv": "Vidukļa skriemeļi"
+    }, 
+    "fish.spine2": {
+        "lv": "Astes skriemeļi"
+    },
+    "frog.spine1": {
+        "lv": "Kakla skriemelis"
+    },      
+    "frog.spine2": {
+        "lv": "Vidukļa skriemeļi"
+    },          
+    "frog.spine3": {
+        "lv": "Krustu skriemelis"
+    },
+    "frog.spine4": {
+        "lv": "Urostils - saaugušie astes skriemeļi"
+    },
+    "jackal.spine1": {
+        "lv": "Kakla skriemeļi"
+    },
+    "jackal.spine2": {
+        "lv": "Krūšu skriemeļi"
+    },
+    "jackal.spine3": {
+        "lv": "Jostas skriemeļi"
+    },
+    "jackal.spine4": {
+        "lv": "Krustu skriemeļi"
+    },
+    "jackal.spine5": {
+        "lv": "Astes skriemeļi"
+    },
+    "lizard.spine1": {
+        "lv": "Kakla skriemeļi"
+    },
+    "lizard.spine2": {
+        "lv": "Krūšu un jostas skriemeļi"
+    },
+    "lizard.spine3": {
+        "lv": "Krustu skriemeļi"
+    },
+    "lizard.spine4": {
+        "lv": "Astes skriemeļi"
+    },
+    "jackal.spine_animation_title": {
+        "lv": "Kaķa mugurkaula lokanība"
+    },
+    "jackal.tyurtle_animation_title": {
+        "lv": "Bruņurupuča kakla ievilkšana"
     }
 }
