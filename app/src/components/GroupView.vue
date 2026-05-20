@@ -1,5 +1,5 @@
 <template>
-    <NavGroupTile :is-active="true" :left="0" title="Ribas" subtitle="un krūšu kauls" @click="selectGroup(1)">
+    <NavGroupTile :is-active="true" :left="0" :title="translate('common.ribs_group_title')" :subtitle="translate('common.ribs_group_subtitle')" @click="selectGroup(1)">
         <BasicViewer asset="jackal" :class="getRClass(0)" class="absolute" :is-visible="isVisible"
             :camera-position="{ x: 26.903458858152014, y: 0.3085318542698676, z: -27.36639027167504 }"
             :camera-target="{ x: 8.329575215343231, y: 13.173785743333053, z: -5.2308977119308535 }"
@@ -13,7 +13,7 @@
             :camera-target="{ x: -3.7909641487743815, y: 7.194239715447379, z: 0.5600004309309914 }"
             :activate="groupActive" />
     </NavGroupTile>
-    <NavGroupTile :is-active="true" :left="1" title="Ekstremitātes" subtitle="un to joslas" @click="selectGroup(2)">
+    <NavGroupTile :is-active="true" :left="1" :title="translate('common.extremities_group_title')" :subtitle="translate('common.extremities_group_subtitle')" @click="selectGroup(2)">
         <BasicViewer asset="lizard" :class="getLClass(0)" class="absolute" :is-visible="isVisible"
             :camera-position="{ x: -1.0265327612726427, y: 23.761390748385598, z: -9.678987672285142 }"
             :camera-target="{ x: -12.875120663489653, y: 3.582766461181922, z: -5.366454357791101 }"
@@ -36,6 +36,7 @@ import { useNavigationState } from "@src/composables/NavigationState";
 import { computed, ref } from "vue";
 import NavGroupTile from "@src/components/NavGroupTile.vue";
 import RendererManager from "../services/RendererManager";
+import { translate } from "@src/composables/Language";
 
 const { setSelectedNavTile, shouldShowNavGroup, selectedNavGroup } = useNavigationState();
 

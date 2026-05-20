@@ -37,3 +37,7 @@ export function useLanguage() {
         hasTranslation
     }
 }
+
+export function translate(key: string) {
+    return translationService.translate(key, selectedLanguage.value);
+}

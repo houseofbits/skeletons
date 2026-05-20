@@ -7,9 +7,8 @@
                     fill="white" fill-opacity="0.4" />
             </svg>
 
-            <div class="title">Skeleta daļas</div>
-            <div class="subtitle">Spied uz kādu no grupām, lai apskatītu kaulu un tā atrašanās vietu skeletā!
-            </div>
+            <div class="title">{{ translate('common.skeleton_parts_title') }}</div>
+            <div class="subtitle">{{ translate('common.skeleton_parts_subtitle') }}</div>
         </div>
         <div class="list">
             <div class="scrollable" ref="scrollable" @scroll="scroll">
@@ -33,6 +32,7 @@
 import { onMounted, type PropType, ref } from "vue";
 import type Config from "@src/types/Config";
 import Animation from "@src/components/Animation.vue";
+import { translate } from "../composables/Language";
 
 const emit = defineEmits<{
     (e: 'select', index: number): void;

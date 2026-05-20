@@ -10,11 +10,13 @@
                 fill="white" fill-opacity="0.6" />
         </svg>
 
-        <p class="rotation-text">Pagriez lai apskatītu no visām pusēm</p>
+        <p class="rotation-text">{{ translate('common.rotate_hint') }}</p>
     </div>
 </template>
 
 <script setup lang="ts">
+import { translate } from "@src/composables/Language";
+
 const props = defineProps<{
     isActive: boolean;
 }>();
@@ -38,14 +40,16 @@ const props = defineProps<{
     gap: 12px;
     width: 140px;
     backdrop-filter: blur(20px);
-    transition: all 0.8s ease;
+    transition: all 0.1s ease;
     transition-delay: 0;
+    transition-duration: 0.1s;
     opacity: 0;
 }
 
 .rotation-icon-container.active {
     opacity: 1;
     transition-delay: 0.5s;
+    transition-duration: 0.8s;
 }   
 
 .rotation-icon {

@@ -7,7 +7,7 @@
         <path d="M16.6668 12H7.3335" stroke="white" stroke-width="1.33333" stroke-linecap="round"
           stroke-linejoin="round" />
       </svg>
-      <div>Atpakaļ</div>
+      <div>{{ translate('common.back_button') }}</div>
     </div>
     <div v-else class="logo">
       <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" @click="reset">
@@ -66,7 +66,7 @@
     </div>
 
     <div v-if="selectedNavTile === null" class="right-button">
-      <div class="navbar-text-link">{{ hintText }}</div>
+      <div class="navbar-text-link">{{ translate(hintText) }}</div>
 
       <svg width="22" height="27" viewBox="0 0 22 27" fill="none">
         <path
@@ -77,10 +77,8 @@
 
     <div class="overlay">
       <div v-if="shouldShowNavGroup && selectedNavGroup !== null && selectedNavTile === null" class="buttons">
-        <div class="button" :class="{ 'active': selectedNavGroup == 2 }" @click="selectNavGroup(2)">
-          Ekstremitātes un to joslas</div>
-        <div class="button" :class="{ 'active': selectedNavGroup == 1 }" @click="selectNavGroup(1)">
-          Ribas un krūšu kauls</div>
+        <div class="button" :class="{ 'active': selectedNavGroup == 2 }" @click="selectNavGroup(2)">{{ translate('common.extremities_group') }}</div>
+        <div class="button" :class="{ 'active': selectedNavGroup == 1 }" @click="selectNavGroup(1)">{{ translate('common.ribs_group') }}</div>
       </div>
       <div class="nav-title" v-if="getTitle() !== null">
         {{ getTitle() }}
@@ -93,7 +91,7 @@
 import { computed } from "vue";
 import { useNavigationState } from "@src/composables/NavigationState";
 import RendererManager from "../services/RendererManager";
-import { useLanguage } from "@src/composables/Language";
+import { useLanguage, translate } from "@src/composables/Language";
 import { Language } from "@src/services/TranslationsService";
 
 const { selectedNavTile, shouldShowNavGroup, selectedNavGroup, getTitle, isAnimationActive, resetAnimationActive } = useNavigationState();
@@ -105,9 +103,9 @@ const isEnglish = computed(() => language.selectedLanguage.value === Language.EN
 
 const hintText = computed(() => {
   if (selectedNavTile.value === null) {
-    return 'Izvēlies grupu';
+    return 'common.choose_group_hint';
   } else {
-    return 'Izzini sīkāk';
+    return 'common.learn_more_hint';
   }
 });
 

@@ -1,5 +1,5 @@
 <template>
-  <NavTile v-for="(tile, i) in tiles" :key="tile.asset" :is-active="isNavTileSelected(i + 1)" :title="tile.title"
+  <NavTile v-for="(tile, i) in tiles" :key="tile.asset" :is-active="isNavTileSelected(i + 1)" :title="translate(tile.title)"
     :width="tile.width" :height="tile.height" :left="tile.x" :top="tile.y" @click="setSelectedNavTile(i + 1)">
     <Viewer :is-visible="isVisible(i+1)" :asset="tile.asset" :is-active="isNavTileSelected(i + 1)" :config="config[i]"
       :camera-config="getCameraConfig(i)" />
@@ -15,6 +15,7 @@ import { reactive } from "vue";
 import TileOccupancyService from '@src/services/TileOccupancyService';
 import useTimeoutInterval from "../composables/TimeoutInterval";
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
+import { translate } from "@src/composables/Language";
 
 // const { translate } = useLanguage();
 const { selectedNavTile, setSelectedNavTile, areNavTilesView,
@@ -61,7 +62,7 @@ const tiles = reactive<TileSettings[]>([
     y: 1,
     width: 1,
     height: 1,
-    title: "Zivis",
+    title: "common.title_fish",
     asset: 'fish',
   },
   {
@@ -69,7 +70,7 @@ const tiles = reactive<TileSettings[]>([
     y: 1,
     width: 1,
     height: 1,
-    title: "Abinieki",
+    title: "common.title_frog",
     asset: 'frog',
   },
   {
@@ -77,7 +78,7 @@ const tiles = reactive<TileSettings[]>([
     y: 1,
     width: 1,
     height: 1,
-    title: "Rāpuļi",
+    title: "common.title_lizard",
     asset: 'lizard',
   },
   {
@@ -85,7 +86,7 @@ const tiles = reactive<TileSettings[]>([
     y: 2,
     width: 1,
     height: 1,
-    title: "Putni",
+    title: "common.title_pigeon",
     asset: 'pigeon',
   },
   {
@@ -93,7 +94,7 @@ const tiles = reactive<TileSettings[]>([
     y: 2,
     width: 2,
     height: 1,
-    title: "Zīdītāji",
+    title: "common.title_jackal",
     asset: 'jackal',
   },
 ]);

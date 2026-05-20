@@ -1,6 +1,54 @@
 {
-    "hello": {
-        "en": "Hello",
-        "lv": "Sveiki"
-    }
+    "common.title_fish": {
+        "lv": "Zivis",
+        "en": "Fish"
+    },
+    "common.title_frog": {
+        "lv": "Abinieki"
+    },
+    "common.title_lizard": {
+        "lv": "Rāpuļi"
+    },
+    "common.title_pigeon": {
+        "lv": "Putni"
+    },
+    "common.title_jackal": {
+        "lv": "Zīdītāji"
+    },
+    "common.extremities_group": {
+        "lv": "Ekstremitātes un to joslas"
+    },
+    "common.ribs_group": {
+        "lv": "Ribas un krūšu kauls"
+    },  
+    "common.back_button": {
+        "lv": "Atpakaļ"
+    },
+    "common.choose_group_hint": {
+        "lv": "Izvēlies grupu"
+    },  
+    "common.learn_more_hint": {
+        "lv": "Izzini sīkāk"
+    },
+    "common.ribs_group_title": {
+        "lv": "Ribas"
+    },
+    "common.ribs_group_subtitle": {
+        "lv": "un krūšu kauls"
+    },
+    "common.extremities_group_title": {
+        "lv": "Ekstremitātes"
+    },  
+    "common.extremities_group_subtitle": {
+        "lv": "un to joslas"
+    },
+    "common.rotate_hint": {
+        "lv": "Pagriez lai apskatītu no visām pusēm"
+    },
+    "common.skeleton_parts_title": {
+        "lv": "Skeleta daļas"
+    },
+    "common.skeleton_parts_subtitle": {
+        "lv": "Spied uz kādu no grupām, lai apskatītu kaulu un tā atrašanās vietu skeletā!"
+    }                      
 }

@@ -214,6 +214,7 @@ watch(
 
       resetHilightedBoneMeshesInstant();
     } else {
+      isRotationIconActive.value = false;
       if (pivot) {
         gsap.to(pivot.rotation, {
           y: 0,
