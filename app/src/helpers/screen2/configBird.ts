@@ -28,12 +28,12 @@ export default {
     hilightedBones: [
         {
             name: 'p-skull1',
-            text: 'Smadzeņu nodalījums',
+            text: 'bird.skull1',
             meshes:['skull1'],
         },
         {
             name: 'p-skull2',
-            text: 'Sejas nodalījums',
+            text: 'bird.skull2',
             meshes:['skull2'],
         },                
     ],

@@ -28,16 +28,15 @@ export default {
     hilightedBones: [
         {
             name: 'p-skull1',
-            text: 'Smadzeņu nodalījums',
+            text: 'lizard.skull1',
             meshes:['skull1'],
         },
         {
             name: 'p-skull2',
-            text: 'Sejas nodalījums',
+            text: 'lizard.skull2',
             meshes:['skull2'],
         },              
     ],
-    animationPlaceholderUrl: '/img/turtle-animation-thumb.png',
     activePoints: [
         {
             name: '1',

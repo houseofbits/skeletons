@@ -24,16 +24,16 @@ export default {
             target: { x: -4.874675668581218, y: 14.701507731146926, z: 2.701795841830036 },
             transitionTime: CameraTransitionTime.ICON_TO_FULLSCREEN,
         },
-    },    
+    },
     hilightedBones: [
         {
             name: 'p-skull1',
-            text: 'Smadzeņu nodalījums',
+            text: 'fish.skull1',
             meshes:['skull1'],
         },
         {
             name: 'p-skull2',
-            text: 'Sejas nodalījums',
+            text: 'fish.skull2',
             meshes:['skull2'],
         },   
     ],
