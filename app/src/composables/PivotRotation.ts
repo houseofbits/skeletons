@@ -7,6 +7,7 @@ export default function usePivotRotation(domElement: HTMLBaseElement) {
   let lastX = 0;
   let isEnabled: boolean = false;
   let enabledCallback: CallableFunction = () => true;
+  let onRotationCallback: CallableFunction = () => true;
 
 
   domElement.addEventListener("pointerdown", (e) => {
@@ -35,6 +36,7 @@ export default function usePivotRotation(domElement: HTMLBaseElement) {
     if (Math.abs(pivot.rotation.y) > Math.PI * 2) {
       pivot.rotation.y = 0;
     }
+    onRotationCallback();
   });
 
   window.addEventListener("pointerup", () => {
@@ -49,9 +51,14 @@ export default function usePivotRotation(domElement: HTMLBaseElement) {
     enabledCallback = callback;
   }
 
+  function setOnRotationCallback(callback: CallableFunction) {
+    onRotationCallback = callback;
+  }
+
   return {
     pivot,
     setEnabled,
     setEnabledCallback,
+    setOnRotationCallback,
   };
 };

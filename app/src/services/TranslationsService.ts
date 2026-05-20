@@ -16,13 +16,14 @@ export type TranslationData = {
 }
 
 export default class TranslationsService {
+    defaultLanguage: Language = Language.LV;
     languages: Language[] = [];
     translations: TranslationData = {};
     translationFiles: string[] = [];
 
-    constructor(languages: Language[]) {
+    constructor(languages: Language[], defaultLanguage: Language = Language.LV) {
         this.languages = languages;
-
+        this.defaultLanguage = defaultLanguage;
     }
 
     async loadTranslations(files: string[]) {
@@ -45,15 +46,27 @@ export default class TranslationsService {
     }
 
     translate(key: string, language: Language): string {
-        if (this.translations[key] && this.translations[key][language]) {
+        if (this.translations[key] && this.translations[key][language] && this.translations[key][language].length > 0) {
             return this.translations[key][language];
+        }
+
+        if (this.translations[key] && this.translations[key][this.defaultLanguage] && this.translations[key][this.defaultLanguage].length > 0) {
+            return this.translations[key][this.defaultLanguage];
         }
 
         return key;
     }
 
     hasTranslation(key: string, language: Language): boolean {
-        return !!(this.translations[key] && this.translations[key][language]);
+        if (this.translations[key] && this.translations[key][language] && this.translations[key][language].length > 0) {
+            return true;
+        }
+
+        if (this.translations[key] && this.translations[key][this.defaultLanguage] && this.translations[key][this.defaultLanguage].length > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     private mergeTranslations(newData: unknown) {

@@ -1,12 +1,11 @@
 import { ref } from "vue";
-import TranslationsService, { Language } from "../services/TranslationsService";
+import TranslationsService, { Language } from "@src/services/TranslationsService";
 
 const selectedLanguage = ref<Language>(Language.LV);
 const translationService = new TranslationsService([
     Language.EN,
     Language.LV,
-]);
-
+], Language.LV);
 
 export function useLanguage() {
     function selectLanguage(language: Language) {
@@ -23,11 +22,11 @@ export function useLanguage() {
 
     function hasTranslation(key: string) {
         return translationService.hasTranslation(key, selectedLanguage.value);
-    } 
+    }
 
     function reloadTranslations() {
         return translationService.reloadTranslations();
-    }     
+    }
 
     return {
         selectedLanguage,

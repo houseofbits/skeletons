@@ -15,6 +15,8 @@
     </template>
   </div>
 
+  <RotationIcon :is-active="isRotationIconActive" />
+
   <Sidebar
     :is-active="isActive"
     :selected="hilightedBone"
@@ -28,6 +30,8 @@
     :point="selectedActivePoint"
     @close="selectedActivePoint = null"
   />
+
+
 </template>
 
 <script setup>
@@ -46,6 +50,7 @@ import { useNavigationState } from "@src/composables/NavigationState";
 import { useCameraController } from "@src/composables/CameraController";
 import RendererManager from "../services/RendererManager";
 import ActivePointInfo from "@src/components/ActivePointInfo.vue";
+import RotationIcon from "@src/components/RotationIcon.vue";
 import { useLanguage } from "@src/composables/Language";
 
 const { hasTranslation } = useLanguage();
@@ -79,6 +84,8 @@ let pivot = null;
 let pivotRotation = null;
 const activePointPositions = reactive([]);
 const selectedActivePoint = ref(null);
+const isRotationIconActive = ref(false);
+
 
 const { resetAnimationActive } = useNavigationState();
 
@@ -193,6 +200,8 @@ watch(
     selectedActivePoint.value = null;
 
     if (newVal) {
+      isRotationIconActive.value = true;
+
       render3d.releaseAllRenderersExceptCurrent();
 
       if (showActivePointsTimeout) {
@@ -290,6 +299,10 @@ function initPivot() {
   }
 
   pivotRotation = usePivotRotation(container.value);
+
+  pivotRotation.setOnRotationCallback(() => {
+    isRotationIconActive.value = false;
+  });
 
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);

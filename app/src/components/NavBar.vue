@@ -9,8 +9,8 @@
       </svg>
       <div>Atpakaļ</div>
     </div>
-    <div v-else class="logo" @click="reset">
-      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div v-else class="logo">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" @click="reset">
         <path d="M44 43.1665H20.9073V40.5158H41.335V34.0402H30.0878V31.3894H44V43.1665Z" fill="white"
           fill-opacity="0.9" />
         <path
@@ -22,6 +22,47 @@
           d="M18.2431 20.9073C18.6527 20.3491 19.1073 19.8199 19.6041 19.3259C21.9234 17.0182 25.0088 15.6299 28.2826 15.4213L29.7994 15.3206L29.7026 16.8293C29.4912 20.0876 28.0943 23.1578 25.7727 25.466C23.7261 27.5008 21.0844 28.82 18.2431 29.2471V43.1667H15.5783V35.9153C12.7285 35.4898 10.0785 34.168 8.0267 32.1272C5.70551 29.8183 4.30831 26.748 4.09596 23.4896L4 21.9861L5.51684 22.0816C8.79166 22.294 11.877 23.6845 14.1971 25.9932C14.702 26.4956 15.1636 27.034 15.5783 27.6026V9.30127H18.2431V20.9073ZM7.01166 24.9765C7.45768 26.9807 8.47035 28.8171 9.92913 30.269C11.3879 31.7209 13.2328 32.7287 15.2473 33.1736C14.7989 31.1706 13.7863 29.3361 12.3281 27.8846C10.8697 26.433 9.02519 25.4238 7.01166 24.9765ZM26.8027 18.3223C24.7806 18.7617 22.9274 19.7681 21.4625 21.2225L21.489 21.2015C20.025 22.6582 19.0114 24.5014 18.568 26.5133C20.5826 26.0705 22.4281 25.0643 23.887 23.6131C25.3459 22.162 26.3576 20.3262 26.8027 18.3223Z"
           fill="white" fill-opacity="0.9" />
       </svg>
+
+      <!-- Latvian flag-->
+      <div class="lang-link left" :class="{active:isLatvian}" @click="language.selectLanguage(Language.LV)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" height="46" width="46">
+          <path fill="#9D2235" d="M0 0h1200v600H0" />
+          <path fill="#FFF" d="M0 240h1200v120H0" />
+        </svg>
+      </div>
+
+      <!-- English flag -->
+      <div class="lang-link" :class="{active: isEnglish}" @click="language.selectLanguage(Language.EN)">
+        <svg width="46" height="46" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_3849_275)">
+            <path d="M600 0H0V600H600V0Z" fill="#00247D" />
+            <path d="M0 0L600 600M600 0L0 600" stroke="white" stroke-width="90" />
+            <mask id="mask0_3849_275" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="600"
+              height="600">
+              <path d="M300 300H600V600L300 300ZM300 300V600H0L300 300ZM300 300H0V0L300 300ZM300 300V0H600L300 300Z"
+                fill="white" />
+            </mask>
+            <g mask="url(#mask0_3849_275)">
+              <path d="M0 0L600 600M600 0L0 600" stroke="white" stroke-width="105" />
+            </g>
+            <mask id="mask1_3849_275" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="600"
+              height="600">
+              <path d="M300 300H600V600L300 300ZM300 300V600H0L300 300ZM300 300H0V0L300 300ZM300 300V0H600L300 300Z"
+                fill="white" />
+            </mask>
+            <g mask="url(#mask1_3849_275)">
+              <path d="M0 0L600 600M600 0L0 600" stroke="#CF142B" stroke-width="80" />
+            </g>
+            <path d="M300 0V600M0 300H600" stroke="white" stroke-width="130" />
+            <path d="M300 0V600M0 300H600" stroke="#CF142B" stroke-width="90" />
+          </g>
+          <defs>
+            <clipPath id="clip0_3849_275">
+              <rect width="600" height="600" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
     </div>
 
     <div v-if="selectedNavTile === null" class="right-button">
@@ -52,8 +93,15 @@
 import { computed } from "vue";
 import { useNavigationState } from "@src/composables/NavigationState";
 import RendererManager from "../services/RendererManager";
+import { useLanguage } from "@src/composables/Language";
+import { Language } from "@src/services/TranslationsService";
 
 const { selectedNavTile, shouldShowNavGroup, selectedNavGroup, getTitle, isAnimationActive, resetAnimationActive } = useNavigationState();
+
+const language = useLanguage();
+
+const isLatvian = computed(() => language.selectedLanguage.value === Language.LV);
+const isEnglish = computed(() => language.selectedLanguage.value === Language.EN);
 
 const hintText = computed(() => {
   if (selectedNavTile.value === null) {
@@ -191,5 +239,34 @@ nav {
       }
     }
   }
+}
+
+.lang-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  object-fit: cover;
+  opacity: 0.6;
+  margin-left:8px;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+
+  &.active {
+    opacity: 1;
+  }
+
+  &.left {
+    margin-left: 36px;
+  }
+}
+
+.lang-flag {
+  width: 100%;
+  height: 100%;
 }
 </style>
