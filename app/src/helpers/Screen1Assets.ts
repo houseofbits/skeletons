@@ -8,4 +8,7 @@ export default [
     ['catFall', '/models/catFall_03.fbx'],    
     ['turtleScene', '/models/turtle-scene.glb'],
     ['turtleModel', '/models/soronan-mud-turtle-v2.glb'],
+    
+    ['owlNeckScene', '/models/owl-neck-scene.glb'],
+    ['owlNeck', '/models/owl-neck-animated.glb'],
 ] as const;

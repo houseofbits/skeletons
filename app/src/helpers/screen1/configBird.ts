@@ -1,5 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
+import ViewerOwl from '@/src/components/Animations/ViewerOwl.vue';
 
 export default {
     id: 'bird_1',
@@ -47,4 +48,7 @@ export default {
             meshes: ['spine4'],
         },
     ],
+    animationComponent: ViewerOwl,
+    animationTitle: 'bird.owl_neck_animation_title',    
+    animationPlaceholderUrl: '/img/owl-animation-thumb.png',
 } as const;

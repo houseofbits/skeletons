@@ -86,5 +86,9 @@
     "jackal.turtle_animation_title": {
         "lv": "Bruņurupuča kakla ievilkšana",
         "en": "Turtle Neck Retraction"
+    },
+    "bird.owl_neck_animation_title": {
+        "lv": "Pūces kakla grozīšana",
+        "en": "Owl neck rotation"
     }
 }

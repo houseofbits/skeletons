@@ -16,4 +16,7 @@ export default [
     ['frogLimbsScene', '/models/limbs/frog-scene.glb'],
     ['owlLimbsScene', '/models/limbs/owl-scene.glb'],
     ['lionLimbsScene', '/models/limbs/lion-scene.glb'],
+
+    ['owlNeckScene', '/models/owl-neck-scene.glb'],
+    ['owlNeck', '/models/owl-neck-animated.glb'],
 ] as const;
