@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { translate } from "@src/composables/Language";
 
-const props = defineProps<{
+defineProps<{
     isActive: boolean;
 }>();
 </script>
