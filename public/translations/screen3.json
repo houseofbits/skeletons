@@ -1,56 +1,274 @@
 {
     "bird.activePoints.limbs1.text": {
-        "en": "limbs1",
-        "lv": "limbs1"
+        "en": "",
+        "lv": ""
     },
     "bird.activePoints.limbs2.text": {
-        "en": "limbs2",
-        "lv": "limbs2"
+        "en": "",
+        "lv": ""
     },
     "bird.activePoints.ribs1.text": {
-        "en": "ribs1",
-        "lv": "ribs1"
+        "en": "",
+        "lv": ""
     },
     "bird.activePoints.ribs2.text": {
-        "en": "ribs2",
-        "lv": "ribs2"
+        "en": "",
+        "lv": ""
     },
+
     "lizard.activePoints.ribs1.text": {
-        "en": "ribs1",
-        "lv": "ribs1"
+        "en": "Ribs",
+        "lv": "Ribas"
     },
     "lizard.activePoints.ribs2.text": {
-        "en": "ribs2",
-        "lv": "ribs2"
+        "en": "",
+        "lv": ""
     },
+
     "lizard.activePoints.limbs1.text": {
-        "en": "limbs1",
-        "lv": "limbs1"
-    },  
+        "en": "",
+        "lv": ""
+    },
     "lizard.activePoints.limbs2.text": {
-        "en": "limbs2",
-        "lv": "limbs2"
-    },  
+        "en": "",
+        "lv": ""
+    },
     "lizard.activePoints.limbs3.text": {
-        "en": "limbs3",
-        "lv": "limbs3"
+        "en": "",
+        "lv": ""
     },
     "bird.ribs1": {
-        "lv": "Ribas"
+        "lv": "Ribas",
+        "en": "Ribs"
     },
     "bird.ribs2": {
-        "lv": "Krūšu kauls"
+        "lv": "Krūšu kauls",
+        "en": "Sternum"
     },
     "fish.ribs1": {
-        "lv": "Ribas"
+        "lv": "Ribas",
+        "en": "Ribs"
     },
     "frog.ribs1": {
-        "lv": "Krūšu kauls"
+        "lv": "Krūšu kauls",
+        "en": "Sternum"
     },
-    
-    
+    "jackal.ribs1": {
+        "lv": "Ribas",
+        "en": "Ribs"
+    },
+    "jackal.ribs2": {
+        "lv": "Krūšu kauls",
+        "en": "Sternum"
+    },
+    "lizard.ribs1": {
+        "lv": "Ribas",
+        "en": "Ribs"
+    },
+    "lizard.ribs2": {
+        "lv": "Krūšu kauls",
+        "en": "Sternum"
+    },
 
+    "bird.limbs1": {
+        "lv": "Atslēgas kauls",
+        "en": "Clavicle"
+    },
+    "bird.limbs2": {
+        "lv": "Lāpstiņa",
+        "en": "Scapula"
+    },
+    "bird.limbs3": {
+        "lv": "Augšdelma kauls",
+        "en": "Humerus"
+    },
+    "bird.limbs4": {
+        "lv": "Elkoņa kauls",
+        "en": "Ulna"
+    },
+    "bird.limbs5": {
+        "lv": "Spieķa kauls",
+        "en": "Radius"
+    },
+    "bird.limbs6": {
+        "lv": "Plaukstas kauli",
+        "en": "Carpal bones"
+    },
+    "bird.limbs7": {
+        "lv": "Iegurņa kauli",
+        "en": "Pelvic bones"
+    },
+    "bird.limbs8": {
+        "lv": "Augšstilba kauls",
+        "en": "Femur"
+    },
+    "bird.limbs9": {
+        "lv": "Lielais lielakauls",
+        "en": "Tibia"
+    },
+    "bird.limbs10": {
+        "lv": "Mazais lielakauls",
+        "en": "Fibula"
+    },
+    "bird.limbs11": {
+        "lv": "Pēdas kauli",
+        "en": "Foot bones"
+    },
+
+    "fish.limbs1": {
+        "lv": "Krūšu spura ar plecu joslu",
+        "en": "Pectoral fin with pectoral girdle"
+    },
+    "fish.limbs2": {
+        "lv": "Vēdera spura ar iegurņa joslu",
+        "en": "Pelvic fin with pelvic girdle"
+    },
+
+    "frog.limbs1": {
+        "lv": "Atslēgas kauls",
+        "en": "Clavicle"
+    },
+    "frog.limbs2": {
+        "lv": "Lāpstiņa",
+        "en": "Scapula"
+    },
+    "frog.limbs3": {
+        "lv": "Augšdelma kauls",
+        "en": "Humerus"
+    },
+    "frog.limbs4": {
+        "lv": "Saaugušie spieķa kauls un elkoņa kauls",
+        "en": "Fused radius and ulna"
+    },
+    "frog.limbs5": {
+        "lv": "Plaukstas kauli",
+        "en": "Carpal bones"
+    },
+    "frog.limbs6": {
+        "lv": "Iegurņa kauli",
+        "en": "Pelvic bones"
+    },
+    "frog.limbs7": {
+        "lv": "Augšstilba kauls",
+        "en": "Femur"
+    },
+    "frog.limbs8": {
+        "lv": "Saaugušie lielais lielakauls un mazais lielakauls",
+        "en": "Fused tibia and fibula"
+    },
+    "frog.limbs9": {
+        "lv": "Pēdas kauli",
+        "en": "Foot bones"
+    },
+
+    "jackal.limbs1": {
+        "lv": "Lāpstiņa",
+        "en": "Scapula"
+    },
+    "jackal.limbs2": {
+        "lv": "Augšdelma kauls",
+        "en": "Humerus"
+    },
+    "jackal.limbs3": {
+        "lv": "Elkoņa kauls",
+        "en": "Ulna"
+    },
+    "jackal.limbs4": {
+        "lv": "Spieķa kauls",
+        "en": "Radius"
+    },
+    "jackal.limbs5": {
+        "lv": "Plaukstas kauli",
+        "en": "Carpal bones"
+    },
+    "jackal.limbs6": {
+        "lv": "Iegurņa kauli",
+        "en": "Pelvic bones"
+    },
+    "jackal.limbs7": {
+        "lv": "Augšstilba kauls",
+        "en": "Femur"
+    },
+    "jackal.limbs8": {
+        "lv": "Lielais lielakauls",
+        "en": "Tibia"
+    },
+    "jackal.limbs9": {
+        "lv": "Mazais lielakauls",
+        "en": "Fibula"
+    },
+    "jackal.limbs10": {
+        "lv": "Pēdas kauli",
+        "en": "Foot bones"
+    },
+
+    "lizard.limbs1": {
+        "lv": "Atslēgas kauls",
+        "en": "Clavicle"
+    },
+    "lizard.limbs2": {
+        "lv": "Lāpstiņa",
+        "en": "Scapula"
+    },
+    "lizard.limbs3": {
+        "lv": "Augšdelma kauls",
+        "en": "Humerus"
+    },
+    "lizard.limbs4": {
+        "lv": "Elkoņa kauls",
+        "en": "Ulna"
+    },
+    "lizard.limbs5": {
+        "lv": "Spieķa kauls",
+        "en": "Radius"
+    },
+    "lizard.limbs6": {
+        "lv": "Plaukstas kauli",
+        "en": "Carpal bones"
+    },
+    "lizard.limbs7": {
+        "lv": "Iegurņa kauli",
+        "en": "Pelvic bones"
+    },
+    "lizard.limbs8": {
+        "lv": "Augšstilba kauls",
+        "en": "Femur"
+    },
+    "lizard.limbs9": {
+        "lv": "Lielais lielakauls",
+        "en": "Tibia"
+    },
+    "lizard.limbs10": {
+        "lv": "Mazais lielakauls",
+        "en": "Fibula"
+    },
+    "lizard.limbs11": {
+        "lv": "Pēdas kauli",
+        "en": "Foot bones"
+    },
+
+    "jackal.dog_animation_title": {
+        "lv": "Suņa elpošana",
+        "en": "Dog Breathing"
+    },
     "bird.ribs_animation_title": {
-        "lv": "Ķīļa kauls"
+        "lv": "Ķīļa kauls",
+        "en": "Keel Bone"
+    },
+    "frog.extremities_animation_title": {
+        "lv": "Ekstremitāšu veidi",
+        "en": "Types of Extremities"
+    },
+    "bird.extremities_animation_title": {
+        "lv": "Ekstremitāšu veidi",
+        "en": "Types of Extremities"
+    },
+    "jackal.extremities_animation_title": {
+        "lv": "Ekstremitāšu veidi",
+        "en": "Types of Extremities"
+    },
+    "lizard.extremities_animation_title": {
+        "lv": "Ekstremitāšu veidi",
+        "en": "Types of Extremities"
     }
 }

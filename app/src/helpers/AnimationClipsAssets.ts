@@ -8,7 +8,7 @@ export default [
     ['penguin', '/models/penguin.glb'],
     ['ostritch', '/models/ostritch.glb'],
     ['turtleScene', '/models/turtle-scene.glb'],
-    ['turtleModel', '/models/soronan-mud-turtle.glb'],
+    ['turtleModel', '/models/soronan-mud-turtle-v2.glb'],
 
     ['batLimbsScene', '/models/limbs/bat-scene.glb'],
     ['whaleLimbsScene', '/models/limbs/whale-scene.glb'],

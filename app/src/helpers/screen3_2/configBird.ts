@@ -1,6 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
-import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
+// import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
 
 export default {
     id: 'bird_3_2',
@@ -29,66 +29,66 @@ export default {
     hilightedBones: [
         {
             name: 'p-limbs1',
-            text: 'Atslēgas kauls',
+            text: 'bird.limbs1',
             meshes: ['limbs6'],
         },
         {
             name: 'p-limbs2',
-            text: 'Lāpstiņa',
+            text: 'bird.limbs2',
             meshes: ['limbs1'],
         },
         {
             name: 'p-limbs3',
-            text: 'Augšdelma kauls',
+            text: 'bird.limbs3',
             meshes: ['limbs2'],
         },
         {
             name: 'p-limbs4',
-            text: 'Elkoņa kauls',
+            text: 'bird.limbs4',
             meshes: ['limbs4'],
         },
         {
             name: 'p-limbs5',
-            text: 'Spieķa kauls',
+            text: 'bird.limbs5',
             meshes: ['limbs3'],
         },
         {
             name: 'p-limbs6',
-            text: 'Plaukstas kauli',
+            text: 'bird.limbs6',
             meshes: ['limbs5'],
         },
         {
             name: 'p-limbs7',
-            text: 'Iegurņa kauli',
+            text: 'bird.limbs7',
             meshes: ['limbs7'],
         },
         {
             name: 'p-limbs8',
-            text: 'Augšstilba kauls',
+            text: 'bird.limbs8',
             meshes: ['limbs8'],
         },
         {
             name: 'p-limbs9',
-            text: 'Lielais lielakauls',
+            text: 'bird.limbs9',
             meshes: ['limbs9'],
         },
         {
             name: 'p-limbs10',
-            text: 'Mazais lielakauls',
+            text: 'bird.limbs10',
             meshes: ['limbs10'],
         },
         {
             name: 'p-limbs11',
-            text: 'Pēdas kauli',
+            text: 'bird.limbs11',
             meshes: ['limbs11'],
         },
     ],
-    animationComponent: ViewerLimbs,
-    animationTitle: 'Ekstremitāšu veidi',
-    animationProps: {
-        initiallyActive: 4,
-    },
-    animationPlaceholderUrl: '/img/3_2_bird.png',
+    // animationComponent: ViewerLimbs,
+    // animationTitle: 'bird.extremities_animation_titlei',
+    // animationProps: {
+    //     initiallyActive: 4,
+    // },
+    // animationPlaceholderUrl: '/img/3_2_bird.png',
     activePoints: [
         {
             name: '1',

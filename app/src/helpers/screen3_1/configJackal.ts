@@ -29,17 +29,17 @@ export default {
     hilightedBones: [
         {
             name: 'p-ribs1',
-            text: 'Ribas',
+            text: 'jackal.ribs1',
             meshes: ['ribs1'],
         },
         {
             name: 'p-ribs2',
-            text: 'Krūšu kauls',
+            text: 'jackal.ribs2',
             meshes: ['ribs2'],
         },
     ],
     animationComponent: ViewerDog,
-    animationTitle: 'Suņa elpošana',
+    animationTitle: 'jackal.dog_animation_title',
     animationPlaceholderUrl: '/img/3_1_dog.png',
     activePoints: [
         {

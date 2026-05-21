@@ -1,6 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
-import ViewerBirds from '@/src/components/Animations/ViewerBirds.vue';
+// import ViewerBirds from '@/src/components/Animations/ViewerBirds.vue';
 
 export default {
     id: 'bird_3_1',
@@ -38,9 +38,9 @@ export default {
             meshes:['ribs2'],
         },        
     ],
-    animationComponent: ViewerBirds,
-    animationTitle: 'bird.ribs_animation_title',
-    animationPlaceholderUrl: '/img/3_1_birds.png',
+    // animationComponent: ViewerBirds,
+    // animationTitle: 'bird.ribs_animation_title',
+    // animationPlaceholderUrl: '/img/3_1_birds.png',
     activePoints: [
         {
             name: '1',

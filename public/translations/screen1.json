@@ -4,66 +4,87 @@
         "lv": ""
     },
     "bird.spine1": {
-        "lv": "Kakla skriemelis"
-    },   
+        "lv": "Kakla skriemeļi",
+        "en": "Cervical Vertebrae"
+    },
     "bird.spine2": {
-        "lv": "Krūšu skriemeļi"
+        "lv": "Krūšu skriemeļi",
+        "en": "Thoracic Vertebrae"
     },
     "bird.spine3": {
-        "lv": "Saliktais krustu kauls"
-    },  
+        "lv": "Saliktais krustu kauls",
+        "en": "Synsacrum"
+    },
     "bird.spine4": {
-        "lv": "Astes skriemeļi"
+        "lv": "Astes skriemeļi",
+        "en": "Caudal Vertebrae"
     },
     "fish.spine1": {
-        "lv": "Vidukļa skriemeļi"
-    }, 
+        "lv": "Vidukļa skriemeļi",
+        "en": "Trunk Vertebrae"
+    },
     "fish.spine2": {
-        "lv": "Astes skriemeļi"
+        "lv": "Astes skriemeļi",
+        "en": "Caudal Vertebrae"
     },
     "frog.spine1": {
-        "lv": "Kakla skriemelis"
-    },      
+        "lv": "Kakla skriemelis",
+        "en": "Cervical Vertebra"
+    },
     "frog.spine2": {
-        "lv": "Vidukļa skriemeļi"
-    },          
+        "lv": "Vidukļa skriemeļi",
+        "en": "Trunk Vertebrae"
+    },
     "frog.spine3": {
-        "lv": "Krustu skriemelis"
+        "lv": "Krustu skriemelis",
+        "en": "Sacral Vertebra"
     },
     "frog.spine4": {
-        "lv": "Urostils - saaugušie astes skriemeļi"
+        "lv": "Urostils - saaugušie astes skriemeļi",
+        "en": "Urostyle - Fused Caudal Vertebrae"
     },
     "jackal.spine1": {
-        "lv": "Kakla skriemeļi"
+        "lv": "Kakla skriemeļi",
+        "en": "Cervical Vertebrae"
     },
     "jackal.spine2": {
-        "lv": "Krūšu skriemeļi"
+        "lv": "Krūšu skriemeļi",
+        "en": "Thoracic Vertebrae"
     },
     "jackal.spine3": {
-        "lv": "Jostas skriemeļi"
+        "lv": "Jostas skriemeļi",
+        "en": "Lumbar Vertebrae"
     },
     "jackal.spine4": {
-        "lv": "Krustu skriemeļi"
+        "lv": "Krustu skriemeļi",
+        "en": "Sacral Vertebrae"
     },
     "jackal.spine5": {
-        "lv": "Astes skriemeļi"
+        "lv": "Astes skriemeļi",
+        "en": "Caudal Vertebrae"
     },
     "lizard.spine1": {
-        "lv": "Kakla skriemeļi"
+        "lv": "Kakla skriemeļi",
+        "en": "Cervical Vertebrae"
     },
     "lizard.spine2": {
-        "lv": "Krūšu un jostas skriemeļi"
+        "lv": "Krūšu un jostas skriemeļi",
+        "en": "Thoracic and Lumbar Vertebrae"
     },
     "lizard.spine3": {
-        "lv": "Krustu skriemeļi"
+        "lv": "Krustu skriemeļi",
+        "en": "Sacral Vertebrae"
     },
     "lizard.spine4": {
-        "lv": "Astes skriemeļi"
+        "lv": "Astes skriemeļi",
+        "en": "Caudal Vertebrae"
     },
     "jackal.spine_animation_title": {
-        "lv": "Kaķa mugurkaula lokanība"
+        "lv": "Kaķa mugurkaula lokanība",
+        "en": "Flexibility of a Cat's Spine"
     },
     "jackal.turtle_animation_title": {
-        "lv": "Bruņurupuča kakla ievilkšana"
+        "lv": "Bruņurupuča kakla ievilkšana",
+        "en": "Turtle Neck Retraction"
     }
 }

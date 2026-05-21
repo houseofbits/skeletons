@@ -31,7 +31,6 @@ function logCamera() {
   // console.log(render3d.camera);
 }
 
-
 watch(
   () => props.isVisible,
   (val) => {

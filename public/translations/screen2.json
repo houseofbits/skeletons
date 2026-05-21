@@ -16,33 +16,43 @@
         "lv": ""
     },
     "bird.skull1": {
-        "lv": "Smadzeņu nodalījums"
+        "lv": "Smadzeņu nodalījums",
+        "en": "Braincase"
     },
     "bird.skull2": {
-        "lv": "Sejas nodalījums"
+        "lv": "Sejas nodalījums",
+        "en": "Facial Region"
     },
     "fish.skull1": {
-        "lv": "Smadzeņu nodalījums"
-    }, 
+        "lv": "Smadzeņu nodalījums",
+        "en": "Braincase"
+    },
     "fish.skull2": {
-        "lv": "Sejas nodalījums"
+        "lv": "Sejas nodalījums",
+        "en": "Facial Region"
     },
     "frog.skull1": {
-        "lv": "Smadzeņu nodalījums"
+        "lv": "Smadzeņu nodalījums",
+        "en": "Braincase"
     },
     "frog.skull2": {
-        "lv": "Sejas nodalījums"
+        "lv": "Sejas nodalījums",
+        "en": "Facial Region"
     },
     "jackal.skull1": {
-        "lv": ""
+        "lv": "Smadzeņu nodalījums",
+        "en": "Braincase"
     },
     "jackal.skull2": {
-        "lv": ""
+        "lv": "Sejas nodalījums",
+        "en": "Facial Region"
     },
     "lizard.skull1": {
-        "lv": "Smadzeņu nodalījums"
+        "lv": "Smadzeņu nodalījums",
+        "en": "Braincase"
     },
     "lizard.skull2": {
-        "lv": "Sejas nodalījums"
-    } 
+        "lv": "Sejas nodalījums",
+        "en": "Facial Region"
+    }
 }

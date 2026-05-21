@@ -7,5 +7,5 @@ export default [
     ['catScene', '/models/cat-fall-scene.FBX'],
     ['catFall', '/models/catFall_03.fbx'],    
     ['turtleScene', '/models/turtle-scene.glb'],
-    ['turtleModel', '/models/soronan-mud-turtle.glb'],
+    ['turtleModel', '/models/soronan-mud-turtle-v2.glb'],
 ] as const;

@@ -1,6 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
-import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
+// import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
 
 export default {
     id: 'jackal_3_2',
@@ -29,61 +29,61 @@ export default {
     hilightedBones: [
         {
             name: 'p-limbs1',
-            text: 'Lāpstiņa',
-            meshes:['limbs2'],
+            text: 'jackal.limbs1',
+            meshes: ['limbs2'],
         },
         {
             name: 'p-limbs2',
-            text: 'Augšdelma kauls',
-            meshes:['limbs4'],
+            text: 'jackal.limbs2',
+            meshes: ['limbs4'],
         },
         {
             name: 'p-limbs3',
-            text: 'Elkoņa kauls',
-            meshes:['limbs7'],
+            text: 'jackal.limbs3',
+            meshes: ['limbs7'],
         },
         {
             name: 'p-limbs4',
-            text: 'Spieķa kauls',
-            meshes:['limbs8'],
+            text: 'jackal.limbs4',
+            meshes: ['limbs8'],
         },
         {
             name: 'p-limbs5',
-            text: 'Plaukstas kauli',
-            meshes:['limbs10'],
+            text: 'jackal.limbs5',
+            meshes: ['limbs10'],
         },
         {
             name: 'p-limbs6',
-            text: 'Iegurņa kauli',
-            meshes:['limbs1'],
+            text: 'jackal.limbs6',
+            meshes: ['limbs1'],
         },
         {
             name: 'p-limbs7',
-            text: 'Augšstilba kauls',
-            meshes:['limbs3'],
-        }, 
+            text: 'jackal.limbs7',
+            meshes: ['limbs3'],
+        },
         {
             name: 'p-limbs8',
-            text: 'Lielais lielakauls',
-            meshes:['limbs5'],
-        },  
+            text: 'jackal.limbs8',
+            meshes: ['limbs5'],
+        },
         {
             name: 'p-limbs9',
-            text: 'Mazais lielakauls',
-            meshes:['limbs6'],
+            text: 'jackal.limbs9',
+            meshes: ['limbs6'],
         },
         {
             name: 'p-limbs10',
-            text: 'Pēdas kauli',
-            meshes:['limbs9'],
+            text: 'jackal.limbs10',
+            meshes: ['limbs9'],
         },
     ],
-    animationComponent: ViewerLimbs,
-    animationTitle: 'Ekstremitāšu veidi',
-    animationProps: {
-        initiallyActive: 5,
-    },
-    animationPlaceholderUrl: '/img/3_2_lion.png',
+    // animationComponent: ViewerLimbs,
+    // animationTitle: 'jackal.extremities_animation_title',
+    // animationProps: {
+    //     initiallyActive: 5,
+    // },
+    // animationPlaceholderUrl: '/img/3_2_lion.png',
     activePoints: [
         {
             name: '1',

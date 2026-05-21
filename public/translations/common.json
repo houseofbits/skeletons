@@ -4,51 +4,67 @@
         "en": "Fish"
     },
     "common.title_frog": {
-        "lv": "Abinieki"
+        "lv": "Abinieki",
+        "en": "Amphibians"
     },
     "common.title_lizard": {
-        "lv": "Rāpuļi"
+        "lv": "Rāpuļi",
+        "en": "Reptiles"
     },
     "common.title_pigeon": {
-        "lv": "Putni"
+        "lv": "Putni",
+        "en": "Birds"
     },
     "common.title_jackal": {
-        "lv": "Zīdītāji"
+        "lv": "Zīdītāji",
+        "en": "Mammals"
     },
     "common.extremities_group": {
-        "lv": "Ekstremitātes un to joslas"
+        "lv": "Ekstremitātes un to joslas",
+        "en": "Extremities and Their Girdles"
     },
     "common.ribs_group": {
-        "lv": "Ribas un krūšu kauls"
-    },  
+        "lv": "Ribas un krūšu kauls",
+        "en": "Ribs and Sternum"
+    },
     "common.back_button": {
-        "lv": "Atpakaļ"
+        "lv": "Atpakaļ",
+        "en": "Back"
     },
     "common.choose_group_hint": {
-        "lv": "Izvēlies grupu"
-    },  
+        "lv": "Izvēlies grupu",
+        "en": "Choose a Group"
+    },
     "common.learn_more_hint": {
-        "lv": "Izzini sīkāk"
+        "lv": "Izzini sīkāk",
+        "en": "Learn More"
     },
     "common.ribs_group_title": {
-        "lv": "Ribas"
+        "lv": "Ribas",
+        "en": "Ribs"
     },
     "common.ribs_group_subtitle": {
-        "lv": "un krūšu kauls"
+        "lv": "un krūšu kauls",
+        "en": "and Sternum"
     },
     "common.extremities_group_title": {
-        "lv": "Ekstremitātes"
-    },  
+        "lv": "Ekstremitātes",
+        "en": "Extremities"
+    },
     "common.extremities_group_subtitle": {
-        "lv": "un to joslas"
+        "lv": "un to joslas",
+        "en": "and Their Girdles"
     },
     "common.rotate_hint": {
-        "lv": "Pagriez lai apskatītu no visām pusēm"
+        "lv": "Pagriez lai apskatītu no visām pusēm",
+        "en": "Rotate to View from All Sides"
     },
     "common.skeleton_parts_title": {
-        "lv": "Skeleta daļas"
+        "lv": "Skeleta daļas",
+        "en": "Skeleton Parts"
     },
     "common.skeleton_parts_subtitle": {
-        "lv": "Spied uz kādu no grupām, lai apskatītu kaulu un tā atrašanās vietu skeletā!"
-    }                      
+        "lv": "Spied uz kādu no grupām, lai apskatītu kaulu un tā atrašanās vietu skeletā!",
+        "en": "Tap One of the Groups to View the Bone and Its Location in the Skeleton!"
+    }
 }

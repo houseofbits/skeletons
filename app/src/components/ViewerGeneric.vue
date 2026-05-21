@@ -81,7 +81,7 @@ onMounted(() => {
     action.play();
   }
 
-  render3d.registerRenderCallback(() => {
+  render3d.registerRenderCallback((delta) => {
     if (mixer) {
       mixer.update(delta);
     }

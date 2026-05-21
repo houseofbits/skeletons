@@ -1,6 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
-import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
+// import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
 
 export default {
     id: 'lizard_3_2',
@@ -29,66 +29,66 @@ export default {
     hilightedBones: [
         {
             name: 'p-limbs1',
-            text: 'Atslēgas kauls',
-            meshes:['limbs2'],
+            text: 'lizard.limbs1',
+            meshes: ['limbs2'],
         },
         {
             name: 'p-limbs2',
-            text: 'Lāpstiņa',
-            meshes:['limbs1'],
+            text: 'lizard.limbs2',
+            meshes: ['limbs1'],
         },
         {
             name: 'p-limbs3',
-            text: 'Augšdelma kauls',
-            meshes:['limbs4'],
+            text: 'lizard.limbs3',
+            meshes: ['limbs4'],
         },
         {
             name: 'p-limbs4',
-            text: 'Elkoņa kauls',
-            meshes:['limbs5'],
+            text: 'lizard.limbs4',
+            meshes: ['limbs5'],
         },
         {
             name: 'p-limbs5',
-            text: 'Spieķa kauls',
-            meshes:['limbs6'],
+            text: 'lizard.limbs5',
+            meshes: ['limbs6'],
         },
         {
             name: 'p-limbs6',
-            text: 'Plaukstas kauli',
-            meshes:['limbs7'],
+            text: 'lizard.limbs6',
+            meshes: ['limbs7'],
         },
         {
             name: 'p-limbs7',
-            text: 'Iegurņa kauli',
-            meshes:['limbs3'],
+            text: 'lizard.limbs7',
+            meshes: ['limbs3'],
         },
         {
             name: 'p-limbs8',
-            text: 'Augšstilba kauls',
-            meshes:['limbs8'],
-        }, 
+            text: 'lizard.limbs8',
+            meshes: ['limbs8'],
+        },
         {
             name: 'p-limbs9',
-            text: 'Lielais lielakauls',
-            meshes:['limbs9'],
-        },  
+            text: 'lizard.limbs9',
+            meshes: ['limbs9'],
+        },
         {
             name: 'p-limbs10',
-            text: 'Mazais lielakauls',
-            meshes:['limbs10'],
+            text: 'lizard.limbs10',
+            meshes: ['limbs10'],
         },
         {
             name: 'p-limbs11',
-            text: 'Pēdas kauli',
-            meshes:['limbs11'],
-        },                                                
+            text: 'lizard.limbs11',
+            meshes: ['limbs11'],
+        },                                               
     ],
-    animationComponent: ViewerLimbs,
-    animationTitle: 'Ekstremitāšu veidi',
-    animationProps: {
-        initiallyActive: 0,
-    },
-    animationPlaceholderUrl: '/img/3_2_bat.png',
+    // animationComponent: ViewerLimbs,
+    // animationTitle: 'lizard.extremities_animation_title',
+    // animationProps: {
+    //     initiallyActive: 0,
+    // },
+    // animationPlaceholderUrl: '/img/3_2_bat.png',
     activePoints: [
         {
             name: '1',

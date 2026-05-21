@@ -28,12 +28,12 @@ export default {
     hilightedBones: [
         {
             name: 'p-ribs1',
-            text: 'Ribas',
+            text: 'lizard.ribs1',
             meshes: ['ribs1'],
         },
         {
             name: 'p-ribs2',
-            text: 'Krūšu kauls',
+            text: 'lizard.ribs2',
             meshes: ['ribs2'],
         },
     ],

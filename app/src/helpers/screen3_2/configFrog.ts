@@ -1,6 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
-import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
+// import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
 
 export default {
     id: 'frog_3_2',
@@ -29,56 +29,56 @@ export default {
     hilightedBones: [
         {
             name: 'p-limbs1',
-            text: 'Atslēgas kauls',
-            meshes:['limbs7'],
+            text: 'frog.limbs1',
+            meshes: ['limbs7'],
         },
         {
             name: 'p-limbs2',
-            text: 'Lāpstiņa',
-            meshes:['limbs1'],
+            text: 'frog.limbs2',
+            meshes: ['limbs1'],
         },
         {
             name: 'p-limbs3',
-            text: 'Augšdelma kauls',
-            meshes:['limbs3'],
+            text: 'frog.limbs3',
+            meshes: ['limbs3'],
         },
         {
             name: 'p-limbs4',
-            text: 'Saaugušie spieķa kauls un elkoņa kauls',
-            meshes:['limbs4'],
+            text: 'frog.limbs4',
+            meshes: ['limbs4'],
         },
         {
             name: 'p-limbs5',
-            text: 'Plaukstas kauli',
-            meshes:['limbs8'],
+            text: 'frog.limbs5',
+            meshes: ['limbs8'],
         },
         {
             name: 'p-limbs6',
-            text: 'Iegurņa kauli',
-            meshes:['limbs2'],
+            text: 'frog.limbs6',
+            meshes: ['limbs2'],
         },
         {
             name: 'p-limbs7',
-            text: 'Augšstilba kauls',
-            meshes:['limbs5'],
+            text: 'frog.limbs7',
+            meshes: ['limbs5'],
         },
         {
             name: 'p-limbs8',
-            text: 'Saaugušie lielais lielakauls un mazais lielakauls',
-            meshes:['limbs6'],
-        }, 
+            text: 'frog.limbs8',
+            meshes: ['limbs6'],
+        },
         {
             name: 'p-limbs9',
-            text: 'Pēdas kauli',
-            meshes:['limbs9'],
-        },                                
+            text: 'frog.limbs9',
+            meshes: ['limbs9'],
+        },                             
     ],
-    animationComponent: ViewerLimbs,
-    animationTitle: 'Ekstremitāšu veidi',
-    animationProps: {
-        initiallyActive: 3,
-    },
-    animationPlaceholderUrl: '/img/3_2_frog.png',
+    // animationComponent: ViewerLimbs,
+    // animationTitle: 'frog.extremities_animation_title',
+    // animationProps: {
+    //     initiallyActive: 3,
+    // },
+    // animationPlaceholderUrl: '/img/3_2_frog.png',
     activePoints: [
         {
             name: '1',

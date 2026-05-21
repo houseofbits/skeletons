@@ -143,7 +143,7 @@ if (props.animate) {
     if (areNavTilesView()) {
       service.resolveTiles(updateTiles);
     }
-  }, 2000);
+  }, 4000);
 }
 
 </script>
