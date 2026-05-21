@@ -1,8 +1,9 @@
 <template>
   <div>
     <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-    <!-- <PlayButton class="btn-play" @click="playPauseAnimation" :is-playing="isAnimationPlaying" /> -->
   </div>
+
+  <RotationIcon :is-active="isRotationIconActive" />
 </template>
 
 <script setup>
@@ -17,6 +18,7 @@ import gsap from "gsap";
 import PlayButton from "@src/components/PlayButton.vue";
 import { mx_bilerp_0 } from "three/src/nodes/materialx/lib/mx_noise.js";
 import { useCameraController } from "@src/composables/CameraController";
+import RotationIcon from "@src/components/RotationIcon.vue";
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -33,6 +35,7 @@ const animation = {
   animatedSpeed: 0,
 };
 
+const isRotationIconActive = ref(true);
 const container = ref(null);
 const isAnimationPlaying = ref(false);
 let render3d, mixer, cameraController;
@@ -73,11 +76,9 @@ watch(
 );
 
 watch(() => props.isActive, (newVal) => {
-  // if (newVal) {
-  //   playAnimation(true);
-  // } else {
-  //   pauseAnimation();
-  // }
+  if (newVal) {
+    isRotationIconActive.value = true;
+  }
 }, { immediate: true });
 
 function logCamera() {
@@ -86,11 +87,7 @@ function logCamera() {
 }
 
 function playPauseAnimation() {
-  // if (isAnimationPlaying.value) {
-  //   pauseAnimation();
-  // } else {
-  //   playAnimation();
-  // }
+
 }
 
 function initAnimation() {
@@ -101,74 +98,6 @@ function initAnimation() {
     animation.action = animation.mixer.clipAction(clips[0]);
     animation.mixer.timeScale = 0.3;
     animation.action.play();
-
-    // animation.action.setLoop(THREE.LoopOnce);
-    // animation.action.paused = true;
-    // animation.action.clampWhenFinished = false;
-    // animation.action.time = 0;
-
-    // animation.gsapTimeline = gsap.timeline({
-    //   paused: true,
-    //   onComplete: () => {
-    //     animation.action.paused = true;
-    //     isAnimationPlaying.value = false;
-    //     animation.hasFinished = true;
-    //   },
-    // });
-
-    // animation.gsapTimeline
-    //   // forward
-    //   .to({ speed: 0 }, {
-    //     speed: 0.5,
-    //     duration: 6.5,
-    //     ease: "power1.inOut",
-    //     onUpdate() {
-    //       animation.animatedSpeed = this.targets()[0].speed;
-    //     },
-    //   })
-    //   .to(shellMaterial, {
-    //     opacity: 0.5,
-    //     duration: 1,
-    //     delay: 5.5,
-    //     ease: "power1.inOut",
-    //   }, "<")
-    //   .to({ speed: 0.5 }, {
-    //     speed: 0,
-    //     duration: 4,
-    //     ease: "power1.out",
-    //     onUpdate() {
-    //       animation.animatedSpeed = this.targets()[0].speed;
-    //     },
-    //   })
-    //   .to(shellMaterial, {
-    //     opacity: 0,
-    //     duration: 1,
-    //     ease: "power1.out",
-    //   }, "<")
-    //   // reverse
-    //   .to({ speed: 0 }, {
-    //     speed: -0.5,
-    //     duration: 6,
-    //     ease: "power1.inOut",
-    //     onUpdate() {
-    //       animation.animatedSpeed = this.targets()[0].speed;
-    //     },
-    //   })
-    //   .to(shellMaterial, {
-    //     opacity: 1,
-    //     duration: 2,
-    //     ease: "power1.out",
-    //     delay: 4,
-    //   }, "<")
-    //   // slow to stop
-    //   .to({ speed: -0.5 }, {
-    //     speed: 0,
-    //     duration: 4,
-    //     ease: "power1.out",
-    //     onUpdate() {
-    //       animation.animatedSpeed = this.targets()[0].speed;
-    //     },
-    //   });
   }
 }
 
@@ -210,6 +139,9 @@ onMounted(() => {
   model.name = "Group";
 
   const pivotRotation = usePivotRotation(container.value);
+  pivotRotation.setOnRotationCallback(() => {
+    isRotationIconActive.value = false;
+  }); 
   pivotRotation.setEnabled(true);
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);
@@ -222,9 +154,6 @@ onMounted(() => {
 
       if (
         child.material.name === "defaultPolygonShader"
-        // child.material.name === "shell" ||
-        // child.material.name === "caparaceHalf_R" ||
-        // child.material.name === "caparace_full"
       ) {
         child.material = shellMaterial.clone();
       } else if (child.material.name === "backbone_MAT") {
@@ -232,11 +161,6 @@ onMounted(() => {
       } else {
         child.material = boneMaterial.clone();
       }
-
-      // if (child.name === "caparace_full") {
-      //   child.visible = false;
-      // }
-
     }
   });
 
@@ -291,14 +215,6 @@ onMounted(() => {
         shellMaterial.opacity = 0.0;
       }
     }
-    // if (animation.mixer && animation.action.paused === false) {
-    //   // if (animation.animatedSpeed !== 0) {
-    //     const dt = delta * 1.0;//animation.animatedSpeed;
-    //     animation.action.time += dt;
-    //     animation.action.time = Math.max(0, Math.min(animation.action.time, animation.action.getClip().duration));
-    //   // }
-    //   animation.mixer.update(0);
-    // }
   });
 
   onBeforeUnmount(render3d.dispose);

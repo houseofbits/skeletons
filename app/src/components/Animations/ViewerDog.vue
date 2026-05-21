@@ -2,6 +2,8 @@
   <div>
     <div ref="container" class="fbx-viewer" @click="logCamera"></div>
   </div>
+
+  <RotationIcon :is-active="isRotationIconActive" />
 </template>
 
 <script setup>
@@ -13,6 +15,7 @@ import { useRenderer3D } from "@src/composables/Renderer3D";
 import usePivotRotation from "@src/composables/PivotRotation";
 import { boneMaterial, boneHilightMaterial } from "@src/helpers/Materials";
 import { useCameraController } from "@src/composables/CameraController";
+import RotationIcon from "@src/components/RotationIcon.vue";
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -21,6 +24,7 @@ const props = defineProps({
   isVisible: { type: Boolean, default: true },
 });
 
+const isRotationIconActive = ref(true);
 const originalBoneMaterialColor = 14997948;
 const container = ref(null);
 let render3d, mixer, cameraController;
@@ -42,6 +46,12 @@ watch(
   },
 );
 
+watch(() => props.isActive, (newVal) => {
+  if (newVal) {
+    isRotationIconActive.value = true;
+  }
+}, { immediate: true });
+
 onMounted(() => {
   cameraController = useCameraController('turtle-camera', container.value, false);
   render3d = initRenderer3D();
@@ -62,6 +72,9 @@ onMounted(() => {
   model.name = 'Group';
 
   const pivotRotation = usePivotRotation(container.value);
+  pivotRotation.setOnRotationCallback(() => {
+    isRotationIconActive.value = false;
+  });
   pivotRotation.setEnabled(true);
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);

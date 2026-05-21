@@ -4,6 +4,8 @@
     <PlayButton class="btn-play" @click="playPauseAnimation" :is-playing="isAnimationPlaying" />
     <div class="divider-border-cat"></div>
   </div>
+
+  <RotationIcon :is-active="isRotationIconActive" />
 </template>
 
 <script setup>
@@ -17,6 +19,7 @@ import usePivotRotation from "@src/composables/PivotRotation";
 import { boneMaterial, boneHilightMaterial } from "@src/helpers/Materials";
 import gsap from "gsap";
 import PlayButton from "@src/components/PlayButton.vue";
+import RotationIcon from "@src/components/RotationIcon.vue";
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -25,6 +28,7 @@ const props = defineProps({
   isVisible: { type: Boolean, default: true },
 });
 
+const isRotationIconActive = ref(true);
 const originalBoneMaterialColor = 14997948;
 const container = ref(null);
 let render3d, mixer, cameraController;
@@ -90,6 +94,7 @@ watch(
 watch(() => props.isActive, (newVal) => {
   if (newVal) {
     playAnimation(true);
+    isRotationIconActive.value = true;
   } else {
     pauseAnimation();
   }
@@ -171,6 +176,9 @@ onMounted(() => {
   const model = ScenePreloadService.getAsset("catFall");
   model.name = "Group";
   const pivotRotation = usePivotRotation(container.value);
+  pivotRotation.setOnRotationCallback(() => {
+    isRotationIconActive.value = false;
+  });
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);
   pivot = pivotRotation.pivot;
