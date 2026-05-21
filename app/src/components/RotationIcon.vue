@@ -34,7 +34,7 @@ const props = defineProps<{
     padding: 12px;
     padding-bottom: 18px;
     padding-top: 18px;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
     stroke: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     gap: 12px;

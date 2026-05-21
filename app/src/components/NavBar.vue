@@ -253,6 +253,7 @@ nav {
   margin-left:8px;
   transition: opacity 0.3s ease;
   cursor: pointer;
+  box-shadow: 0 2px 5px  rgba(0, 0, 0, 0.3);
 
   &.active {
     opacity: 1;

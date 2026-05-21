@@ -34,5 +34,23 @@
     "lizard.activePoints.limbs3.text": {
         "en": "limbs3",
         "lv": "limbs3"
-    }          
+    },
+    "bird.ribs1": {
+        "lv": "Ribas"
+    },
+    "bird.ribs2": {
+        "lv": "Krūšu kauls"
+    },
+    "fish.ribs1": {
+        "lv": "Ribas"
+    },
+    "frog.ribs1": {
+        "lv": "Krūšu kauls"
+    },
+    
+    
+
+    "bird.ribs_animation_title": {
+        "lv": "Ķīļa kauls"
+    }
 }

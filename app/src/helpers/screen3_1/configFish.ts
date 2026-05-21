@@ -28,7 +28,7 @@ export default {
     hilightedBones: [
         {
             name: 'p-ribs1',
-            text: 'Ribas',
+            text: 'fish.ribs1',
             meshes: ['ribs1'],
         },
     ],

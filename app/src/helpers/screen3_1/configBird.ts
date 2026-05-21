@@ -29,17 +29,17 @@ export default {
     hilightedBones: [
         {
             name: 'p-ribs1',
-            text: 'Ribas',
+            text: 'bird.ribs1',
             meshes:['ribs1'],
         },
         {
             name: 'p-ribs2',
-            text: 'Krūšu kauls',
+            text: 'bird.ribs2',
             meshes:['ribs2'],
         },        
     ],
     animationComponent: ViewerBirds,
-    animationTitle: 'Ķīļa kauls',
+    animationTitle: 'bird.ribs_animation_title',
     animationPlaceholderUrl: '/img/3_1_birds.png',
     activePoints: [
         {
