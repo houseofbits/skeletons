@@ -189,9 +189,8 @@ onMounted(() => {
 
             & .list-item {
                 padding-left: 32px;
-                height: 64px;
-                min-height: 64px;
-                width: 100%;
+                padding-top: 18px;
+                padding-bottom: 18px;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                 display: flex;
                 justify-content: start;
@@ -200,6 +199,9 @@ onMounted(() => {
                 font-size: 18px;
                 font-weight: regular;
                 transition: all 0.4s ease;
+                white-space: normal;
+                word-break: break-word;
+                height: auto; // allow growth
 
                 &.selected {
                     background: rgba(255, 255, 255, 0.1);
