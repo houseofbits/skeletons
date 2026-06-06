@@ -67,7 +67,7 @@ export function useRenderer3D() {
     function initRenderer3D(): Renderer3D {
         // Scene
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0, 0, 0);
+        scene.background = new THREE.Color(255, 0, 0);
 
         function dispose() {
             stopRendering();

@@ -54,5 +54,9 @@
     "lizard.skull2": {
         "lv": "Sejas nodalījums",
         "en": "Facial Region"
-    }
+    },
+    "fish.shark_jaws_animation_title": {
+        "lv": "Haizivs žoklis",
+        "en": "Shark jaw"
+    }    
 }

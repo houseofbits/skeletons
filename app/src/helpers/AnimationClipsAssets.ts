@@ -19,4 +19,7 @@ export default [
 
     ['owlNeckScene', '/models/owl-neck-scene.glb'],
     ['owlNeck', '/models/owl-neck-animated.glb'],
+
+    ['sharkScene', '/models/shark-scene.glb'],
+    ['sharkJaw', '/models/shark-animation.glb'],    
 ] as const;

@@ -1,5 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
+import ViewerShark from '@/src/components/Animations/ViewerShark.vue';
 
 export default {
     id: 'fish_2',
@@ -59,4 +60,7 @@ export default {
             modelNodeName: 'p-skull4',
         },                        
     ],
+    animationComponent: ViewerShark,
+    animationTitle: 'fish.shark_jaws_animation_title',    
+    animationPlaceholderUrl: '/img/shark-jaw-thumb.png',
 } as const;

@@ -8,7 +8,8 @@ export default function usePivotRotation(domElement: HTMLBaseElement) {
   let isEnabled: boolean = false;
   let enabledCallback: CallableFunction = () => true;
   let onRotationCallback: CallableFunction = () => true;
-
+  let minLimit: number|null = null;
+  let maxLimit: number|null = null;
 
   domElement.addEventListener("pointerdown", (e) => {
     if (!isEnabled || !enabledCallback()) {
@@ -36,6 +37,14 @@ export default function usePivotRotation(domElement: HTMLBaseElement) {
     if (Math.abs(pivot.rotation.y) > Math.PI * 2) {
       pivot.rotation.y = 0;
     }
+
+    if (minLimit !== null && pivot.rotation.y < minLimit) {
+      pivot.rotation.y = minLimit;
+    }
+    if (maxLimit !== null && pivot.rotation.y > maxLimit) {
+      pivot.rotation.y = maxLimit;
+    }
+
     onRotationCallback();
   });
 
@@ -55,10 +64,16 @@ export default function usePivotRotation(domElement: HTMLBaseElement) {
     onRotationCallback = callback;
   }
 
+  function setLimits(min: number|null, max: number|null) {
+    minLimit = min;
+    maxLimit = max;
+  }
+
   return {
     pivot,
     setEnabled,
     setEnabledCallback,
     setOnRotationCallback,
+    setLimits,
   };
 };

@@ -10,6 +10,7 @@
     <li @click="selectedCompIndex = 3">Bird breastbones</li>
     <li @click="selectedCompIndex = 4">Cat fall</li>
     <li @click="selectedCompIndex = 5">Owl neck</li>
+    <li @click="selectedCompIndex = 6">Shark</li>
 
   </ul>
 </template>
@@ -21,6 +22,7 @@ import ViewerDog from "@src/components/Animations/ViewerDog.vue";
 import ViewerBirds from "@src/components/Animations/ViewerBirds.vue";
 import ViewerTurtle from "@src/components/Animations/ViewerTurtle.vue";
 import ViewerOwl from "@src/components/Animations/ViewerOwl.vue";
+import ViewerShark from "@src/components/Animations/ViewerShark.vue";
 import { ref } from "vue";
 
 const comps = [
@@ -30,6 +32,7 @@ const comps = [
   ViewerBirds,
   ViewerCat,  
   ViewerOwl,
+  ViewerShark,
 ];
 
 const selectedCompIndex = ref(0);
