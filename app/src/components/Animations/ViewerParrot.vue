@@ -28,6 +28,10 @@ const isRotationIconActive = ref(true);
 const originalBoneMaterialColor = 14997948;
 const container = ref(null);
 let render3d, mixer, cameraController;
+let beakMaterial = boneMaterial.clone();
+
+let fadeTarget = 1.0;
+let fadeSpeed = 0.1;
 
 function logCamera() {
   console.log("Camera position: ", cameraController.camera.position.x, cameraController.camera.position.y, cameraController.camera.position.z);
@@ -102,17 +106,14 @@ onMounted(() => {
       }
 
       if (child.material.name === 'beak_MAT') {
-        child.material = boneMaterial.clone();
-        child.material.transparent = true;
-        child.material.opacity = 0.65;
+        child.material = beakMaterial;
+
+        beakMaterial.transparent = true;
+        beakMaterial.opacity = 0.3;
+
         child.castShadow = false;
-        child.receiveShadow = false;
-
-				// child.material.transparent = false;
-				child.material.depthWrite = true;        
-				// child.material.alphaHash = true;        
+        // child.receiveShadow = false;
       }
-
     }
   });
 
@@ -126,7 +127,7 @@ onMounted(() => {
     // console.log(animatedModel);
     const clips = animatedModel.animations;
     mixer = new THREE.AnimationMixer(animatedModel)
-    mixer.timeScale = 0.8;//0.2;
+    mixer.timeScale = 0.6;//0.2;
 
     const action = mixer.clipAction(clips[0]);
     action.time = 0;//200 / 30;
@@ -136,6 +137,20 @@ onMounted(() => {
   render3d.registerRenderCallback((delta) => {
     if (mixer) {
       mixer.update(delta);
+    }
+
+    if (beakMaterial && beakMaterial.opacity !== fadeTarget) {
+      const sign = ((beakMaterial.opacity - fadeTarget) > 0) ? -1 : 1;
+
+      beakMaterial.opacity += fadeSpeed * delta * sign;
+
+      beakMaterial.opacity = Math.max(0.2, Math.min(1.0, beakMaterial.opacity));
+
+      if (beakMaterial.opacity + 0.01 > fadeTarget && beakMaterial.opacity - 0.01 < fadeTarget) {
+        beakMaterial.opacity = fadeTarget;
+      }
+    } else {
+        fadeTarget = fadeTarget === 1.0 ? 0.2 : 1.0;
     }
   });
 

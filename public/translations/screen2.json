@@ -58,5 +58,11 @@
     "fish.shark_jaws_animation_title": {
         "lv": "Haizivs žoklis",
         "en": "Shark jaw"
-    }    
+    },
+    "bird.parrot_beak_animation_title": {
+        "lv": "Papagaiļa knābis",
+        "en": "Parrot's beak"
+    }      
+    
+    
 }
