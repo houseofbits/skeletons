@@ -6,4 +6,6 @@ export default [
     ['jackal', '/models/jackal.FBX'],
     ['sharkScene', '/models/shark-scene.glb'],
     ['sharkJaw', '/models/shark-animation.glb'],    
+    ['parrotScene', '/models/macaw-skull-scene.glb'],
+    ['parrotAnimation', '/models/macaw-skull-animation.glb'],  
 ] as const;

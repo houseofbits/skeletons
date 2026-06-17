@@ -1,5 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
+import ViewerParrot from '@/src/components/Animations/ViewerParrot.vue';
 
 export default {
     id: 'bird_2',
@@ -44,4 +45,7 @@ export default {
             modelNodeName: 'p-skull1',
         },
     ],
+    animationComponent: ViewerParrot,
+    animationTitle: 'bird.parrot_beak_animation_title',    
+    animationPlaceholderUrl: '/img/parrot-animation-thumb.png',    
 } as const;
