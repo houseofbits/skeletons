@@ -63,8 +63,8 @@ onMounted(() => {
     render3d.startRendering(container.value, cameraController);
   }
 
-  cameraController.camera.position.set(-35.66040362386572, 10.952655820159206, -12.912810193602347);
-  cameraController.controls.target.set(-0.03861480624283296, 11.349549765498427, 0.030359242324667364);
+  cameraController.camera.position.set(-28.41240733931598, 11.001275728360024, -11.975971791882333);
+  cameraController.controls.target.set(0.10698804565204355, 12.577050311606483, -0.4715631131226588);
 
   cameraController.camera.fov = 25;
   cameraController.controls.update();
