@@ -34,8 +34,8 @@ let fadeTarget = 1.0;
 let fadeSpeed = 0.1;
 
 function logCamera() {
-  console.log("Camera position: ", cameraController.camera.position.x, cameraController.camera.position.y, cameraController.camera.position.z);
-  console.log("Camera target: ", cameraController.controls.target.x, cameraController.controls.target.y, cameraController.controls.target.z);
+  // console.log("Camera position: ", cameraController.camera.position.x, cameraController.camera.position.y, cameraController.camera.position.z);
+  // console.log("Camera target: ", cameraController.controls.target.x, cameraController.controls.target.y, cameraController.controls.target.z);
   // console.log(render3d.camera);
 }
 

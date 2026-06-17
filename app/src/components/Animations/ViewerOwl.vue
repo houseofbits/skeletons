@@ -30,8 +30,8 @@ const container = ref(null);
 let render3d, mixer, cameraController;
 
 function logCamera() {
-  console.log("Camera position: ", cameraController.camera.position);
-  console.log("Camera target: ", cameraController.controls.target);
+  // console.log("Camera position: ", cameraController.camera.position);
+  // console.log("Camera target: ", cameraController.controls.target);
   // console.log(render3d.camera);
 }
 
