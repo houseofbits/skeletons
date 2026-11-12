@@ -1,10 +1,18 @@
 <template>
   <div ref="container" class="fbx-viewer" @click="logCamera">
     <template v-if="config.activePoints && showActivePoints">
-      <template v-for="(point, i) in config.activePoints">
-        <div
+      <template v-for="(point, i) in config.activePoints" :key="point.name">
+        <!-- <div
           v-if="hasTranslation(point.translationKey + '.text')"
           :key="point.name"
+          class="active-point"
+          :style="getActivePointPositionStyle(i)"
+          @click="selectedActivePoint = point"
+        >
+          {{ point.name }}
+        </div> -->
+
+        <div
           class="active-point"
           :style="getActivePointPositionStyle(i)"
           @click="selectedActivePoint = point"
