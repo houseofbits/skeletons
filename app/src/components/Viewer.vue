@@ -2,17 +2,9 @@
   <div ref="container" class="fbx-viewer" @click="logCamera">
     <template v-if="config.activePoints && showActivePoints">
       <template v-for="(point, i) in config.activePoints" :key="point.name">
-        <!-- <div
-          v-if="hasTranslation(point.translationKey + '.text')"
-          :key="point.name"
-          class="active-point"
-          :style="getActivePointPositionStyle(i)"
-          @click="selectedActivePoint = point"
-        >
-          {{ point.name }}
-        </div> -->
-
         <div
+          v-if="hasTranslation(point.translationKey + '.text') || isDebug"
+          :key="point.name"
           class="active-point"
           :style="getActivePointPositionStyle(i)"
           @click="selectedActivePoint = point"
@@ -44,7 +36,7 @@
 
 <script setup>
 import gsap from "gsap";
-import { onMounted, onBeforeUnmount, ref, watch, reactive } from "vue";
+import { onMounted, onBeforeUnmount, ref, watch, reactive, computed } from "vue";
 import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -103,6 +95,10 @@ function logCamera() {
   // console.log("Camera position: ", render3d.camera.position);
   // console.log("Camera target: ", render3d.controls.target);
 }
+
+const isDebug = computed(() => {
+  return window.location.href.includes("debug=true");
+});
 
 watch(
   () => props.isVisible,

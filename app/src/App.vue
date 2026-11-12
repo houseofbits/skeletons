@@ -117,6 +117,9 @@ async function reloadTranslations() {
 }
 
 onMounted(async () => {
+
+console.log(window.location);
+
   const viewDef = getViewDef(window.location.href);
   currentRouteName.value = viewDef?.name ?? null;
   const assets = viewDef?.assets ?? [];
