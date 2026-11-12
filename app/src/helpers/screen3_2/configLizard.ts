@@ -1,6 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
-// import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
+import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
 
 export default {
     id: 'lizard_3_2',
@@ -81,14 +81,14 @@ export default {
             name: 'p-limbs11',
             text: 'lizard.limbs11',
             meshes: ['limbs11'],
-        },                                               
+        },
     ],
-    // animationComponent: ViewerLimbs,
-    // animationTitle: 'lizard.extremities_animation_title',
-    // animationProps: {
-    //     initiallyActive: 0,
-    // },
-    // animationPlaceholderUrl: '/img/3_2_bat.png',
+    animationComponent: ViewerLimbs,
+    animationTitle: 'lizard.extremities_animation_title',
+    animationProps: {
+        initiallyActive: 0,
+    },
+    animationPlaceholderUrl: '/img/3_2_bat.png',
     activePoints: [
         {
             name: '1',

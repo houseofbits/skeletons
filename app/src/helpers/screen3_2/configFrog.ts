@@ -1,6 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
-// import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
+import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
 
 export default {
     id: 'frog_3_2',
@@ -73,12 +73,12 @@ export default {
             meshes: ['limbs9'],
         },                             
     ],
-    // animationComponent: ViewerLimbs,
-    // animationTitle: 'frog.extremities_animation_title',
-    // animationProps: {
-    //     initiallyActive: 3,
-    // },
-    // animationPlaceholderUrl: '/img/3_2_frog.png',
+    animationComponent: ViewerLimbs,
+    animationTitle: 'frog.extremities_animation_title',
+    animationProps: {
+        initiallyActive: 3,
+    },
+    animationPlaceholderUrl: '/img/3_2_frog.png',
     activePoints: [
         {
             name: '1',
