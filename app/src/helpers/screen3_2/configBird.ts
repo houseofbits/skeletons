@@ -1,6 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
-import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
+// import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
 
 export default {
     id: 'bird_3_2',
@@ -83,12 +83,12 @@ export default {
             meshes: ['limbs11'],
         },
     ],
-    animationComponent: ViewerLimbs,
-    animationTitle: 'bird.extremities_animation_titlei',
-    animationProps: {
-        initiallyActive: 4,
-    },
-    animationPlaceholderUrl: '/img/3_2_bird.png',
+    // animationComponent: ViewerLimbs,
+    // animationTitle: 'bird.extremities_animation_titlei',
+    // animationProps: {
+    //     initiallyActive: 4,
+    // },
+    // animationPlaceholderUrl: '/img/3_2_bird.png',
     activePoints: [
         {
             name: '1',
