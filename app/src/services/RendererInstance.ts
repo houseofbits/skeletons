@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { call } from "three/tsl";
 
 export default class RendererInstance {
     id: number;
@@ -112,7 +113,7 @@ export default class RendererInstance {
         this.rafId = requestAnimationFrame(() => this.renderLoop(scene, camera));
 
         const dt = this.clock.getDelta();
-
+        
         this.renderCallback(dt);
 
         const w = this.renderer.domElement.clientWidth;

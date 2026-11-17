@@ -4,15 +4,15 @@
   </template>
 
   <ul class="animation-list">
-    <li @click="selectedCompIndex = 0">Limbs</li>
+    <!-- <li @click="selectedCompIndex = 0">Limbs</li>
     <li @click="selectedCompIndex = 1">Turtle neck</li>
     <li @click="selectedCompIndex = 2">Dog panting</li>
     <li @click="selectedCompIndex = 3">Bird breastbones</li>
     <li @click="selectedCompIndex = 4">Cat fall</li>
     <li @click="selectedCompIndex = 5">Owl neck</li>
     <li @click="selectedCompIndex = 6">Shark</li>
-    <li @click="selectedCompIndex = 7">Parrot</li>
-    <li @click="selectedCompIndex = 8">Foot comparison</li>
+    <li @click="selectedCompIndex = 7">Parrot</li> -->
+    <li @click="selectedCompIndex = 0">Foot comparison</li>
   </ul>
 </template>
 
@@ -29,14 +29,14 @@ import ViewerFoot from "@src/components/Animations/ViewerFoot.vue";
 import { ref } from "vue";
 
 const comps = [
-  ViewerLimbs,
-  ViewerTurtle,
-  ViewerDog,
-  ViewerBirds,
-  ViewerCat,  
-  ViewerOwl,
-  ViewerShark,
-  ViewerParrot,
+  // ViewerLimbs,
+  // ViewerTurtle,
+  // ViewerDog,
+  // ViewerBirds,
+  // ViewerCat,  
+  // ViewerOwl,
+  // ViewerShark,
+  // ViewerParrot,
   ViewerFoot,
 ];
 

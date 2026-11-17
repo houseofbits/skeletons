@@ -439,7 +439,7 @@ onMounted(() => {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background: rgba(255, 0, 191, 0.6);
+  background: rgba(245, 167, 0, 0.6);
   border: 2px solid rgba(255, 255, 255, 0.8);
   color: rgba(255, 255, 255, 0.8);
   display: flex;

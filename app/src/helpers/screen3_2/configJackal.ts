@@ -101,7 +101,7 @@ export default {
             modelNodeName: 'p-limbs3',
         },   
         {
-            name: '3',
+            name: '4',
             translationKey: 'jackal.activePoints.limbs4',
             modelNodeName: 'p-limbs4',
         },                        

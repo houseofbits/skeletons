@@ -25,6 +25,13 @@ export default {
             transitionTime: CameraTransitionTime.ICON_TO_FULLSCREEN,
         },
     },
+    activePoints: [
+        {
+            name: '1',
+            translationKey: 'frog.activePoints.ribs1',
+            modelNodeName: 'p-ribs1',
+        },              
+    ],    
     hilightedBones: [
         {
             name: 'p-ribs1',

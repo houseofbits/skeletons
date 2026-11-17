@@ -99,6 +99,11 @@ export default {
             name: '2',
             translationKey: 'bird.activePoints.limbs2',
             modelNodeName: 'p-limbs2',
-        },        
+        },    
+        {
+            name: '3',
+            translationKey: 'bird.activePoints.limbs3',
+            modelNodeName: 'p-limbs3',
+        }            
     ],
 } as const;
