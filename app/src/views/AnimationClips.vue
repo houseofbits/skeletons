@@ -17,14 +17,14 @@
 </template>
 
 <script setup lang="ts">
-import ViewerLimbs from "@src/components/Animations/ViewerLimbs.vue";
-import ViewerCat from "@src/components/Animations/ViewerCat.vue";
-import ViewerDog from "@src/components/Animations/ViewerDog.vue";
-import ViewerBirds from "@src/components/Animations/ViewerBirds.vue";
-import ViewerTurtle from "@src/components/Animations/ViewerTurtle.vue";
-import ViewerOwl from "@src/components/Animations/ViewerOwl.vue";
-import ViewerShark from "@src/components/Animations/ViewerShark.vue";
-import ViewerParrot from "@src/components/Animations/ViewerParrot.vue";
+// import ViewerLimbs from "@src/components/Animations/ViewerLimbs.vue";
+// import ViewerCat from "@src/components/Animations/ViewerCat.vue";
+// import ViewerDog from "@src/components/Animations/ViewerDog.vue";
+// import ViewerBirds from "@src/components/Animations/ViewerBirds.vue";
+// import ViewerTurtle from "@src/components/Animations/ViewerTurtle.vue";
+// import ViewerOwl from "@src/components/Animations/ViewerOwl.vue";
+// import ViewerShark from "@src/components/Animations/ViewerShark.vue";
+// import ViewerParrot from "@src/components/Animations/ViewerParrot.vue";
 import ViewerFoot from "@src/components/Animations/ViewerFoot.vue";
 import { ref } from "vue";
 

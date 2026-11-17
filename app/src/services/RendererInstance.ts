@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { call } from "three/tsl";
+// import { call } from "three/tsl";
 
 export default class RendererInstance {
     id: number;
