@@ -40,7 +40,8 @@ let isStopping = false;
 let action = null;
 
 let targetTimeScale = 0
-const fadeSpeed = 1.5 // timescale units per second
+const MATERIAL_FADE_SPEED = 1.5 // timescale units per second
+const TIMESCALE_FADE_SPEED = 2.0 // timescale units per second
 
 let targetOpacity = 1;
 
@@ -137,14 +138,14 @@ onMounted(() => {
         action.timeScale = THREE.MathUtils.damp(
           action.timeScale,
           targetTimeScale,
-          fadeSpeed,
+          TIMESCALE_FADE_SPEED,
           delta
         )
         
         darkMaterial.opacity = THREE.MathUtils.damp(
           darkMaterial.opacity,
           targetOpacity,
-          fadeSpeed,
+          MATERIAL_FADE_SPEED,
           delta
         )
     }

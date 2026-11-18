@@ -30,7 +30,7 @@
     </viewer-foot-part> -->
   </div>
 
-  <RotationIcon :is-active="isRotationIconActive" position="center"/>
+  <!-- <RotationIcon :is-active="isRotationIconActive" position="center"/> -->
 </template>
 
 <script setup>
