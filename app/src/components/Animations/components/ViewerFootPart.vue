@@ -1,9 +1,8 @@
 <template>
   <div>
     <div ref="container" class="fbx-viewer" @click="logCamera"></div>
+    <slot />
   </div>
-
-  <RotationIcon :is-active="isRotationIconActive" />
 </template>
 
 <script setup>
@@ -15,26 +14,93 @@ import { useRenderer3D } from "@src/composables/Renderer3D";
 import usePivotRotation from "@src/composables/PivotRotation";
 import { boneMaterial, boneHilightMaterial, boneDarkMaterial } from "@src/helpers/Materials";
 import { useCameraController } from "@src/composables/CameraController";
-import RotationIcon from "@src/components/RotationIcon.vue";
+import gsap from "gsap";
 
 const { initRenderer3D } = useRenderer3D();
 
 const props = defineProps({
   isActive: { type: Boolean, default: false },
   isVisible: { type: Boolean, default: true },
-  model: {type: String, reqquired: true },
-  scene: {type: String, reqquired: true },
+  model: { type: String, reqquired: true },
+  scene: { type: String, reqquired: true },
+  cameraPos: { type: Object, required: true },
+  cameraTarget: { type: Object, required: true },
+  isPlaying: { type: Boolean, default: false },
 });
 
-const isRotationIconActive = ref(true);
+const emit = defineEmits(["pivot-rotation"]);
+
+const CAMERA_REPOS_ENABLED = false; // Set to true to enable camera repositioning and disable pivot rotation
+
 const originalBoneMaterialColor = 14997948;
 const container = ref(null);
 let render3d, mixer, cameraController;
+let darkMaterial = boneDarkMaterial.clone();
+let isStopping = false;
+let action = null;
+
+let targetTimeScale = 0
+const fadeSpeed = 1.5 // timescale units per second
+
+let targetOpacity = 1;
+
+watch(
+  () => props.isPlaying,
+  (value) => {
+    if (!action) return;
+
+    targetTimeScale = value ? 1 : 0
+    targetOpacity = value ? 0.1 : 1
+  }
+);
+
+watch(
+  () => props.cameraPos,
+  (pos) => {
+    if (CAMERA_REPOS_ENABLED) {
+      return;
+    }
+
+    gsap.to(cameraController.camera.position, {
+      x: pos.x,
+      y: pos.y,
+      z: pos.z,
+      duration: 1,
+      ease: "power2.out",
+      onUpdate: () => {
+        cameraController.controls.update();
+      },
+    });
+  },
+  {deep: true}
+);
+
+watch(
+  () => props.cameraTarget,
+  (pos) => {
+    if (CAMERA_REPOS_ENABLED) {
+      return;
+    }
+
+    gsap.to(cameraController.controls.target, {
+      x: pos.x,
+      y: pos.y,
+      z: pos.z,
+      duration: 1,
+      ease: "power2.out",
+      onUpdate: () => {
+        cameraController.controls.update();
+      },
+    });
+  },
+  {deep: true}
+);
 
 function logCamera() {
-  // console.log("Camera position: ", cameraController.camera.position);
-  // console.log("Camera target: ", cameraController.controls.target);
-  // console.log(render3d.camera);
+  if (CAMERA_REPOS_ENABLED) {
+    console.log("Camera position: ", cameraController.camera.position);
+    console.log("Camera target: ", cameraController.controls.target);
+  }
 }
 
 watch(
@@ -51,9 +117,7 @@ watch(
 watch(
   () => props.isActive,
   (newVal) => {
-    if (newVal) {
-      isRotationIconActive.value = true;
-    }
+
   },
   { immediate: true }
 );
@@ -62,29 +126,43 @@ onMounted(() => {
   cameraController = useCameraController(
     "turtle-camera",
     container.value,
-    false
+    CAMERA_REPOS_ENABLED
   );
   render3d = initRenderer3D();
 
   render3d.registerRenderCallback((delta) => {
     if (mixer) {
       mixer.update(delta);
+
+        action.timeScale = THREE.MathUtils.damp(
+          action.timeScale,
+          targetTimeScale,
+          fadeSpeed,
+          delta
+        )
+        
+        darkMaterial.opacity = THREE.MathUtils.damp(
+          darkMaterial.opacity,
+          targetOpacity,
+          fadeSpeed,
+          delta
+        )
     }
-  });  
+  });
 
   if (props.isVisible) {
     render3d.startRendering(container.value, cameraController);
   }
 
   cameraController.camera.position.set(
-    -19.13895791474941,
-    5.897375353041317,
-    17.480325897246452
+    props.cameraPos.x,
+    props.cameraPos.y,
+    props.cameraPos.z
   );
   cameraController.controls.target.set(
-    -0.5377894660426883,
-    3.1000084719021634,
-    -1.1412397384959674
+    props.cameraTarget.x,
+    props.cameraTarget.y,
+    props.cameraTarget.z
   );
 
   cameraController.camera.fov = 25;
@@ -98,9 +176,9 @@ onMounted(() => {
 
   const pivotRotation = usePivotRotation(container.value);
   pivotRotation.setOnRotationCallback(() => {
-    isRotationIconActive.value = false;
+    emit("pivot-rotation");
   });
-  pivotRotation.setEnabled(true);
+  pivotRotation.setEnabled(!CAMERA_REPOS_ENABLED);
   pivotRotation.setLimits(-3.79, 2.046);
   pivotRotation.pivot.add(model);
   render3d.scene.add(pivotRotation.pivot);
@@ -123,7 +201,9 @@ onMounted(() => {
       }
 
       if (child.material.name === "Material.dark") {
-        child.material = boneDarkMaterial;
+        child.material = darkMaterial;
+        darkMaterial.transparent = true;
+        darkMaterial.opacity = 0.2;
       }
     }
   });
@@ -134,15 +214,13 @@ onMounted(() => {
 
   const animatedModel = render3d.scene.getObjectByName("Group");
   if (animatedModel && animatedModel.animations?.length > 0) {
-    console.log(animatedModel);
     const clips = animatedModel.animations;
     mixer = new THREE.AnimationMixer(animatedModel);
-    mixer.timeScale = 1.0; //0.2;
+    mixer.timeScale = 0.7;//1.0; //0.2;
 
-    console.log(clips);
+    action = mixer.clipAction(clips[0]);
 
-    const action = mixer.clipAction(clips[2]);
-    action.time = 0; //200 / 30;
+    action.time = 0;
     action.play();
   }
 

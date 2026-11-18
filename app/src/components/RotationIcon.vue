@@ -1,5 +1,5 @@
 <template>
-    <div class="rotation-icon-container" :class="{active: isActive}">
+    <div class="rotation-icon-container" :class="{active: isActive, 'position-center': position === 'center'}">
         <svg class="rotation-icon" width="31" height="33" viewBox="0 0 31 33" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -19,6 +19,7 @@ import { translate } from "@src/composables/Language";
 
 defineProps<{
     isActive: boolean;
+    position: string;
 }>();
 </script>
 
@@ -44,6 +45,11 @@ defineProps<{
     transition-delay: 0;
     transition-duration: 0.1s;
     opacity: 0;
+}
+
+.position-center {
+    bottom: 500px;
+    left: 882px;
 }
 
 .rotation-icon-container.active {
