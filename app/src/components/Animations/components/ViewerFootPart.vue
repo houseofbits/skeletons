@@ -48,10 +48,10 @@ let targetOpacity = 1;
 watch(
   () => props.isPlaying,
   (value) => {
-    if (!action) return;
-
-    targetTimeScale = value ? 1 : 0
     targetOpacity = value ? 0.1 : 1
+
+    if (!action) return;
+    targetTimeScale = value ? 1 : 0
   }
 );
 
@@ -135,20 +135,20 @@ onMounted(() => {
     if (mixer) {
       mixer.update(delta);
 
-        action.timeScale = THREE.MathUtils.damp(
-          action.timeScale,
-          targetTimeScale,
-          TIMESCALE_FADE_SPEED,
-          delta
-        )
-        
-        darkMaterial.opacity = THREE.MathUtils.damp(
-          darkMaterial.opacity,
-          targetOpacity,
-          MATERIAL_FADE_SPEED,
-          delta
-        )
+      action.timeScale = THREE.MathUtils.damp(
+        action.timeScale,
+        targetTimeScale,
+        TIMESCALE_FADE_SPEED,
+        delta
+      )
     }
+
+    darkMaterial.opacity = THREE.MathUtils.damp(
+      darkMaterial.opacity,
+      targetOpacity,
+      MATERIAL_FADE_SPEED,
+      delta
+    )
   });
 
   if (props.isVisible) {
@@ -204,7 +204,7 @@ onMounted(() => {
       if (child.material.name === "Material.dark") {
         child.material = darkMaterial;
         darkMaterial.transparent = true;
-        darkMaterial.opacity = 0.2;
+        darkMaterial.opacity = 1;
       }
     }
   });

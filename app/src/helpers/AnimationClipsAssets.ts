@@ -29,5 +29,8 @@ export default [
     ['horseLegScene', '/models/horse-scene.glb'],
     ['horseLeg', '/models/horse-leg.glb'],
     ['bearLegScene', '/models/bear-scene.glb'],
-    ['bearLeg', '/models/bear-leg.glb']    
+    ['bearLeg', '/models/bear-leg.glb'],    
+    ['catLegScene', '/models/cat-scene.glb'],
+    ['catLeg', '/models/cat-foot.glb']    
+
 ] as const;
