@@ -3,10 +3,10 @@ export default [
     // ['dogBreathing', '/models/dog-panting.glb'],
     // ['catScene', '/models/cat-fall-scene.FBX'],
     // ['catFall', '/models/catFall_03.fbx'],
-    // ['birdsScene', '/models/birds-scene.glb'],
-    // ['owl', '/models/owl.glb'],
-    // ['penguin', '/models/penguin.glb'],
-    // ['ostritch', '/models/ostritch.glb'],
+    ['birdsScene', '/models/birds-scene.glb'],
+    ['owl', '/models/owl.glb'],
+    ['penguin', '/models/penguin.glb'],
+    ['ostritch', '/models/ostritch-walk.glb'],
     // ['turtleScene', '/models/turtle-scene.glb'],
     // ['turtleModel', '/models/soronan-mud-turtle-v2.glb'],
 
@@ -20,8 +20,8 @@ export default [
     // ['owlNeckScene', '/models/owl-neck-scene.glb'],
     // ['owlNeck', '/models/owl-neck-animated.glb'],
 
-    // ['sharkScene', '/models/shark-scene.glb'],
-    // ['sharkJaw', '/models/shark-animation.glb'],    
+    ['sharkScene', '/models/shark-scene.glb'],
+    ['sharkJaw', '/models/shark-animation.glb'],    
 
     // ['parrotScene', '/models/macaw-skull-scene.glb'],
     // ['parrotAnimation', '/models/macaw-skull-animation.glb'],

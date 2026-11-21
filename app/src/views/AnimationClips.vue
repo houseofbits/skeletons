@@ -4,15 +4,7 @@
   </template>
 
   <ul class="animation-list">
-    <!-- <li @click="selectedCompIndex = 0">Limbs</li>
-    <li @click="selectedCompIndex = 1">Turtle neck</li>
-    <li @click="selectedCompIndex = 2">Dog panting</li>
-    <li @click="selectedCompIndex = 3">Bird breastbones</li>
-    <li @click="selectedCompIndex = 4">Cat fall</li>
-    <li @click="selectedCompIndex = 5">Owl neck</li>
-    <li @click="selectedCompIndex = 6">Shark</li>
-    <li @click="selectedCompIndex = 7">Parrot</li> -->
-    <li @click="selectedCompIndex = 0">Foot comparison</li>
+    <li v-for="(c, i) in comps" @click="selectedCompIndex = i">{{ c.__name }}</li>
   </ul>
 </template>
 
@@ -20,24 +12,26 @@
 // import ViewerLimbs from "@src/components/Animations/ViewerLimbs.vue";
 // import ViewerCat from "@src/components/Animations/ViewerCat.vue";
 // import ViewerDog from "@src/components/Animations/ViewerDog.vue";
-// import ViewerBirds from "@src/components/Animations/ViewerBirds.vue";
+import ViewerBirds from "@src/components/Animations/ViewerBirds.vue";
 // import ViewerTurtle from "@src/components/Animations/ViewerTurtle.vue";
 // import ViewerOwl from "@src/components/Animations/ViewerOwl.vue";
-// import ViewerShark from "@src/components/Animations/ViewerShark.vue";
+import ViewerShark from "@src/components/Animations/ViewerShark.vue";
 // import ViewerParrot from "@src/components/Animations/ViewerParrot.vue";
 import ViewerFoot from "@src/components/Animations/ViewerFoot.vue";
 import { ref } from "vue";
 
 const comps = [
+  ViewerFoot,
+  ViewerShark,
   // ViewerLimbs,
   // ViewerTurtle,
   // ViewerDog,
-  // ViewerBirds,
+  ViewerBirds,
   // ViewerCat,  
   // ViewerOwl,
-  // ViewerShark,
+  
   // ViewerParrot,
-  ViewerFoot,
+  
 ];
 
 const selectedCompIndex = ref(0);

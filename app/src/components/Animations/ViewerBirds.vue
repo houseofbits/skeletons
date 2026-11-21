@@ -41,6 +41,7 @@ let render3d, mixer, cameraController;
 let camOwl = null;
 let camPenguin = null;
 let camOstritch = null;
+let action = null;
 
 const targetAngles = [
   0,
@@ -59,13 +60,13 @@ function randomFromArray(arr) {
 }
 
 function rotateToRandomAngle(obj) {
-  const targetY = randomFromArray(targetAngles);
+  // const targetY = randomFromArray(targetAngles);
 
-  gsap.to(obj.rotation, {
-    y: targetY,
-    duration: 5,
-    ease: "power2.inOut"
-  });
+  // gsap.to(obj.rotation, {
+  //   y: targetY,
+  //   duration: 5,
+  //   ease: "power2.inOut"
+  // });
 }
 
 const cameraSettings = [
@@ -216,6 +217,11 @@ onMounted(() => {
     render3d.startRendering(container.value, cameraController);
   }
 
+  render3d.registerRenderCallback((delta) => {
+    if (mixer) {
+      mixer.update(delta);
+    }
+  });  
 
   const catFallScene = ScenePreloadService.getAsset("birdsScene").clone();
   render3d.scene.add(catFallScene);
@@ -265,7 +271,7 @@ onMounted(() => {
       }
 
       if (child.name === "ribs1") {
-        child.material = boneMaterial.clone();
+        child.material = boneHilightMaterial.clone();
       }
     }
   });
@@ -321,9 +327,22 @@ onMounted(() => {
     renderer.render(render3d.scene, camOstritch.camera);
   });
 
-  zoomInTransition(camOwl, 0, owlPivotRotation.pivot);
-  zoomInTransition(camPenguin, 1, penguinPivotRotation.pivot);
-  zoomInTransition(camOstritch, 2, ostritchPivotRotation.pivot);
+  // zoomInTransition(camOwl, 0, owlPivotRotation.pivot);
+  // zoomInTransition(camPenguin, 1, penguinPivotRotation.pivot);
+  // zoomInTransition(camOstritch, 2, ostritchPivotRotation.pivot);
+
+  const animatedModel = ostritch;//render3d.scene.getObjectByName("Group");
+  if (animatedModel && animatedModel.animations?.length > 0) {
+    console.log(animatedModel)
+    const clips = animatedModel.animations;
+    mixer = new THREE.AnimationMixer(animatedModel);
+    mixer.timeScale = 1;//1.0; //0.2;
+
+    action = mixer.clipAction(clips[0]);
+
+    action.time = 0;
+    action.play();
+  }
 
   onBeforeUnmount(render3d.dispose);
 });
