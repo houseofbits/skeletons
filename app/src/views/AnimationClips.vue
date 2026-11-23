@@ -15,7 +15,7 @@
 import ViewerBirds from "@src/components/Animations/ViewerBirds.vue";
 // import ViewerTurtle from "@src/components/Animations/ViewerTurtle.vue";
 // import ViewerOwl from "@src/components/Animations/ViewerOwl.vue";
-import ViewerShark from "@src/components/Animations/ViewerShark.vue";
+// import ViewerShark from "@src/components/Animations/ViewerShark.vue";
 // import ViewerParrot from "@src/components/Animations/ViewerParrot.vue";
 import ViewerFoot from "@src/components/Animations/ViewerFoot.vue";
 import { ref } from "vue";
