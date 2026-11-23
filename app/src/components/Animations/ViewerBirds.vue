@@ -1,28 +1,60 @@
 <template>
   <div>
-    <div ref="container" class="fbx-viewer" @click="logCamera"></div>
-    <div ref="dragContainer1" class="birds-text divider-border-birds-1">
-      <span>Pūce</span>
-    </div>
-    <div ref="dragContainer2" class="birds-text divider-border-birds-2">
-      <span>Pingvīns</span>
-    </div>
-    <div ref="dragContainer3" class="birds-text divider-border-birds-3">
-      <span>Strauss</span>
-    </div>
+    <viewer-birds-part class="viewer-foot-part1" :isActive="props.isActive" :isVisible="props.isVisible"
+      :isPlaying="isPlaying" :cameraPos="bearCameraPos" :cameraTarget="bearCameraTarget" model="owl" scene="birdsScene"
+      @pivot-rotation="
+        () => {
+          isRotationIconActive = false;
+        }
+      ">
+      <div class="foot-text-container">
+        <span class="foot-text">Pēdminis</span>
+      </div>
+    </viewer-birds-part>
+
+    <viewer-birds-part class="viewer-foot-part2" :isActive="props.isActive" :isVisible="props.isVisible"
+      :isPlaying="isPlaying" :cameraPos="horseCameraPos" :cameraTarget="horseCameraTarget" model="penguin"
+      scene="birdsScene" @pivot-rotation="
+        () => {
+          isRotationIconActive = false;
+        }
+      ">
+      <div class="foot-text-container">
+        <span class="foot-text">Nagminis</span>
+      </div>
+    </viewer-birds-part>
+
+    <viewer-birds-part class="viewer-foot-part3" :isActive="props.isActive" :isVisible="props.isVisible"
+      :isPlaying="isPlaying" :cameraPos="catCameraPos" :cameraTarget="catCameraTarget" model="ostritch"
+      scene="birdsScene" @pivot-rotation="
+        () => {
+          isRotationIconActive = false;
+        }
+      ">
+      <div class="foot-text-container">
+        <span class="foot-text">Pirkstminis</span>
+      </div>
+    </viewer-birds-part>
   </div>
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount, ref, watch } from "vue";
+import {
+  reactive,
+  onMounted,
+  onUnmounted,
+  onBeforeUnmount,
+  ref,
+  watch,
+} from "vue";
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import ScenePreloadService from "@src/services/ScenePreloadService";
 import { useRenderer3D } from "@src/composables/Renderer3D";
 import usePivotRotation from "@src/composables/PivotRotation";
-import { boneMaterial, boneHilightMaterial } from "@src/helpers/Materials";
 import { useCameraController } from "@src/composables/CameraController";
-import { transitionCamera, tweenColor } from "@src/utils/transitions";
-import gsap from "gsap";
+import RotationIcon from "@src/components/RotationIcon.vue";
+import ViewerBirdsPart from "@src/components/Animations/components/ViewerBirdsPart.vue";
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -31,324 +63,215 @@ const props = defineProps({
   isVisible: { type: Boolean, default: true },
 });
 
-const originalBoneMaterialColor = 14997948;
-const hilightedBoneMaterialColor = "#d98602";
-const container = ref(null);
-const dragContainer1 = ref(null);
-const dragContainer2 = ref(null);
-const dragContainer3 = ref(null);
-let render3d, mixer, cameraController;
-let camOwl = null;
-let camPenguin = null;
-let camOstritch = null;
-let action = null;
+const ANIMATION_STATE_CHANGE_INTERVAL = 10000; // 10 seconds
+const ANIMATION_CAMERA_BLEND_DURATION = 5000; // 3 seconds
 
-const targetAngles = [
-  0,
-  1.3320000000000003,
-  0.8400000000000003,
-  0.2160000000000003,
-  -0.3209999999999996,
-  -0.7259999999999996,
-  -0.8999999999999998,
-  1.4310000000000003,
-];
+const isRotationIconActive = ref(true);
+const isPlaying = ref(false);
+let timerAnimationState = null;
 
-
-function randomFromArray(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function rotateToRandomAngle(obj) {
-  // const targetY = randomFromArray(targetAngles);
-
-  // gsap.to(obj.rotation, {
-  //   y: targetY,
-  //   duration: 5,
-  //   ease: "power2.inOut"
-  // });
-}
-
-const cameraSettings = [
-  {
-    normal: {
-      pos: new THREE.Vector3(
-        -6.710051406094502,
-        3.447459855211276,
-        9.128839714851335
-      ),
-      target: new THREE.Vector3(
-        -16.877770224675444,
-        -1.1317420980008293,
-        -19.320408885410398
-      ),
-    },
-    closeup: {
-      pos: new THREE.Vector3(
-        -8.628365241846728,
-        2.4335547618327507,
-        3.889237824902633
-      ),
-      target: new THREE.Vector3(
-        -16.91719838103788,
-        -1.1530105737653942,
-        -19.30289393940278
-      ),
-    },
-  },
-  {
-    normal: {
-      pos: new THREE.Vector3(
-        5.892054052943013,
-        4.730618047794569,
-        16.24947549273488
-      ),
-      target: new THREE.Vector3(
-        -8.04560936613739,
-        1.1423013092364684,
-        -22.74806747546578
-      ),
-    },
-    closeup: {
-      pos: new THREE.Vector3(
-        2.160405189425645,
-        3.0026916183920056,
-        6.00020023675096
-      ),
-      target: new THREE.Vector3(
-        -7.923019037316069,
-        0.5421007586849574,
-        -22.73969174123332
-      ),
-    },
-  },
-  {
-    normal: {
-      pos: new THREE.Vector3(
-        18.073607509103606,
-        6.198199974636078,
-        25.00155752468397
-      ),
-      target: new THREE.Vector3(
-        1.4793016158393164,
-        4.6806220890567936,
-        -26.070019466688574
-      ),
-    },
-    closeup: {
-      pos: new THREE.Vector3(
-        12.260167507294886,
-        4.722102587643711,
-        7.914718561141456
-      ),
-      target: new THREE.Vector3(
-        1.2511659346428716,
-        3.7153104122779594,
-        -25.967209073087453
-      ),
-    },
-  },
-];
-
-watch(
-  () => props.isVisible,
-  (val) => {
-    if (val) {
-      render3d.startRendering(container.value, cameraController);
-    } else {
-      render3d.stopRendering();
-    }
-  },
+const bearCameraPos = reactive(
+  new THREE.Vector3(
+    -6.710051406094502,
+    3.447459855211276,
+    9.128839714851335)
+);
+const bearCameraTarget = reactive(
+  new THREE.Vector3(
+    -16.877770224675444,
+    -1.1317420980008293,
+    -19.320408885410398)
 );
 
-function zoomOutTransition(camera, index, model) {
-  transitionCamera(
-    camera.controls,
-    cameraSettings[index].normal.pos,
-    cameraSettings[index].normal.target,
-    2
+const horseCameraPos = reactive(
+  new THREE.Vector3(
+    5.892054052943013,
+    4.730618047794569,
+    16.24947549273488)
+);
+const horseCameraTarget = reactive(
+  new THREE.Vector3(
+    -8.04560936613739,
+    1.1423013092364684,
+    -22.74806747546578)
+);
+
+const catCameraPos = reactive(
+  new THREE.Vector3(
+    18.073607509103606,
+    6.198199974636078,
+    25.00155752468397)
+);
+const catCameraTarget = reactive(
+  new THREE.Vector3(
+    1.4793016158393164,
+    4.6806220890567936,
+    -26.070019466688574)
+);
+
+const cameraWide = [
+  {
+    position: new THREE.Vector3(
+      -6.710051406094502,
+      3.447459855211276,
+      9.128839714851335
+    ),
+    target: new THREE.Vector3(
+      -16.877770224675444,
+      -1.1317420980008293,
+      -19.320408885410398
+    ),
+  },
+  {
+    position: new THREE.Vector3(
+      5.892054052943013,
+      4.730618047794569,
+      16.24947549273488
+    ),
+    target: new THREE.Vector3(
+      -8.04560936613739,
+      1.1423013092364684,
+      -22.74806747546578
+    ),
+  },
+  {
+    position: new THREE.Vector3(
+      18.073607509103606,
+      6.198199974636078,
+      25.00155752468397
+    ),
+    target: new THREE.Vector3(
+      1.4793016158393164,
+      4.6806220890567936,
+      -26.070019466688574
+    ),
+  },
+];
+
+const cameraNear = [
+  {
+    position: new THREE.Vector3(
+      -13.336799331628653,
+      7.928331323286592,
+      14.261674118661956
+    ),
+    target: new THREE.Vector3(
+      0.29277173633069287,
+      2.976599768682843,
+      0.6171574890268569
+    ),
+  },
+  {
+    position: new THREE.Vector3(
+      -19.599590119672637,
+      4.86924623440446,
+      10.11210642285623
+    ),
+    target: new THREE.Vector3(
+      0.6177808326344226,
+      3.926213621550388,
+      0.23771801950970228
+    ),
+  },
+  {
+    position: new THREE.Vector3(
+      -15.200459964506273, 5.676571217167571, 11.202429586598127
+    ),
+    target: new THREE.Vector3(
+      0.1149115543585532, 2.821758029468611, 0.05558772402821313
+    ),
+  },
+];
+
+function blendCameras() {
+  bearCameraPos.lerpVectors(
+    cameraWide[0].position,
+    cameraNear[0].position,
+    cameraBlend.value
+  );
+  bearCameraTarget.lerpVectors(
+    cameraWide[0].target,
+    cameraNear[0].target,
+    cameraBlend.value
   );
 
-  const mesh = model.getObjectByName('ribs1');
-  tweenColor(mesh, originalBoneMaterialColor, 1);
-
-  const delay = 2000 + 10000 + Math.random() * 10000;
-
-  setTimeout(() => zoomInTransition(camera, index, model), delay);
-
-  rotateToRandomAngle(model);
-}
-
-function zoomInTransition(camera, index, model) {
-  transitionCamera(
-    camera.controls,
-    cameraSettings[index].closeup.pos,
-    cameraSettings[index].closeup.target,
-    4
+  horseCameraPos.lerpVectors(
+    cameraWide[1].position,
+    cameraNear[1].position,
+    cameraBlend.value
+  );
+  horseCameraTarget.lerpVectors(
+    cameraWide[1].target,
+    cameraNear[1].target,
+    cameraBlend.value
   );
 
-  const mesh = model.getObjectByName('ribs1');
-  tweenColor(mesh, hilightedBoneMaterialColor, 3);
-
-  const delay = 4000 + 10000 + Math.random() * 15000;
-
-  setTimeout(() => zoomOutTransition(camera, index, model), delay);
-
-  rotateToRandomAngle(model);
+  catCameraPos.lerpVectors(
+    cameraWide[2].position,
+    cameraNear[2].position,
+    cameraBlend.value
+  );
+  catCameraTarget.lerpVectors(
+    cameraWide[2].target,
+    cameraNear[2].target,
+    cameraBlend.value
+  );
 }
 
-function logCamera() {
-  // if (camOwl == null || camPenguin == null || camOstritch == null) {
-  //   return;
-  // }
-
-  // console.log("Camera1 position: ", camOwl.camera.position);
-  // console.log("Camera1 target: ", camOwl.controls.target);
-  // console.log("Camera2 position: ", camPenguin.camera.position);
-  // console.log("Camera2 target: ", camPenguin.controls.target);
-  // console.log("Camera3 position: ", camOstritch.camera.position);
-  // console.log("Camera3 target: ", camOstritch.controls.target);
-}
+watch(
+  () => props.isActive,
+  (newVal) => {
+    if (newVal) {
+      isRotationIconActive.value = true;
+    }
+  },
+  { immediate: true }
+);
 
 onMounted(() => {
-  cameraController = useCameraController('turtle-camera', container.value, false);
-  render3d = initRenderer3D();
-  if (props.isVisible) {
-    render3d.startRendering(container.value, cameraController);
-  }
+  timerAnimationState = setInterval(() => {
+    isPlaying.value = !isPlaying.value;
+  }, ANIMATION_STATE_CHANGE_INTERVAL);
 
-  render3d.registerRenderCallback((delta) => {
-    if (mixer) {
-      mixer.update(delta);
-    }
-  });  
-
-  const catFallScene = ScenePreloadService.getAsset("birdsScene").clone();
-  render3d.scene.add(catFallScene);
-
-  const owl = ScenePreloadService.getAsset("owl");
-  const penguin = ScenePreloadService.getAsset("penguin");
-  const ostritch = ScenePreloadService.getAsset("ostritch");
-
-  const owlPivotRotation = usePivotRotation(dragContainer1.value);
-  owlPivotRotation.setEnabled(true);
-  owlPivotRotation.pivot.position.set(-10, 0, 0);
-  owlPivotRotation.pivot.add(owl);
-  render3d.scene.add(owlPivotRotation.pivot);
-
-  const penguinPivotRotation = usePivotRotation(dragContainer2.value);
-  penguinPivotRotation.setEnabled(true);
-  penguinPivotRotation.pivot.position.set(0, 0, 0);
-  penguinPivotRotation.pivot.add(penguin);
-  render3d.scene.add(penguinPivotRotation.pivot);
-
-  const ostritchPivotRotation = usePivotRotation(dragContainer3.value);
-  ostritchPivotRotation.setEnabled(true);
-  ostritchPivotRotation.pivot.position.set(10, 0, 0);
-  ostritchPivotRotation.pivot.add(ostritch);
-  render3d.scene.add(ostritchPivotRotation.pivot);
-
-  render3d.scene.traverse((child) => {
-    if (child.isLight) {
-      child.shadow.normalBias = 0.05;
-      child.shadow.bias = -0.00002;
-      child.shadow.mapSize.width = 2048;
-      child.shadow.mapSize.height = 2048;
-
-      child.castShadow = true;
-    }
-    if (child.isMesh) {
-      child.castShadow = true;
-      child.receiveShadow = true;
-      child.frustumCulled = false;
-
-      if (child.name === "body") {
-        child.material = boneMaterial.clone();
-      }
-
-      if (child.name === "ribs1" || child.name === "ribs2") {
-        child.material = boneMaterial.clone();
-      }
-
-      if (child.name === "ribs1") {
-        child.material = boneHilightMaterial.clone();
-      }
-    }
-  });
-
-  const light = new THREE.AmbientLight(new THREE.Color(0.1, 0.1, 0.1));
-  light.intensity = 2;
-  render3d.scene.add(light);
-
-  camOwl = useCameraController("CamOwl", container.value, false);
-  camPenguin = useCameraController("CamPenguin", container.value, false);
-  camOstritch = useCameraController("CamOstritch", container.value, false);
-
-  render3d.scene.add(camOwl.camera);
-  render3d.scene.add(camPenguin.camera);
-  render3d.scene.add(camOstritch.camera);
-
-  camOwl.camera.position.copy(cameraSettings[0].normal.pos);
-  camOwl.controls.target.copy(cameraSettings[0].normal.target);
-  camOwl.camera.fov = 25;
-  camOwl.controls.update();
-
-  camPenguin.camera.position.copy(cameraSettings[1].normal.pos);
-  camPenguin.controls.target.copy(cameraSettings[1].normal.target);
-  camPenguin.camera.fov = 25;
-  camPenguin.controls.update();
-
-  camOstritch.camera.position.copy(cameraSettings[2].normal.pos);
-  camOstritch.controls.target.copy(cameraSettings[2].normal.target);
-  camOstritch.camera.fov = 25;
-  camOstritch.controls.update();
-
-  render3d.registerManualRenderFunction((renderer, width, height, delta) => {
-    renderer.setScissorTest(true);
-
-    width = 1920;
-    height = 1080;
-
-    const sectioWidth = width / 3;
-
-    renderer.setViewport(0, 0, sectioWidth, height);
-    renderer.setScissor(0, 0, sectioWidth, height);
-    camOwl.update(sectioWidth, height);
-    renderer.render(render3d.scene, camOwl.camera);
-
-    renderer.setViewport(sectioWidth, 0, sectioWidth, height);
-    renderer.setScissor(sectioWidth, 0, sectioWidth, height);
-    camPenguin.update(sectioWidth, height);
-    renderer.render(render3d.scene, camPenguin.camera);
-
-    renderer.setViewport(sectioWidth * 2, 0, sectioWidth, height);
-    renderer.setScissor(sectioWidth * 2, 0, sectioWidth, height);
-    camOstritch.update(sectioWidth, height);
-    renderer.render(render3d.scene, camOstritch.camera);
-  });
-
-  // zoomInTransition(camOwl, 0, owlPivotRotation.pivot);
-  // zoomInTransition(camPenguin, 1, penguinPivotRotation.pivot);
-  // zoomInTransition(camOstritch, 2, ostritchPivotRotation.pivot);
-
-  const animatedModel = ostritch;//render3d.scene.getObjectByName("Group");
-  if (animatedModel && animatedModel.animations?.length > 0) {
-    console.log(animatedModel)
-    const clips = animatedModel.animations;
-    mixer = new THREE.AnimationMixer(animatedModel);
-    mixer.timeScale = 1;//1.0; //0.2;
-
-    action = mixer.clipAction(clips[0]);
-
-    action.time = 0;
-    action.play();
-  }
-
-  onBeforeUnmount(render3d.dispose);
+  blendCameras();
 });
+
+function useLinearBlend(isActive, duration = 5000) {
+  const blend = ref(isActive.value ? 1 : 0);
+
+  let frameId = 0;
+
+  watch(isActive, (active) => {
+    cancelAnimationFrame(frameId);
+
+    const start = blend.value;
+    const target = active ? 1 : 0;
+    const startTime = performance.now();
+
+    const animate = (now) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+
+      blend.value = start + (target - start) * progress;
+
+      blendCameras();
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(animate);
+      }
+    };
+
+    frameId = requestAnimationFrame(animate);
+  });
+
+  onUnmounted(() => cancelAnimationFrame(frameId));
+
+  return blend;
+}
+
+const cameraBlend = useLinearBlend(isPlaying, ANIMATION_CAMERA_BLEND_DURATION);
 </script>
 
-<style lang="scss">
+<style>
 .fbx-viewer {
   width: 100%;
   height: 100%;
@@ -362,42 +285,59 @@ onMounted(() => {
   display: block;
 }
 
-.divider-border-birds-1 {
-  position: absolute;
-  height: 1080px;
+.viewer-foot-part1 {
   width: 639px;
-  top: 0;
-  left: 0;
+  height: 1080px;
+  display: block;
+  border-right: solid 1px rgba(180, 180, 180, 0.2);
 }
 
-.divider-border-birds-2 {
+.viewer-foot-part2 {
   position: absolute;
-  height: 1080px;
-  width: 639px;
   top: 0;
-  left: 640px;
+  left: 639px;
+  width: 639px;
+  height: 1080px;
+  display: block;
   border-left: solid 1px rgba(180, 180, 180, 0.2);
   border-right: solid 1px rgba(180, 180, 180, 0.2);
 }
 
-.divider-border-birds-3 {
+.viewer-foot-part3 {
   position: absolute;
-  height: 1080px;
-  width: 639px;
   top: 0;
-  left: 1280px;
+  left: 1278px;
+  width: 639px;
+  height: 1080px;
+  display: block;
+  border-left: solid 1px rgba(180, 180, 180, 0.2);
 }
 
-.birds-text {
+.foot-text-container {
+  position: absolute;
+  height: 50px;
+  width: 639px;
+  bottom: 0px;
+  left: 0px;
   display: flex;
-  justify-content: left;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: end;
+}
 
-  & span {
-    margin: 32px;
-    font-size: 40px;
-    font-weight: bold;
-    color: rgba(255, 255, 255, 0.8);
-  }
+.foot-text {
+  font-size: 43px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 40px;
+  margin-left: 40px;
+}
+
+.foot-subtext {
+  font-size: 30px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 40px;
+  margin-right: 40px;
 }
 </style>
