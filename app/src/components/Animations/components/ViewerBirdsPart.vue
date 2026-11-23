@@ -99,8 +99,8 @@ watch(
 
 function logCamera() {
   if (CAMERA_REPOS_ENABLED) {
-    console.log("Camera position: ", cameraController.camera.position);
-    console.log("Camera target: ", cameraController.controls.target);
+    console.log("Camera position: ", cameraController.camera.position.x, ",", cameraController.camera.position.y, ",", cameraController.camera.position.z);
+    console.log("Camera target: ", cameraController.controls.target.x, ",", cameraController.controls.target.y, ",", cameraController.controls.target.z);
   }
 }
 
@@ -135,20 +135,20 @@ onMounted(() => {
     if (mixer) {
       mixer.update(delta);
 
-      action.timeScale = THREE.MathUtils.damp(
-        action.timeScale,
-        targetTimeScale,
-        TIMESCALE_FADE_SPEED,
-        delta
-      )
+      // action.timeScale = THREE.MathUtils.damp(
+      //   action.timeScale,
+      //   targetTimeScale,
+      //   TIMESCALE_FADE_SPEED,
+      //   delta
+      // )
     }
 
-    darkMaterial.opacity = THREE.MathUtils.damp(
-      darkMaterial.opacity,
-      targetOpacity,
-      MATERIAL_FADE_SPEED,
-      delta
-    )
+    // darkMaterial.opacity = THREE.MathUtils.damp(
+    //   darkMaterial.opacity,
+    //   targetOpacity,
+    //   MATERIAL_FADE_SPEED,
+    //   delta
+    // )
   });
 
   if (props.isVisible) {

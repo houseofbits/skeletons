@@ -1,38 +1,38 @@
 <template>
   <div>
     <viewer-birds-part class="viewer-foot-part1" :isActive="props.isActive" :isVisible="props.isVisible"
-      :isPlaying="isPlaying" :cameraPos="bearCameraPos" :cameraTarget="bearCameraTarget" model="owl" scene="birdsScene"
+      :isPlaying="isPlaying" :cameraPos="owlCameraPos" :cameraTarget="owlCameraTarget" model="owl" scene="birdsOwlScene"
       @pivot-rotation="
         () => {
           isRotationIconActive = false;
         }
       ">
       <div class="foot-text-container">
-        <span class="foot-text">Pēdminis</span>
+        <span class="foot-text">Pūce</span>
       </div>
     </viewer-birds-part>
 
     <viewer-birds-part class="viewer-foot-part2" :isActive="props.isActive" :isVisible="props.isVisible"
-      :isPlaying="isPlaying" :cameraPos="horseCameraPos" :cameraTarget="horseCameraTarget" model="penguin"
-      scene="birdsScene" @pivot-rotation="
+      :isPlaying="isPlaying" :cameraPos="penguinCameraPos" :cameraTarget="penguinCameraTarget" model="penguin"
+      scene="birdsPenguinScene" @pivot-rotation="
         () => {
           isRotationIconActive = false;
         }
       ">
       <div class="foot-text-container">
-        <span class="foot-text">Nagminis</span>
+        <span class="foot-text">Pingvīns</span>
       </div>
     </viewer-birds-part>
 
     <viewer-birds-part class="viewer-foot-part3" :isActive="props.isActive" :isVisible="props.isVisible"
-      :isPlaying="isPlaying" :cameraPos="catCameraPos" :cameraTarget="catCameraTarget" model="ostritch"
-      scene="birdsScene" @pivot-rotation="
+      :isPlaying="isPlaying" :cameraPos="ostrichCameraPos" :cameraTarget="ostrichCameraTarget" model="ostritch"
+      scene="birdsOstrichScene" @pivot-rotation="
         () => {
           isRotationIconActive = false;
         }
       ">
       <div class="foot-text-container">
-        <span class="foot-text">Pirkstminis</span>
+        <span class="foot-text">Strauss</span>
       </div>
     </viewer-birds-part>
   </div>
@@ -70,56 +70,33 @@ const isRotationIconActive = ref(true);
 const isPlaying = ref(false);
 let timerAnimationState = null;
 
-const bearCameraPos = reactive(
-  new THREE.Vector3(
-    -6.710051406094502,
-    3.447459855211276,
-    9.128839714851335)
+const owlCameraPos = reactive(
+  new THREE.Vector3(-4.320986701872094 , 4.585677832662597 , 8.157381858522243)
 );
-const bearCameraTarget = reactive(
-  new THREE.Vector3(
-    -16.877770224675444,
-    -1.1317420980008293,
-    -19.320408885410398)
+const owlCameraTarget = reactive(
+  new THREE.Vector3(0.36815708959759363 , 1.856740856527578 , -0.42505086007632886)
 );
 
-const horseCameraPos = reactive(
+const penguinCameraPos = reactive(
   new THREE.Vector3(
-    5.892054052943013,
-    4.730618047794569,
-    16.24947549273488)
+    5.251244875684141 , 7.175924370064184 , 15.749620362686361)
 );
-const horseCameraTarget = reactive(
-  new THREE.Vector3(
-    -8.04560936613739,
-    1.1423013092364684,
-    -22.74806747546578)
+const penguinCameraTarget = reactive(
+  new THREE.Vector3(-0.11770712529492643 , 3.0514163268823857 , -0.8426455970559769)
 );
 
-const catCameraPos = reactive(
-  new THREE.Vector3(
-    18.073607509103606,
-    6.198199974636078,
-    25.00155752468397)
+const ostrichCameraPos = reactive(
+  new THREE.Vector3(13.380206946221463 , 12.694823044694312 , 20.400679196452376)
 );
-const catCameraTarget = reactive(
-  new THREE.Vector3(
-    1.4793016158393164,
-    4.6806220890567936,
-    -26.070019466688574)
+const ostrichCameraTarget = reactive(
+  new THREE.Vector3(-1.1533777672701047 , 3.9177029666519796 , -0.8300893961633995)
 );
 
 const cameraWide = [
   {
-    position: new THREE.Vector3(
-      -6.710051406094502,
-      3.447459855211276,
-      9.128839714851335
-    ),
+    position: new THREE.Vector3(-4.320986701872094 , 4.585677832662597 , 8.157381858522243 ),
     target: new THREE.Vector3(
-      -16.877770224675444,
-      -1.1317420980008293,
-      -19.320408885410398
+      0.36815708959759363 , 1.856740856527578 , -0.42505086007632886
     ),
   },
   {
@@ -129,89 +106,63 @@ const cameraWide = [
       16.24947549273488
     ),
     target: new THREE.Vector3(
-      -8.04560936613739,
-      1.1423013092364684,
-      -22.74806747546578
+      -0.11770712529492643 , 3.0514163268823857 , -0.8426455970559769
     ),
   },
   {
     position: new THREE.Vector3(
-      18.073607509103606,
-      6.198199974636078,
-      25.00155752468397
+      13.380206946221463 , 12.694823044694312 , 20.400679196452376
     ),
     target: new THREE.Vector3(
-      1.4793016158393164,
-      4.6806220890567936,
-      -26.070019466688574
+      -1.1533777672701047 , 3.9177029666519796 , -0.8300893961633995
     ),
   },
 ];
 
 const cameraNear = [
   {
-    position: new THREE.Vector3(
-      -13.336799331628653,
-      7.928331323286592,
-      14.261674118661956
-    ),
-    target: new THREE.Vector3(
-      0.29277173633069287,
-      2.976599768682843,
-      0.6171574890268569
-    ),
+    position: new THREE.Vector3(-1.3805419629499898 , 1.7687210043595698 , 3.696088306808056),
+    target: new THREE.Vector3( 0.12225164745075588 , 1.7746231289409125 , -0.5124668104413683),
   },
   {
-    position: new THREE.Vector3(
-      -19.599590119672637,
-      4.86924623440446,
-      10.11210642285623
-    ),
-    target: new THREE.Vector3(
-      0.6177808326344226,
-      3.926213621550388,
-      0.23771801950970228
-    ),
+    position: new THREE.Vector3(2.999277467224509 , 1.2535067644208377 , 7.355213033952559),
+    target: new THREE.Vector3(-0.0895594627137195 , 2.524189172946306 , -0.7206954551908242),
   },
   {
-    position: new THREE.Vector3(
-      -15.200459964506273, 5.676571217167571, 11.202429586598127
-    ),
-    target: new THREE.Vector3(
-      0.1149115543585532, 2.821758029468611, 0.05558772402821313
-    ),
+    position: new THREE.Vector3(3.0726246115209133 , 5.379924772558001 , 10.969410829968202),
+    target: new THREE.Vector3(-0.6125400798889684 , 4.464130367188207 , -1.0389505676371713),
   },
 ];
 
 function blendCameras() {
-  bearCameraPos.lerpVectors(
+  owlCameraPos.lerpVectors(
     cameraWide[0].position,
     cameraNear[0].position,
     cameraBlend.value
   );
-  bearCameraTarget.lerpVectors(
+  owlCameraTarget.lerpVectors(
     cameraWide[0].target,
     cameraNear[0].target,
     cameraBlend.value
   );
 
-  horseCameraPos.lerpVectors(
+  penguinCameraPos.lerpVectors(
     cameraWide[1].position,
     cameraNear[1].position,
     cameraBlend.value
   );
-  horseCameraTarget.lerpVectors(
+  penguinCameraTarget.lerpVectors(
     cameraWide[1].target,
     cameraNear[1].target,
     cameraBlend.value
   );
 
-  catCameraPos.lerpVectors(
+  ostrichCameraPos.lerpVectors(
     cameraWide[2].position,
     cameraNear[2].position,
     cameraBlend.value
   );
-  catCameraTarget.lerpVectors(
+  ostrichCameraTarget.lerpVectors(
     cameraWide[2].target,
     cameraNear[2].target,
     cameraBlend.value

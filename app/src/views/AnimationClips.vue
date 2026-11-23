@@ -22,16 +22,14 @@ import { ref } from "vue";
 
 const comps = [
   ViewerFoot,
-  ViewerShark,
+  // ViewerShark,
   // ViewerLimbs,
   // ViewerTurtle,
   // ViewerDog,
   ViewerBirds,
   // ViewerCat,  
   // ViewerOwl,
-  
   // ViewerParrot,
-  
 ];
 
 const selectedCompIndex = ref(0);

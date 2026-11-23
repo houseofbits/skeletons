@@ -3,10 +3,16 @@ export default [
     // ['dogBreathing', '/models/dog-panting.glb'],
     // ['catScene', '/models/cat-fall-scene.FBX'],
     // ['catFall', '/models/catFall_03.fbx'],
-    ['birdsScene', '/models/birds-scene.glb'],
+    // ['birdsScene', '/models/birds-scene.glb'],
+
+    ['birdsOwlScene', '/models/birds-owl-scene.glb'],
+    ['birdsPenguinScene', '/models/birds-penguin-scene.glb'],
+    ['birdsOstrichScene', '/models/birds-ostrich-scene.glb'],
     ['owl', '/models/owl.glb'],
     ['penguin', '/models/penguin.glb'],
     ['ostritch', '/models/ostritch-walk.glb'],
+
+    
     // ['turtleScene', '/models/turtle-scene.glb'],
     // ['turtleModel', '/models/soronan-mud-turtle-v2.glb'],
 
