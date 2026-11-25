@@ -35,7 +35,7 @@ const CAMERA_REPOS_ENABLED = false; // Set to true to enable camera repositionin
 const originalBoneMaterialColor = 14997948;
 const container = ref(null);
 let render3d, mixer, cameraController;
-let darkMaterial = boneDarkMaterial.clone();
+let bodyMaterial = boneMaterial.clone();
 let isStopping = false;
 let action = null;
 
@@ -48,7 +48,7 @@ let targetOpacity = 1;
 watch(
   () => props.isPlaying,
   (value) => {
-    targetOpacity = value ? 0.1 : 1
+    targetOpacity = value ? 0.7 : 1
 
     if (!action) return;
     targetTimeScale = value ? 1 : 0
@@ -143,8 +143,8 @@ onMounted(() => {
       // )
     }
 
-    // darkMaterial.opacity = THREE.MathUtils.damp(
-    //   darkMaterial.opacity,
+    // bodyMaterial.opacity = THREE.MathUtils.damp(
+    //   bodyMaterial.opacity,
     //   targetOpacity,
     //   MATERIAL_FADE_SPEED,
     //   delta
@@ -196,16 +196,14 @@ onMounted(() => {
       child.castShadow = true;
       child.receiveShadow = true;
       child.frustumCulled = false;
-
-      if (child.name === "body") {
-        child.material = boneMaterial.clone();
+      
+      if (child.name === "body" || child.material.name === "birdBoneMaterial"  || child.name === "ribs1" ||  child.name === "ribs2") {
+        child.material = bodyMaterial;
+        // bodyMaterial.transparent = true;
+        // bodyMaterial.opacity = 1;
       }
 
-      if (child.name === "ribs1" || child.name === "ribs2") {
-        child.material = boneMaterial.clone();
-      }
-
-      if (child.name === "ribs1") {
+      if (child.name === "ribs1" || child.material.name === "breastBone") {
         child.material = boneHilightMaterial.clone();
       }
     }
