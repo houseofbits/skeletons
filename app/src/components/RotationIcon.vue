@@ -17,10 +17,13 @@
 <script setup lang="ts">
 import { translate } from "@src/composables/Language";
 
-defineProps<{
+withDefaults(defineProps<{
     isActive: boolean;
-    position: string;
-}>();
+    position?: string | null;
+}>(), {
+    position: null,
+});
+
 </script>
 
 <style scoped>

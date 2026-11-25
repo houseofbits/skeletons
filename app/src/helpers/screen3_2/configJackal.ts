@@ -1,6 +1,6 @@
 import CameraConfigTypes from '@src/types/CameraConfigTypes';
 import CameraTransitionTime from '@src/helpers/CameraTransitionTime';
-// import ViewerLimbs from '@/src/components/Animations/ViewerLimbs.vue';
+import ViewerFoot from '@/src/components/Animations/ViewerFoot.vue';
 
 export default {
     id: 'jackal_3_2',
@@ -78,12 +78,9 @@ export default {
             meshes: ['limbs9'],
         },
     ],
-    // animationComponent: ViewerLimbs,
-    // animationTitle: 'jackal.extremities_animation_title',
-    // animationProps: {
-    //     initiallyActive: 5,
-    // },
-    // animationPlaceholderUrl: '/img/3_2_lion.png',
+    animationComponent: ViewerFoot,
+    animationTitle: 'jackal.movement_types_animation_title',
+    animationPlaceholderUrl: '/img/foot_animation.png',
     activePoints: [
         {
             name: '1',

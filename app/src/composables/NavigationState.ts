@@ -6,6 +6,7 @@ const selectedNavGroup = ref<number | null>(null);
 const title = ref<string | null>(null);
 const isAnimationActive = ref<boolean>(false);
 const animationTitle = ref<string | null>(null);
+const isRotationIconActive = ref<boolean>(false);
 
 export function useNavigationState() {
     function setSelectedNavTile(index: number | null) {
@@ -53,6 +54,10 @@ export function useNavigationState() {
         animationTitle.value = null;
     }
 
+    function setRotationIconActive(value: boolean) {
+        isRotationIconActive.value = value;    
+    }
+
     return {
         selectedNavTile,
         setSelectedNavTile,
@@ -67,5 +72,7 @@ export function useNavigationState() {
         animationTitle,
         setAnimationActive,
         resetAnimationActive,
+        isRotationIconActive,
+        setRotationIconActive
     };
 };

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="foot-animation-bg">
     <viewer-foot-part
       class="viewer-foot-part1"
       :isActive="props.isActive"
@@ -16,8 +16,8 @@
       "
     >
       <div class="foot-text-container">
-        <span class="foot-text">Pēdminis</span>
-        <span class="foot-subtext">Lācis</span>
+        <span class="foot-text">{{ translate('animation.foot.bear') }}</span>
+        <span class="foot-subtext">{{ translate('animation.foot.bear_subtext') }}</span>
       </div>
     </viewer-foot-part>
 
@@ -37,8 +37,8 @@
       "
     >
       <div class="foot-text-container">
-        <span class="foot-text">Nagminis</span>
-        <span class="foot-subtext">Zirgs</span>
+        <span class="foot-text">{{ translate('animation.foot.horse') }}</span>
+        <span class="foot-subtext">{{ translate('animation.foot.horse_subtext') }}</span>
       </div>
     </viewer-foot-part>
 
@@ -58,8 +58,8 @@
       "
     >
       <div class="foot-text-container">
-        <span class="foot-text">Pirkstminis</span>
-        <span class="foot-subtext">Kaķis</span>
+        <span class="foot-text">{{ translate('animation.foot.cat') }}</span>
+        <span class="foot-subtext">{{ translate('animation.foot.cat_subtext') }}</span>
       </div>
     </viewer-foot-part>
   </div>
@@ -84,6 +84,8 @@ import usePivotRotation from "@src/composables/PivotRotation";
 import { useCameraController } from "@src/composables/CameraController";
 import RotationIcon from "@src/components/RotationIcon.vue";
 import ViewerFootPart from "@src/components/Animations/components/ViewerFootPart.vue";
+import { translate } from "@src/composables/Language";
+import { useNavigationState } from "@src/composables/NavigationState";
 
 const { initRenderer3D } = useRenderer3D();
 
@@ -91,6 +93,8 @@ const props = defineProps({
   isActive: { type: Boolean, default: false },
   isVisible: { type: Boolean, default: true },
 });
+
+const { setRotationIconActive } = useNavigationState();
 
 const ANIMATION_STATE_CHANGE_INTERVAL = 10000; // 10 seconds
 const ANIMATION_CAMERA_BLEND_DURATION = 5000; // 3 seconds
@@ -224,9 +228,7 @@ function blendCameras() {
 watch(
   () => props.isActive,
   (newVal) => {
-    if (newVal) {
-      isRotationIconActive.value = true;
-    }
+    setRotationIconActive(newVal);
   },
   { immediate: true }
 );
@@ -342,5 +344,14 @@ const cameraBlend = useLinearBlend(isPlaying, ANIMATION_CAMERA_BLEND_DURATION);
   color: rgba(255, 255, 255, 0.6);
   margin-bottom: 40px;
   margin-right: 40px;
+}
+
+.foot-animation-bg{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 1);
 }
 </style>

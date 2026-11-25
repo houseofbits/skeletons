@@ -17,4 +17,12 @@ export default [
     ['frogLimbsScene', '/models/limbs/frog-scene.glb'],
     ['owlLimbsScene', '/models/limbs/owl-scene.glb'],
     ['lionLimbsScene', '/models/limbs/lion-scene.glb'],
+
+    // Limbs animation
+    ['horseLegScene', '/models/horse-scene.glb'],
+    ['horseLeg', '/models/horse-leg.glb'],
+    ['bearLegScene', '/models/bear-scene.glb'],
+    ['bearLeg', '/models/bear-leg.glb'],    
+    ['catLegScene', '/models/cat-scene.glb'],
+    ['catLeg', '/models/cat-foot.glb']    
 ] as const;

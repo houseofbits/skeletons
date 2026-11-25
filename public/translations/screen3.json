@@ -263,12 +263,36 @@
         "lv": "Ekstremitāšu veidi",
         "en": "Types of Extremities"
     },
-    "jackal.extremities_animation_title": {
-        "lv": "Ekstremitāšu veidi",
-        "en": "Types of Extremities"
+    "jackal.movement_types_animation_title": {
+        "lv": "Pārvietošanās veidi",
+        "en": "Modes of Locomotion"
     },
     "lizard.extremities_animation_title": {
         "lv": "Ekstremitāšu veidi",
         "en": "Types of Extremities"
-    }
+    },
+    "animation.foot.bear": {
+        "lv": "Pēdminis",
+        "en": "Plantigrade"
+    },
+    "animation.foot.bear_subtext": {
+        "lv": "Lācis",
+        "en": "Bear"
+    },
+    "animation.foot.horse": {
+        "lv": "Nagminis",
+        "en": "Unguligrade"
+    },
+    "animation.foot.horse_subtext": {
+        "lv": "Zirgs",      
+        "en": "Horse"
+    },
+    "animation.foot.cat": {
+        "lv": "Pirkstminis",
+        "en": "Digitigrade"
+    },
+    "animation.foot.cat_subtext": {
+        "lv": "Kaķis",
+        "en": "Cat"
+    }      
 }
